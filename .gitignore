@@ -1,3 +1,15 @@
-public_html/
-!.gitignore
-!CONTEXT.md
+# Bitrix cache and temp files
+public_html/bitrix/cache/
+public_html/bitrix/managed_cache/
+public_html/upload/tmp/
+public_html/upload/resize_cache/
+public_html/upload/webp/
+
+# Large uploaded files
+public_html/upload/iblock/
+
+# System files
+.DS_Store
+*.log
+*.tar.gz
+*.sql.gz

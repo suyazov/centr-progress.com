@@ -70,3 +70,16 @@
 ### 3. Изменение заголовка в index.php "О центре"
 **Файл:** `o-tsentre/index.php`
 **Изменение:** `$APPLICATION->SetTitle("О центре")` → `$APPLICATION->SetTitle("Сведения об образовательной организации")`
+
+### 4. Обновление названия в меню
+**Файлы:** 
+- `.top.menu.php`
+- `.mobile.menu.php`
+**Изменение:** Меню-ссылка "О центре" → "Сведения об образовательной организации"
+
+**Примечание:** Файлы сайта (~130K файлов, ~1GB) на сервере не были полностью синхронизированы из-за ограничений SSH. Ключевые изменённые файлы:
+- `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php` (новый файл)
+- `o-tsentre/.section.php` (изменён)
+- `o-tsentre/index.php` (изменён)
+- `.top.menu.php` (изменён)
+- `.mobile.menu.php` (изменён)
