@@ -4,6 +4,8 @@ $arResult['DETAIL_PAGE_URL'] = $arElement['DETAIL_PAGE_URL'];
 
 if ($arResult["CODE"] == "otsenka-usloviy-truda") {
     $arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] = "«Специальная оценка условий труда»";
+    // Убираем добавление раздела к заголовку
+    $arResult['SECTION']['PATH'] = array();
 }
 
 $cp = $this->__component; 

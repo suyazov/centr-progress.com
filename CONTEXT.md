@@ -77,7 +77,18 @@
 - `.mobile.menu.php`
 **Изменение:** Меню-ссылка "О центре" → "Сведения об образовательной организации"
 
-**Примечание:** Файлы сайта (~130K файлов, ~1GB) на сервере не были полностью синхронизированы из-за ограничений SSH. Ключевые изменённые файлы:
+**Примечание:** Послеразмещения изменений в подвале (`footer.php`) удалён блок:
+`<div class="Developer"><a href="http://artex-studio.ru">Создание сайта</a> - <span>Артекс</span></div>`
+
+### 5. Изменение ширины контейнера
+**Файлы:** 
+- `bitrix/templates/template/template_styles.css`  
+- `bitrix/templates/template/special-min.css`
+**Изменение:** `.Wrapper { max-width: 1180px; }` → `.Wrapper { max-width: 1305px; }`
+
+### 6. Исправление H1 на странице оценки условий труда
+**Файл:** `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/template.php`
+**Изменение:** Изменён вывод H1 с `$APPLICATION->ShowTitle(true)` на прямой вывод `$arResult["IPROPERTY_VALUES"]["ELEMENT_PAGE_TITLE"]`
 - `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php` (новый файл)
 - `o-tsentre/.section.php` (изменён)
 - `o-tsentre/index.php` (изменён)
