@@ -1,0 +1,170 @@
+.bx-searchtitle {
+	margin: 10px 0 0;
+}
+.bx-searchtitle .bx-block-title {
+	font-family: "Open Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
+	color: #343434;
+	text-transform: uppercase;
+	font-size: 12px;
+	margin-bottom: 9px;
+	font-weight: 600;
+}
+.bx-searchtitle .bx-input-group {
+	position: relative;
+	display: table;
+	border-collapse: separate;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.bx-searchtitle .bx-input-group {padding:0}
+.bx-ios .bx-searchtitle .bx-input-group .bx-form-control {
+	/* Fix of input shadow for IOS browsers. */
+	background-image: -webkit-linear-gradient(#f8fafc 0%, #f8fafc 100%);
+	background-image: linear-gradient(#f8fafc 0%, #f8fafc 100%);
+}
+.bx-searchtitle .bx-input-group-btn {
+	position: relative;
+	font-size: 0;
+	width: 1%;
+	white-space: nowrap;
+	vertical-align: middle;
+	display: table-cell;
+}
+div.title-search-result {
+    background: #FFF;
+	display:none;
+	overflow:hidden;
+	z-index:999;
+	min-width: 370px;
+	margin-top:10px;
+}
+
+div.title-search-fader {
+	display:none;
+	background-image: url('images/fader.png');
+	background-position: right top;
+	background-repeat: repeat-y;
+	position:absolute;
+}
+
+p.title-search-preview {
+	font-size:12px;
+}
+div.title-search-result td.title-search-price span {
+	font-size: 26px;
+}
+
+/*========================*/
+.bx_searche{}
+.bx_searche .bx_item_block:first-child
+{
+	border-top:none;
+}
+.bx_searche .bx_item_block{
+	min-height: 65px;
+	position: relative;
+	border-top: 1px solid #e6e6e6;
+}
+.bx_searche .bx_image{
+	width: 45px;
+	height: 45px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	border: 1px solid #e8e8e8;
+}
+.bx_searche .bx_item_element{
+	/*float: left;*/
+	padding: 0;
+	margin: 0;
+}
+.bx_searche .bx_item_element hr{
+	margin: 0;
+	border: none;
+	border-bottom: 1px solid #e5e5e5;
+}
+.bx_searche .bx_item_element a
+{
+    margin-top: 5px;
+    display: inline-block;
+    color: #212121;
+    font-size: 16px;
+    text-decoration: none;
+    line-height: normal;
+}
+.bx_searche .bx_item_element a b{color: #1536a4;font-weight: normal;}
+.bx_searche .bx_item_element a:hover,
+.bx_searche .bx_item_element a:hover b{text-decoration: underline;}
+.bx_searche .bx_price{
+	font-weight:bold;
+	font-size:13px;
+}
+.bx_searche .bx_price .old{
+	font-weight:normal;
+	text-decoration: line-through;
+	color: #636363
+}
+.bx_item_block.all_result{    
+	min-height: 0;
+    margin: 0px 25px 15px;
+    padding: 15px 0 0;}
+.bx_item_block.others_result
+{
+    min-height: 0;
+    padding: 10px 0 15px;
+    line-height: 12px;
+    margin: 0 25px;
+}
+.bx-searchtitle .bx-input-group .bx-form-control
+{
+    font-family: "Roboto-Regular";
+    font-size: 16px;
+    border: transparent;
+        border-bottom-color: transparent;
+        border-bottom-style: none;
+        border-bottom-width: medium;
+    color: #212121;
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+}
+.bx-searchtitle .bx-input-group-btn button
+{
+	background: #f9030f;
+    color: #fff;
+    font-family: "Roboto-Bold";
+    font-size: 16px;
+    -webkit-border-radius: 23px;
+    -moz-border-radius: 23px;
+    border-radius: 23px;
+    display: inline-block;
+    padding: 0 38px;
+    line-height: 46px;
+    white-space: nowrap;
+    height: 46px;
+	color: #fff;
+	cursor: pointer;
+	border: transparent;
+}
+.bx_item_element .all_result_title a
+{
+    background: none !important;
+    border: 1px solid #27aaf5 !important;
+    color: #27aaf5 !important;
+    font-family: "Roboto-Bold";
+    font-size: 16px !important;
+    -webkit-border-radius: 23px !important;
+    -moz-border-radius: 23px !important;
+    border-radius: 23px !important;
+    display: inline-block !important;
+    padding: 0 38px !important;
+    line-height: 46px !important;
+    white-space: nowrap !important;
+    height: 46px !important;
+}
+.bx_item_element .all_result_title a:hover
+{
+    border: 1px solid #27aaf5 !important;
+    color: #212121 !important;
+}

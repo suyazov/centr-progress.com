@@ -1,0 +1,164 @@
+﻿.FormBlock table
+{
+    width: 100%;
+}
+.FormBlock table td
+{
+    vertical-align:top;
+}
+.FormBlock table td.FormTD
+{
+    width:400px;
+}
+.FormBlock table td.DescTextTD
+{  
+	font-size:11px;
+	color: #515151;
+}
+.Errors
+{
+    margin:0 0 15px;
+}
+.Errors font.errortext
+{  
+    font-size: 11px;
+}
+.Request input
+{
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius:2px;
+	border:1px solid #E0E0E0;
+	display:block;
+    height: 25px;    
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:11px;
+	color: #515151;
+    line-height: 25px;
+    margin: 5px 0 0;
+	padding:0 5px;
+    width: 335px;
+}
+.Request .starrequired
+{
+    margin: 0 0 0 5px;
+}
+.Request .Checkbox
+{
+	overflow:hidden;
+    margin: 0 0 10px;
+	zoom:1;
+}
+.Request .Checkbox input
+{
+	border:none;
+	float:left;
+	height:auto;   
+	margin: 0 5px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    width: auto;
+}
+.Request .Checkbox input[type="checkbox"] {
+    display:none;
+}
+.Request .Checkbox input[type="checkbox"] + label span {
+    display:inline-block;
+    width:15px;
+    height:15px;
+    margin:-2px 4px 0 0;
+    vertical-align:middle;
+    background:url(images/check_radio_sheet.png);
+    background-position: 0 -15px;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+.Request .Checkbox input[type="checkbox"]:checked + label span {
+    background:url(images/check_radio_sheet.png);
+    background-position: 0 0;
+    background-repeat:no-repeat;
+}
+.Request textarea
+{
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius:2px;
+	border:1px solid #E0E0E0;
+    display: block;  
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:11px;
+	color: #515151;
+    margin: 5px 0 0;
+	padding:5px;
+    width: 335px;
+    height: 150px;
+}
+.Request .Captcha input
+{
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius:2px;
+	border:1px solid #E0E0E0;
+	display:block;
+	float:left;
+    height: 25px;    
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:11px;
+	color: #515151;
+    line-height: 25px;
+    margin: 5px 0 0;
+	padding:0 5px;
+    width: 189px;
+}
+.Request .Captcha
+{
+	overflow:hidden;
+    margin: 0 0 35px;
+	zoom:1;
+}
+.Request #captchaBlock img
+{
+	float:left;  
+	height: auto;
+    vertical-align: bottom;
+    width: 132px;
+}
+.Request #reloadCaptcha
+{
+    background: url(refresh.png);
+    background-position: 0 4px;
+    background-repeat:no-repeat;
+	cursor:pointer;
+	display:block;
+	float:left;
+    height: 30px;
+    width: 22px;
+}
+.Request #reloadCaptcha span
+{
+	display:none;
+}
+.Request .Submit input
+{
+    background: url("images/submit.jpg");
+    background-position: 0 100%;
+    background-repeat:repeat-x;
+	border:none;
+	cursor:pointer;
+	padding: 0 23px;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:12px;
+	text-shadow:0 1px 0 #000000;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	height:28px;
+    width: 120px;
+	color:#fff;
+}
+.Request .Submit input:hover
+{
+    background: url("images/submit-hv.jpg");
+    background-position: 0 100%;
+    background-repeat:repeat-x;
+}

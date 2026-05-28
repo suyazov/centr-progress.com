@@ -1,0 +1,74 @@
+.InfoDetail .Image, .InfoDetail .ImagesBlock
+{
+	float:left;
+	margin:0 25px 25px 0;
+}
+.InfoDetail .Date
+{
+    color: #8b959f;
+    font-family: "RobotoItalic";
+    font-size: 11px;
+	margin:0 0 20px;
+}
+.InfoDetail .Anonse
+{
+	margin:0 0 15px;
+}
+.DocBlock
+{
+	margin:32px 0 0;
+}
+.DocBlock .TitleDoc
+{
+	border-bottom:1px solid #ccd4dc;
+    color: #333333;
+    font-family: "RobotoBold";
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.3em;
+    margin: 0 0 30px;
+	padding:0 0 27px;
+}
+.FilesList table
+{
+	width:100%;
+}
+.FilesList .Item
+{
+	background:url(docs.jpg);
+	background-position:0% 0%;
+	background-repeat:no-repeat;
+	padding:0 0 0 62px !important;
+	margin:0 0 30px;
+	line-height:normal;
+	min-height:62px;
+	border:none !important;
+}
+.FilesList .Item .NameTD
+{
+	vertical-align: middle;
+}
+.FilesList .Item .Name
+{
+	margin:0 0 10px;
+}
+.FilesList .Item .Name a
+{
+	color:#2d578a;
+	border-bottom:1px solid #ccd4dc;
+}
+.FilesList .Item .Name a:hover
+{
+	color:#989ba7;
+	border-bottom:none;
+}
+.FilesList .Item .Format
+{
+    font-family: "RobotoItalic";
+	color:#a0aab4;
+	font-size:11px;
+}
+.FilesList .Item .Format span
+{
+	text-transform:uppercase;
+}

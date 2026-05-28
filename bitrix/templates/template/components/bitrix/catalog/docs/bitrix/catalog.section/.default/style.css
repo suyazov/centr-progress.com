@@ -1,0 +1,186 @@
+.DescSection
+{
+	margin:0 0 25px;
+}
+.DescSection
+{
+	margin:0 0 25px;
+}
+.FilesList table
+{
+	width:100%;
+}
+.FilesList table td
+{
+    vertical-align: middle !important;
+}
+.FilesList .Date:first-child
+{
+	border:none;
+	padding:0;
+}
+.FilesList .Date
+{    
+	background: url(date-bg.jpg);
+	background-repeat:repeat-x;
+	background-position: 0% 50%;
+    color: #b4b4b4;
+	margin:30px 0;   
+}
+.FilesList .Date span
+{    
+	background:#fff;
+	padding:0 6px 0 0;
+}
+.FilesList .Item .DocsInfo
+{
+	position:relative;
+}
+.FilesList .Item .DocsInfo .Info
+{
+	position:relative;
+	padding:0 65px 0 0;
+}
+.FilesList .Item .DocsInfo .IconDoc
+{
+	background: url(doc-icon.png);
+	background-repeat:no-repeat;
+	background-position: 100% 0%;
+	padding:6px 7px 0 0;
+    position: absolute;  
+	top:6px;
+    right: 0;
+}
+.FilesList .Item .DocsInfo .IconDoc span
+{
+	background:#5f7895;
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	color:#ffffff;
+	font-size:10px;
+    padding:1px 6px;
+}
+.FilesList .Item
+{
+	border:none;
+	padding:0;
+	margin:0 0 30px;
+}
+.FilesList .Item:first-child
+{
+	border:none;
+	padding:0;
+}
+.FilesList .Item .IconTD
+{
+    vertical-align: top !important;
+    width:58px;
+}
+.FilesList .Item .IconTD span
+{
+    display: inline-block;
+    height: 44px;
+    width: 34px;
+}
+.FilesList .Item .IconTD .doc, .FilesList .Item .IconTD .docx
+{
+	background:url(doc.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .IconTD .xls, .FilesList .Item .IconTD .xlsx
+{
+	background:url(xls.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .IconTD .jpg, .FilesList .Item .IconTD .JPG
+{
+	background:url(jpg.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .IconTD .pdf, .FilesList .Item .IconTD .PDF
+{
+	background:url(pdf.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .IconTD .zip
+{
+	background:url(zip.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .IconTD .rar
+{
+	background:url(rar.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+}
+.FilesList .Item .NameTD
+{
+	vertical-align: middle;
+}
+.FilesList .Item .Name
+{
+	margin:0 0 10px;
+}
+.FilesList .Item .Name a
+{
+	color:#2d578a;
+	border-bottom:1px solid #ccd4dc;
+}
+.FilesList .Item .Name a:hover
+{
+    border-bottom: 1px solid #a4b0be;
+    color: #2d435e;
+}
+.FilesList .Item .Format
+{
+    font-family: "RobotoItalic";
+	color:#a0aab4;
+	font-size:11px;
+}
+.FilesList .Item .Format span
+{
+	text-transform:uppercase;
+}
+.FilesList .Item .Anonse
+{
+	color: #333333;
+    margin:15px 0 10px;
+}
+.FilesList .Item .Anonse p
+{
+	padding:0;
+}
+.FilesList .Item .Date
+{
+    color: #8b959f;
+    font-family: "RobotoItalic";
+    font-size: 11px;
+	margin:0 0 10px;
+}
+.FilesList .Item .PublicDate
+{
+    color: #8b959f;
+    font-family: "RobotoItalic";
+    font-size: 11px;
+	margin:0 0 10px;
+}
+.FilesList .Item .FormatTD
+{
+	width:125px;
+}
+.FilesList .Item .DownloadTD a
+{
+	text-decoration:none;
+    border-bottom: 1px dotted;
+}
+.FilesList .Item .DownloadTD .Size
+{
+    color: #c4c4c4;
+	padding:2px 0 0;
+}

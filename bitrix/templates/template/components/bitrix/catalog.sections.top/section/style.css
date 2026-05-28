@@ -1,0 +1,56 @@
+.CatalogSection .Category
+{
+    font-family: "OpenSansBold";
+    font-size:16px;
+    margin: 0 0 20px;
+}
+.CatalogSection .Category a
+{
+	color:#333333;
+}
+.CatalogSection .Items
+{
+    margin: 0 0 45px;
+}
+.CatalogSection .Table .NameTD
+{
+	width:130px;
+}
+.CatalogSection .Table strong
+{
+	color:#484848;
+}
+.CatalogSection .Table td
+{
+	border:1px solid #c4c4c4;
+	vertical-align:middle;
+	padding:10px;
+}
+.CatalogSection .Table p
+{
+	padding:0;
+}
+.CatalogSection .Table tr:nth-child(2n) 
+{
+    background: #fff; 
+} 
+.CatalogSection .Table tr:nth-child(1) 
+{
+	background:#ecefe8;
+    color:#333;
+} 
+.CatalogSection .Table tr:nth-child(1) td
+{
+	padding:10px;  
+    vertical-align: middle;
+} 
+.CatalogSection .Table tr:nth-child(1) td
+{
+	text-align:left;
+	border:1px solid #c4c4c4;  
+	border-bottom: 1px solid #c4c4c4;
+}
+.CatalogSection .Table td.Name
+{
+	width:150px;
+}

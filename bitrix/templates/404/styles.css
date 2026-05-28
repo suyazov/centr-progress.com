@@ -1,0 +1,404 @@
+.Holder *, .Holder *:after, .Holder *:before 
+{
+	transition: .5s ease-in-out; /* добавим плавность переходов для всех элементов страницы*/
+}
+* 
+{
+    outline: 0 !important;
+}
+*, ::after, ::before {
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html 
+{
+	height:100%;
+}
+body 
+{
+    font-family: "CirceRegular";
+	font-size:16px;
+	line-height:1.7em;
+	color:#303030;
+	margin:0;
+	padding:0;
+	height:100%;
+}
+hr 
+{
+    height: 1px;
+    margin: 25px 0;
+    border: none;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: medium;
+    border-top: 1px solid #f2f2f2;
+}
+table 
+{
+	border-collapse: collapse;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+td
+{
+	margin: 0px;
+	padding: 0px;
+}
+form
+{
+	padding: 0px;
+	margin: 0px;
+}
+h1
+{
+    font-family: "CirceLight";
+	font-size:38px;
+	margin:0 0 40px !important;
+	font-weight:normal;
+	line-height: 1.2em;
+	color: #212121;
+}
+h2
+{
+    font-family: "CirceBold";
+	font-size:28px;
+	margin:0 0 30px !important;
+	font-weight:normal;
+	line-height: 1.2em;
+	color: #212121;
+}
+h3
+{
+    font-family: "CirceBold";
+	font-size:22px;
+	margin:0 0 30px !important;
+	font-weight:normal;
+	line-height: 1.2em;
+	color: #212121;
+}
+h4
+{
+    font-family: "CirceBold";
+	font-size:22px;
+	margin:0 0 30px !important;
+	font-weight:normal;
+	line-height: 1.2em;
+	color: #212121;
+}
+h5
+{
+    font-family: "CirceBold";
+	font-size:22px;
+	margin:0 0 30px !important;
+	font-weight:normal;
+	line-height: 1.2em;
+	color: #212121;
+}
+p
+{
+	padding: 0 0 28px;
+	margin: 0px;
+}
+a
+{
+	outline:none;
+	color: #27aaf5;
+	text-decoration:none;
+}
+a:hover
+{
+	color: #2d578a;
+	border:none !important;
+	text-decoration:none !important;
+	border-bottom:none !important;
+}
+a:focus
+{
+	outline:none;
+	border:none !important;
+	text-decoration:none !important;
+	border-bottom:none !important;
+}
+a img
+{
+	border: 0px;
+}
+b, strong, .TextBold
+{
+    font-family: "CirceBold";
+	font-weight:normal;
+}
+p + blockquote
+{
+    margin: 0 0 10px;
+}
+blockquote
+{
+	color: #222222;
+    position: relative;
+    padding: 18px 20px 25px 113px;
+    border: none;
+    font-weight: 500;
+    font-size: 1em;
+    line-height: 24px;
+    font-weight: 600;
+    margin: 50px 0px 45px;
+}
+blockquote p
+{
+	font-size: 17.5px; 
+	line-height: normal; 
+	font-weight: 300;
+	padding:0;
+}
+blockquote:before
+{
+	position: absolute;
+    top: 20px;
+    left: 44px;
+    font-family: Arial;
+    content: "\201C";
+    font-size: 82px;
+    line-height: 78px;
+	color: #de002b;
+} 
+.TableBox
+{
+	overflow-x:scroll;
+}
+table.TableStyle tr:nth-child(2n+1) td 
+{
+    background: #fff;
+}
+table.TableStyle tr:nth-child(2n) td 
+{
+    background: #eff5f7;
+}
+table.TableStyle 
+{
+    width: 100%;  
+	max-width: 100%;
+    margin-bottom: 20px;
+}
+table.TableStyle td
+{
+	line-height:normal;
+	padding:8px 15px;
+	border: 1px solid #EAEAEA;
+}
+table.TableStyle p
+{
+	padding:0;
+}
+table.TableStyle > thead > tr > td 
+{
+    font-size: 16px;
+    font-weight: 400;
+}
+.Content ul, .Content ol 
+{
+    padding-left: 26px;
+    margin-bottom: 20px;
+}
+.Content ul li 
+{
+    list-style-type: none;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+.Content ul li::before
+{
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    background: #222;
+    border-radius: 50%;
+}
+.collapse:not(.show) {
+  display: none; }
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  transition: height 0.35s ease; }
+  @media screen and (prefers-reduced-motion: reduce) {
+    .collapsing {
+      -webkit-transition: none;
+      transition: none; } }
+.Title
+{
+	line-height:normal;
+}
+@font-face 
+{
+    font-family: "CirceRegular";
+    src: url('fonts/CirceRegular.eot');
+    src: url('fonts/CirceRegular.eot?#iefix') format('embedded-opentype'),
+         url('fonts/CirceRegular.woff') format('woff'),
+         url('fonts/CirceRegular.ttf') format('truetype'),
+         url('fonts/CirceRegular.svg#CirceRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face 
+{
+    font-family: "CirceLight";
+    src: url('fonts/CirceLight.eot');
+    src: url('fonts/CirceLight.eot?#iefix') format('embedded-opentype'),
+         url('fonts/CirceLight.woff') format('woff'),
+         url('fonts/CirceLight.ttf') format('truetype'),
+         url('fonts/CirceLight.svg#CirceLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face 
+{
+    font-family: "CirceBold";
+    src: url('fonts/CirceBold.eot');
+    src: url('fonts/CirceBold.eot?#iefix') format('embedded-opentype'),
+         url('fonts/CirceBold.woff') format('woff'),
+         url('fonts/CirceBold.ttf') format('truetype'),
+         url('fonts/CirceBold.svg#CirceBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+[id^="wait_comp_"]
+{
+   display: none;
+}
+[id^="wait_comp_"]
+{
+   display: none;
+}
+hr 
+{ 
+	color: #e6e6e6;
+	background-color:#e6e6e6;
+	border:0px none; 
+	height:1px;
+	margin:16px 0 15px;
+}
+.Header
+{
+    position: relative;
+	text-align:center;  
+	padding: 50px 0 25px;
+}
+.ErrorBlock {
+    color: #616161;
+    padding: 35px 58px 0;
+    width: 100%;
+}
+.ErrorBlock .Wrapper {
+    margin: 0 auto;
+    max-width:1000px;
+}
+.ErrorBlock .ErrorText h1 
+{
+    color: #212121;
+    font-size:40px;
+    margin: 0 0 30px;
+    text-align: center;
+}
+.ErrorBlock .ErrorText {
+    font-size: 18px;
+    margin: 0 0 35px;
+    text-align: center;
+}
+.ErrorBlock .ErrorText .Text {
+    line-height: 1.5em;
+    margin: 0 0 45px;
+}
+.ErrorBlock .ErrorText .HomeLink a 
+{
+	background:#f9030f;
+	color:#fff;
+    font-family: "CirceBold";
+	font-size:16px;
+	-webkit-border-radius:23px;
+	-moz-border-radius:23px;
+	border-radius:23px;
+	display:inline-block;
+	padding:0 38px;
+	line-height:46px;
+	height:46px;
+}
+.ErrorBlock .ErrorText .HomeLink a:hover
+{
+	background:#be0009;
+	color:#fff;
+}
+.TableStyle
+{
+	line-height:normal;
+}
+.TableStyle strong
+{
+	color:#484848;
+}
+.TableStyle td
+{
+	border:1px solid #e0e0e0;
+	vertical-align:middle !important;
+	padding:10px;
+}
+table p
+{
+	padding:0 !important;
+}
+.TableStyle tr:first-child td
+{
+	background: #e7ebf2;
+	font-size:13px;
+    vertical-align: middle;
+	border:1px solid #d7dbe2;
+	font-weight:bold;
+} 
+.TableStyle tr:nth-child(1) 
+{
+	background:none;
+	font-size:12px;
+    vertical-align: middle;
+	border:1px solid #e0e0e0;
+	font-weight:normal;
+} 
+.TableStyle tr:nth-child(2n) 
+{
+    background: #FAFAFA; 
+} 
+.TableInfo
+{
+	line-height:normal;
+}
+.TableInfo strong
+{
+	color:#484848;
+}
+.TableInfo td
+{
+	border:1px solid #d7dbe2;
+	vertical-align:middle !important;
+	padding:10px;
+}
+.store-horizontal
+{
+	list-style:none;
+	margin:0 0 45px;
+	text-align:center;
+	padding:0;
+}
+.store-horizontal li
+{
+	display:inline-block;
+	margin:0 15px;
+}

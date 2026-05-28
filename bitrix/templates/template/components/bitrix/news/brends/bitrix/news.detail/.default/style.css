@@ -1,0 +1,134 @@
+.NewsDetail .AnonseText.Img
+{
+	margin:0 0 0 375px;
+}
+.NewsDetail .Date
+{
+	color:#7b7b7b;
+	margin:0 0 35px;
+}
+.NewsDetail .PhotoBlock
+{
+	position:relative;
+	margin:0 0 28px;
+}
+.NewsDetail .BigLink
+{
+	background-image: url(big-photo.png);
+	background-repeat:no-repeat;
+	background-position: 0% 0%;  
+	height: 44px;
+    position: absolute;
+    right: 0;
+    width: 43px;
+}
+.PhotoBlock .photosgallery-captions 
+{
+	width:720px;
+	height:400px;
+}
+.PhotoBlock .slides_container 
+{
+	width:720px;
+	height:400px;
+	overflow:hidden;
+	position:relative;
+}
+#PhotoBlock .slide 
+{
+	width:357px;	
+}
+#PhotoBlock .Count
+{
+    color: #7b7b7b;
+    position: absolute;
+    right: 0;
+    top: -26px;
+}
+#PhotoBlock:hover .ArrowBlock,  #PhotoBlock:hover .BigLink
+{
+	display:block;
+}
+#PhotoBlock .BigLink 
+{
+	display:none;
+}
+#PhotoBlock .ArrowBlock 
+{
+    top: 44%;
+	display:none;
+    width:100%;
+    position: absolute;
+	z-index: 30;
+}
+#PhotoBlock .ArrowBlock a
+{
+    outline:none;
+}
+#PhotoBlock .ArrowBlock .prev
+{
+    float: left;
+	margin:0 0 0 18px;
+}
+#PhotoBlock .ArrowBlock .next
+{
+    float: right;
+	margin:0 18px 0 0;
+}
+.DocBlock
+{
+	margin:32px 0 0;
+}
+.DocBlock .TitleDoc
+{
+	border-bottom:1px solid #ccd4dc;
+    color: #333333;
+    font-family: "RobotoBold";
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.3em;
+    margin: 0 0 30px;
+	padding:0 0 27px;
+}
+.FilesList table
+{
+	width:100%;
+}
+.FilesList .Item
+{
+	background:url(docs.jpg);
+	background-position:0% 0%;
+	background-repeat:no-repeat;
+	padding:0 0 0 62px;
+	margin:0 0 30px;
+	line-height:normal;
+	min-height:62px;
+}
+.FilesList .Item .NameTD
+{
+	vertical-align: middle;
+}
+.FilesList .Item .Name
+{
+	margin:0 0 10px;
+}
+.FilesList .Item .Name a
+{
+	color:#2d578a;
+	border-bottom:1px solid #ccd4dc;
+}
+.FilesList .Item .Name a:hover
+{
+	color:#989ba7;
+	border-bottom:none;
+}
+.FilesList .Item .Format
+{
+    font-family: "RobotoItalic";
+	color:#a0aab4;
+	font-size:11px;
+}
+.FilesList .Item .Format span
+{
+	text-transform:uppercase;
+}
