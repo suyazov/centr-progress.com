@@ -1,0 +1,57 @@
+﻿.AddLinkBlock
+{
+	overflow:hidden;
+    margin: 0 0 25px;
+	zoom:1;
+}
+.AddLinkBlock a
+{
+    background: url("images/submit.png");
+    background-position: 0 0;
+    background-repeat:no-repeat;
+	text-decoration: none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	display:block;
+	width:224px;    
+	text-align: center;
+	height:38px;
+	color:#fff;    
+	line-height: 38px;
+	float:left;
+}
+.AddLinkBlock a:hover
+{
+    background: url("images/submit.png");
+    background-position: 0 100%;
+    background-repeat:no-repeat;
+	color:#fff;
+}
+.FaqList
+{
+    margin: 0 0 25px;
+}
+.FaqList .Item
+{
+    border: 1px solid #EDEBE7;
+    color: #515151;
+    margin: 0 0 15px;
+    padding: 15px 20px;
+}
+.FaqList .Item .QuestionBlock
+{      
+	margin: 0 0 10px;
+}
+.FaqList .Item .Author
+{
+	font-size:11px;    
+	text-align: right;
+    color: #515151;
+}
+.FaqList .Item .ResponseBlock
+{
+    border-top: 1px solid #cec6c5;
+    margin: 15px 0 0;
+    padding: 14px 0 0;
+}

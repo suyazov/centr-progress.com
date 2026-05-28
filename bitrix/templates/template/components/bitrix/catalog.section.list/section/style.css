@@ -1,0 +1,53 @@
+.CategoryList
+{
+	line-height:normal;
+}
+.CategoryList ul 
+{
+    margin:0 0 30px!important;
+    padding: 0;
+}
+.CategoryList ul li::before
+  {
+	content: '' !important;
+  }
+.CategoryList .Item
+{
+	background:none;
+	border-top:1px solid #efefef;
+	padding:22px 0 0;
+	margin:0 0 20px;
+}
+.CategoryList .Item:first-child
+{
+	padding:0;
+	border:none;
+}
+.CategoryList .Item h2
+{
+	margin:0 0 10px;
+	font-size:14px;
+	font-weight:normal;
+}
+.CategoryList .Item h2 a
+{
+	text-decoration:none;
+}
+.CategoryList .Item h2 a:hover
+{
+	color:#989898;
+}
+.CategoryList .Item .Anonse
+{
+	margin:0 0 10px;
+}
+.CategoryList .Item .Anonse p
+{
+	padding:0;
+}
+.CategoryList .Item .Date
+{
+	color:#737373;
+	margin:0;
+	font-size:11px;
+}

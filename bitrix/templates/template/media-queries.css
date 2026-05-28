@@ -1,0 +1,797 @@
+@media screen and (max-width:1280px) 
+{
+	.Wrapper
+	{
+		padding:0 25px;
+	}
+	.Slider .DescBlock .Desc
+	{
+		padding: 0 25px;
+	}
+	.Slider .owl-controls .owl-pagination
+	{
+		padding: 0 25px;
+	}
+	.MainMenu 
+	{
+		text-align: left;
+	}
+	.MainMenu ul li
+	{
+		margin: 0 38px 10px 0;
+	}
+	.ServicesTabs ul.Tabs li
+	{
+		padding: 0 20px;
+		margin: 0 0 5px 0;
+		border-radius:16px !important;
+	}
+	.ServicesTabs ul.Tabs li.Active
+	{
+		border-bottom:1px solid #ebedf1;
+	}
+	.ServicesTabs .Box
+	{
+		border-radius:16px !important;
+	}
+}
+@media screen and (max-width:1200px) 
+{
+	.Affiliates .Title
+	{
+		margin: 0 32px 25px;
+	}
+}
+@media screen and (max-width:1024px) 
+{
+	.HeaderBlock .Logo 
+	{
+		width: 25%;
+	}
+	.HeaderBlock .Mail a::before
+	{
+		margin: 0 10px 0 0;
+	}
+	.HeaderBlock .Tel a::before
+	{
+		margin: 0 10px 0 0;
+	}
+	.HeaderBlock .Search a::before
+	{
+		margin: 0 10px 0 0;
+	}
+	.NewsCont .Item
+	{
+		width:31%;
+	}
+	.Service .Item .ImageBlock 
+	{
+		width: 40%;
+	}
+	.Service .Item .DescBlock
+	{ 
+		width: 60%;
+	}
+	.Reviews .Items 
+	{
+		padding: 83px 100px 45px;
+	}
+	.Reviews .owl-buttons .owl-prev 
+	{
+		left: -100px;
+	}
+	.Reviews .owl-buttons .owl-next 
+	{
+		right: -100px;
+	}
+	.Contacts .Tel a::before
+	{
+		margin: 0 10px 0 0;
+	}
+	.Contacts .Mail a::before
+	{
+		margin: 0 10px 0 0;
+	}
+	.Product .Flex
+	{
+		display:block !important;
+	}
+}
+@media screen and (max-width:960px) 
+{	
+	.LeftBlock
+	{
+		width:100%;
+		float: none;
+	}
+	.LeftMenu 
+	{
+		border:none;
+	}
+	.LeftMenu ul 
+	{
+		background:none;
+	}
+	.LeftMenu ul li
+	{
+		background:#fff;
+		display:inline-block;
+		padding: 10px 15px;
+		margin:0 2px 5px 0;
+	}
+	.ContBlock 
+	{
+		width: 100%;
+		margin: 0 !important;
+		float: none;
+	}
+	.RightBlock, .Desktop
+	{
+		display:none;
+	}
+	.Mobile.CostBlock
+	{
+		display: block;
+		max-width: none;
+		margin: 0 0 25px !important; 
+	}
+	.Mobile.CostBlock .CostBlock
+	{
+		margin: 0; 
+	}
+	.Mobile.CostBlock .Order 
+	{
+		padding: 30px 30px;
+	}
+	.Mobile.CostBlock .Order .Prices
+	{
+		display: -webkit-box !important;
+		display: -webkit-flex !important;
+		display: -moz-box !important;
+		display: -ms-flexbox !important;
+		display: block !important; 
+		justify-content:flex-start;
+		width:100%;
+		padding:0 !important; 
+	}
+	.Mobile.CostBlock .Order .Btn
+	{
+		margin: 0 !important; 
+	}
+	.Mobile.CostBlock .Title
+	{
+		margin: 0 0 15px;
+		padding:0;
+	}
+	.Mobile.CostBlock .Order .Prices .Type
+	{
+		width:100%;
+		margin: 0 0 20px;
+	}
+	.ProductTabs ul.Links li
+	{
+		padding: 20px 35px;
+		font-size: 16px;
+	}
+	.ProductTabs .BoxInfo 
+	{
+		padding: 35px;
+	}
+	.CostBlock .Props 
+	{
+		padding: 25px 35px;
+	}
+	.CostBlock .Props span.Name
+	{
+		display:inline-block;
+	}
+	.CostBlock .Props span.Name::after
+	{
+		content:":";
+	}
+	.CostBlock .Files span.Name
+	{
+		display:inline-block;
+	}
+	.CostBlock .Files span.Name::after
+	{
+		content:":";
+	}
+}
+@media screen and (max-width:900px) 
+{	
+	.TopPanel
+	{
+		display:none;
+	}
+	.PanelMenu 
+	{
+		display:block !important;
+	}
+	.HeaderBlock .Mail
+	{
+		display:none;
+	}
+	.HeaderBlock .Tel
+	{
+		display:none;
+	}
+	.HeaderBlock .Search
+	{
+		display:none;
+	}
+	.HeaderBlock .Flex
+	{
+		justify-content: space-between;
+	}
+	.HeaderBlock .Logo 
+	{
+		width: 50%;
+	}
+	.HeaderBlock .Personal 
+	{
+		width: auto !important;
+	}
+	.Service .Item .ImageBlock 
+	{
+		width: 32%;
+	}
+	.Service .Item .DescBlock
+	{ 
+		width: 68%;
+	}
+	.AboutBlock .Flex
+	{
+		display:block !important;
+	}
+	.AboutBlock .ImageBlock, .AboutBlock .TextBlock
+	{
+		width:100%;
+	}
+	.AboutBlock .TextBlock .Text
+	{
+		padding: 45px 25px 55px;
+		max-width: 100%;
+	}
+	.Service .Item .DescBlock .Link a
+	{
+		padding: 0 25px;
+	}
+	.Footer .MenuBlock
+	{
+		display:none;
+	}
+	.Footer .CopyBlock 
+	{
+		width: 65%;
+	}
+	.CopyBlock .Social
+	{
+		margin:0;
+	}
+	.Footer .Developer
+	{
+		display:none;
+	}
+	.CopyBlock .Copy 
+	{
+		max-width: 400px;
+	}
+	.CopyBlock .Social span
+	{
+		display:inline-block;
+		margin:0 10px 0 0;
+	}
+}
+@media screen and (max-width:800px) 
+{
+	.Slogan
+	{
+		display:none !important;
+	}
+	.Formlock .Flex
+	{
+		display:block !important;
+	}
+	.Formlock .OrderBlock
+	{
+		margin: 0 0 45px;
+	}
+	.Formlock .OrderBlock, .Formlock .FormBlock
+	{
+		width:100%;
+	}
+	.FormBlock .Form input[type="text"]
+	{
+		max-width: 100%;
+	}
+	.Affiliates .Items .ImageBlock 
+	{
+		width: 25%;
+		margin: 0 3% 0 0;
+	}
+	.Affiliates .Items .AdressBlock 
+	{
+		width: 40%;
+		margin: 0 3% 0 0;
+	}
+	.Affiliates .Items .TelBlock 
+	{
+		width: 30%;
+	}
+	.Benefits
+	{
+		padding: 75px 0 0;
+	}
+	.Category
+	{
+		margin:0 0 40px;
+	}
+	.FilterBlock .Label .checkbox
+	{
+		width: 48%;
+	}
+	.Benefits .Item
+	{
+		width:46%;
+		margin:0 2% 70px;
+	}
+	.Benefits .Item .Item_Inner
+	{
+		max-width: 270px;
+	}
+	.NewsCont .Item
+	{
+		width:48%;
+	}
+	.Service .Item .DescBlock .PriceInfo .Flex 
+	{
+		display:block !important;
+	}
+	.Service .Item .DescBlock .PriceInfo .PriceBlock
+	{
+		width:100%;
+		margin:0 0 30px;
+	}
+	.Service .Item .DescBlock .Link 
+	{
+		width: 100%;
+		text-align: center;
+	}
+}
+@media screen and (max-width:768px) 
+{
+	.MainMenu
+	{
+		display:none;
+	}
+}
+@media screen and (max-width:720px) 
+{
+	.Slider .Item
+	{
+		height: 585px;
+	}
+	.Slider .DescBlock
+	{
+		top: 180px;
+	}
+	.Slider .DescBlock .Desc
+	{
+		font-size: 32px;
+	}
+	.Slider .DescBlock .Desc .Anonse
+	{
+		font-size:16px;
+		padding: 0 25px 0 0;
+	}
+	.BenefitsCont
+	{
+		padding: 37px 45px 0;
+	}
+	.BenefitsCont .Item
+	{
+		width:100%;
+		margin:0 0 10px;
+		min-height: 50px;
+	}
+	.BenefitsCont .Item_Inner
+	{
+		max-width:none; 
+		padding: 0px 0 0 75px;
+	}
+	.BenefitsCont .Item::before
+	{
+		top: -30%;
+	}
+	.Affiliates .Items .ImageBlock 
+	{
+		width: 35%;
+	}
+}
+@media screen and (max-width:640px) 
+{
+	.NewsBlock .Flex
+	{
+		display:block !important;
+	}
+	.NewsBlock .NewsItem
+	{
+		width:100%;
+	}
+	.NewsBlock .NewsItem .Item 
+	{
+		border-bottom: 1px solid #ebedf1;
+		padding: 0;
+		max-width: 100%;
+		margin: 0 0 37px;
+	}
+	.NewsBlock .NewsList
+	{
+		width:100%;
+	}
+	.ServicesTabs ul.Tabs li
+	{
+		line-height: normal;
+		padding: 8px 20px;
+	}
+	.ServiceList ul
+	{
+		margin: 0 !important;
+	}
+	.ServiceList ul li, .CatalogList ul li ul li
+	{  
+		width: 100%;
+		margin: 0 0 10px;
+	}
+	.ServiceList ul li .Icon span
+	{
+		-webkit-border-radius: 54px;
+		-moz-border-radius: 54px;
+		border-radius: 54px;
+		width: 54px;
+		height: 54px;
+		line-height: 54px;
+	}
+	.CatalogList ul li ul li .Icon span
+	{
+		background:#ebedf1;
+		display:inline-block;
+		vertical-align:middle;
+		-webkit-border-radius: 54px;
+		-moz-border-radius: 54px;
+		border-radius: 54px;
+		width:54px;
+		height:54px;
+		line-height:54px;
+		text-align: center;
+	}
+	.Reviews .owl-buttons
+	{
+		top: -80px;
+	}
+	.Reviews .Items 
+	{
+		padding: 83px 0 45px;
+	}
+	.Reviews .owl-buttons .owl-prev 
+	{
+		left: 0px;
+	}
+	.Reviews .owl-buttons .owl-next 
+	{
+		right: 0px;
+	}
+	.Reviews .owl-buttons div
+	{
+		height: 40px;
+		width: 40px;
+	}
+	.Reviews .owl-buttons .owl-prev::before
+	{
+		left: 15px;
+		top: 14px;
+	}
+	.Reviews .owl-buttons .owl-next::before
+	{
+		right: 15px;
+		top: 14px;
+	}
+	.Service .Item > .Flex
+	{
+		display:block !important;
+	}
+	.Service .Item .ImageBlock
+	{
+		display: block;
+		height:240px;
+	}
+	.Service .Item .ImageBlock, .Service .Item .DescBlock
+	{
+		width:100%;
+	}
+	.Affiliates .Items .Item .Flex
+	{
+		display:block !important;
+	}
+	.Affiliates .Items .ImageBlock
+	{
+		width:100%;
+		display: block;
+		margin:0 0 20px;
+		height:240px;
+	}
+	.Affiliates .Item .AdressBlock, .Affiliates .Item .TelBlock
+	{
+		width:100%;
+		margin:0 0 10px;
+	}
+	.Affiliates .Items .Item .TelBlock a
+	{
+		display: inline-block;
+		margin:0 10px 10px 0;
+	}
+	.Affiliates .Items .Item .TelBlock .Fax
+	{
+		display: inline-block;
+		margin:0 10px 10px 0;
+	}
+	.Staff .Item
+	{
+		width:100%;
+	}
+}
+@media screen and (max-width:600px) 
+{
+	.Title
+	{
+		font-size:20px !important;
+	}
+	.Slider .Item
+	{
+		background-position: 40% 0%;
+	}
+	.Content.ContBg
+	{
+		padding:30px;
+	}
+	blockquote
+	{
+		padding: 18px 20px 25px 60px;
+	}
+	blockquote::before
+	{
+		left:0;
+	}
+	.PanelMenu .Mail a::before
+	{
+		margin: 0 5px 0 0;
+	}
+	.PanelMenu .Tel a::before
+	{
+		margin: 0 5px 0 0;
+	}
+	.PanelMenu .Mail 
+	{
+		font-size: 15px;
+		margin:0 15px 0 0 !important;
+	} 
+	.PanelMenu .Mail a span
+	{
+		display:none !important;
+	}
+	.PanelMenu .Tel 
+	{
+		margin: 0 !important;
+	}
+	.PanelMenu .Tel a
+	{
+		font-size: 15px;
+	}
+	.PanelMenu .Tel a span
+	{
+		display:none !important;
+	}
+	.Footer .Flex
+	{
+		display:block !important;
+	}
+	.CopyBlock .Copy 
+	{
+		max-width: 100%;
+		margin: 0 0 30px;
+	}
+	.CopyBlock .Social 
+	{
+		margin: 0 0 30px;
+	}
+	.Footer .CopyBlock 
+	{
+		width: 100%;
+	}
+	.Footer .Contacts 
+	{
+		width: 100%;
+	}
+	.Footer .Contacts > div
+	{
+		display:inline-block;
+	}
+	.Footer .Contacts .Tel
+	{
+		margin: 0 20px 10px 0;
+	}
+}
+@media screen and (max-width:550px) 
+{
+	.PanelMenu .Mail
+	{
+		display:none;
+	}
+	.InfoEducation .Item
+	{
+		width: 100%;
+	}
+}
+@media screen and (max-width:480px) 
+{
+	.Benefits .Item 
+	{
+		width: 100%;
+		margin: 0 0 70px;
+	}
+	.Benefits .Item .Item_Inner 
+	{
+		max-width: 100%;
+	}
+	.HeaderBlock .Personal a span
+	{
+		display:none;
+	}
+	.HeaderBlock .Personal a
+	{
+		padding: 0 10px;
+	}
+	.HeaderBlock .Personal a:after
+	{
+		margin: 0;
+	}
+	.NewsCont .Item
+	{
+		width:100%;
+		margin:0 0 25px;
+	}
+	.Service .Item .PriceInfo > .Flex
+	{
+		display:block !important;
+	}
+	.Service .Item .DescBlock .PriceInfo .PriceBlock
+	{
+		width:100%;
+	}
+	.Service .Item .DescBlock .Link
+	{
+		width:100%;
+		text-align: left;
+		margin: 20px 0 0;
+	}
+	.Service .Item .DescBlock .PriceInfo .PriceBlock .Type
+	{
+		width:100%;
+	}
+	.Service .Item .DescBlock .Link a
+	{
+		padding: 0 40px;
+	}
+	.InfoEducation .Items
+	{
+		margin: 0;
+	}
+	.InfoEducation .Item 
+	{
+		width:100%;
+		margin: 0 0 10px;
+	}
+	.BenefitsCont 
+	{
+		padding: 37px 45px 20px;
+	}
+	.BenefitsCont .Item::before 
+	{
+		top: -10%;
+	}
+	.bx-searchtitle .bx-input-group-btn button
+	{
+		padding: 0 25px;
+	}
+	.Forms.Popup .PopupBlock
+	{
+		min-width:100%;
+	}
+}
+@media screen and (max-width:420px) 
+{
+	.HeaderBlock .Logo 
+	{
+		width: 100%;
+	}
+	.HeaderBlock .Personal a
+	{
+		-webkit-border-radius: 48px;
+		-moz-border-radius: 48px;
+		border-radius: 48px;
+		padding: 0 10px;
+		line-height: 48px;
+		height: 48px;
+	}
+	.HeaderBlock .Personal a span
+	{
+		display:none;
+	}
+	.CostBlock .Props span.Name
+	{
+		display:block;
+	}
+	.CostBlock .Props span.Name::after
+	{
+		display:none;
+	}
+	.CostBlock .Files span.Name
+	{
+		display:block;
+	}
+	.CostBlock .Files span.Name::after
+	{
+		display:none;
+	}
+	.Mobile.CostBlock .Order .Prices
+	{
+		display:block !important;
+	}
+	.Mobile.CostBlock .Order .Prices .Type
+	{
+		width:100%;
+		margin:0 0 20px;
+	}
+	.FilterBlock .Label .checkbox
+	{
+		width: 98%;
+		margin:0 0 20px !important;
+	}
+}
+@media screen and (max-width:380px) 
+{
+	.Service .Item .PriceBlock > .Flex
+	{
+		display:block !important;
+	}
+	.Service .Item .DescBlock .PriceInfo .PriceBlock .Type
+	{
+		width:100%;
+		margin:0 0 20px;
+	}
+	.ServicesTabs ul.Tabs li
+	{
+		display:block;
+		width:100%;
+	}
+	.CopyBlock .Social span 
+	{
+		margin: 0 0 20px;
+		display: block;
+	}
+	.CostBlock .Order .Btn
+	{
+		display: block;
+		padding: 0;
+		text-align: center;
+	}
+	.ServicesTabs .Box.Active
+	{
+		padding:25px;
+	}
+	.CatalogList li.CategoryLink
+	{
+		padding: 25px 25px 5px;
+	}
+}

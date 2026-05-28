@@ -1,0 +1,14 @@
+.ActionDetail .Anonse p, .ActionDetail .DetailText p
+{
+	padding:0 0 15px;
+}
+.ActionDetail .ImageBlock
+{
+	margin:0 0 25px;
+}
+.ActionDetail .Date
+{
+    color: #9a9a9a;
+    font-size: 14px;
+	margin:0 0 15px;
+}

@@ -1,0 +1,49 @@
+.NewsCont .Item
+{
+	line-height:normal;
+	padding:20px 0 0;
+	margin:0 0 15px;
+	overflow:hidden;
+	zoom:1;    
+	display: block !important;
+    float: none !important
+}
+.NewsCont .Item:first-child
+{
+	border:none;
+	padding:0;
+}
+.NewsCont .Item p
+{
+	padding:0;
+}
+.NewsCont .Item .Image
+{
+    margin:3px 0 0;
+	float:left;
+}
+.NewsCont .Date
+{
+    color: #a3a3a3;
+    font-size: 11px;
+    margin: 0 0 10px;
+}
+.NewsCont .Item .Name, .NewsCont .Item .Anonse
+{
+    margin: 0 0 10px;
+}
+.NewsCont .Item .Name a
+{
+	font-size:14px;
+	color:#305d93;
+	border-bottom:1px solid #bdcfe5;
+}
+.NewsCont .Item .Name a:hover
+{
+	color:#2d435e;
+	border-bottom:1px solid #a4b0be;
+}
+.NewsCont .Item .Desc.Img
+{
+	margin:0 0 0 175px;
+}

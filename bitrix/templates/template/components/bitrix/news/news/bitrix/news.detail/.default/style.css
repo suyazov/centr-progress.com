@@ -1,0 +1,222 @@
+.NewsDetail .AnonseText.Img
+{
+	margin:0 0 0 375px;
+}
+.NewsDetail .Date
+{
+	color:#7b7b7b;
+	margin:0 0 35px;
+}
+.NewsDetail .PhotoBlock
+{
+	position:relative;
+	margin:0 0 28px;
+}
+.NewsDetail .BigLink
+{
+	background-image: url(big-photo.png);
+	background-repeat:no-repeat;
+	background-position: 0% 0%;  
+	height: 44px;
+    position: absolute;
+    right: 0;
+    width: 43px;
+}
+.PhotoBlock .photosgallery-captions 
+{
+	width:720px;
+	height:400px;
+}
+.PhotoBlock .slides_container 
+{
+	width:720px;
+	height:400px;
+	overflow:hidden;
+	position:relative;
+}
+#PhotoBlock .slide 
+{
+	width:357px;	
+}
+#PhotoBlock .Count
+{
+    color: #7b7b7b;
+    position: absolute;
+    right: 0;
+    top: -26px;
+}
+#PhotoBlock:hover .ArrowBlock,  #PhotoBlock:hover .BigLink
+{
+	display:block;
+}
+#PhotoBlock .BigLink 
+{
+	display:none;
+}
+#PhotoBlock .ArrowBlock 
+{
+    top: 44%;
+	display:none;
+    width:100%;
+    position: absolute;
+	z-index: 30;
+}
+#PhotoBlock .ArrowBlock a
+{
+    outline:none;
+}
+#PhotoBlock .ArrowBlock .prev
+{
+    float: left;
+	margin:0 0 0 18px;
+}
+#PhotoBlock .ArrowBlock .next
+{
+    float: right;
+	margin:0 18px 0 0;
+}
+.DocBlock
+{
+	margin:32px 0 0;
+}
+.DocBlock .TitleDoc
+{
+    border-bottom: 1px solid #ebedf1;
+    color: #333333;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.3em;
+    margin: 0 0 30px;
+    padding: 0 0 15px;
+}
+.FilesList table
+{
+	width:100%;
+}
+.FilesList table td
+{
+    vertical-align: middle !important;
+}
+.FilesList .Item
+{
+	border-top:1px solid #F0F0F0;
+padding: 25px 0 0;
+margin: 0 0 15px;
+	line-height:normal;
+}
+.FilesList .Item:first-child
+{
+	border:none;
+	padding:0;
+}
+.FilesList .Item .IconTD
+{
+    vertical-align: top !important;
+    width:58px;
+}
+.FilesList .Item .IconTD span
+{
+    display: inline-block;
+	height: 50px;
+	width: 50px;
+}
+.FilesList .Item .IconTD .doc, .FilesList .Item .IconTD .docx
+{
+	background:url(doc.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+	background-size: contain;
+}
+.FilesList .Item .IconTD .xls
+{
+	background:url(xls.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+	background-size: contain;
+}
+.FilesList .Item .IconTD .jpg
+{
+	background:url(jpg.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+	background-size: contain;
+}
+.FilesList .Item .IconTD .pdf
+{
+	background:url(pdf.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;
+	background-size: contain;	
+}
+.FilesList .Item .IconTD .zip
+{
+	background:url(zip.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+	background-size: contain;
+}
+.FilesList .Item .IconTD .rar
+{
+	background:url(rar.png);
+	background-position:0% 0%;
+	background-repeat:no-repeat;	
+	background-size: contain;
+}
+.FilesList .Item .NameTD
+{
+	vertical-align: middle;
+	padding: 0 0 0 10px;
+}
+.FilesList .Item .Name
+{
+	margin:0 0 5px;
+}
+.FilesList .Item .Name a
+{    
+    color: #212121;
+}
+.FilesList .Item .Format
+{
+	font-size:12px;
+	color:#9199ab;
+}
+.FilesList .Item .Format span
+{
+	text-transform:uppercase;
+}
+.FilesList .Item .Anonse
+{
+    color: #aaa;
+    margin: 0px 0 10px;
+    font-size: 14px;
+}
+.FilesList .Item .Anonse p
+{
+	padding:0;
+}
+.FilesList .Item .Date
+{
+	margin:6px 0 0;
+	color:#393939;
+	font-size:11px;
+}
+.FilesList .Item .PublicDate
+{
+    color: #737373;
+    font-size: 11px;
+    margin: 5px 0 0;
+}
+.FilesList .Item .FormatTD
+{
+	width:125px;
+}
+.FilesList .Item .DownloadTD a
+{
+	text-decoration:none;
+    border-bottom: 1px dotted;
+}
+.FilesList .Item .DownloadTD .Size
+{
+    color: #c4c4c4;
+	padding:2px 0 0;
+}
