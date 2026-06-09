@@ -121,3 +121,19 @@
 
 **Проблема:** На страницах элементов каталога (например, "Специальная оценка условий труда") заголовок формировался как "Повышение квалификации по профессии «...»".
 **Решение:** В `result_modifier.php` добавлена замена `str_replace(' по профессии ', ' ', ...)` для `ELEMENT_PAGE_TITLE` с последующим `$APPLICATION->SetTitle()`.
+
+### 4. Исправление поиска — перекрытие верхним меню
+**Файлы:** 
+- `bitrix/templates/template/template_styles.css`
+- `bitrix/templates/template/template_styles-min.css`
+- `public_html/bitrix/templates/template/template_styles.css`
+- `public_html/bitrix/templates/template/template_styles-min.css`
+
+**Проблема:** При клике на поиск окно `.PopupSearch` перекрывалось верхним меню `.TopPanel` (z-index 200).
+**Решение:** `.PopupSearch { z-index: 100 }` → `z-index: 300`.
+
+### 5. Исправление табов "Направления обучения" на главной
+**Файлы:** (те же CSS-файлы, что и в п.4)
+
+**Проблема:** Последний таб в блоке "Направления обучения" переносился на вторую строку.
+**Решение:** Для `.ServicesTabs ul.Tabs` добавлен `display: flex; flex-wrap: nowrap;`. Для `.ServicesTabs ul.Tabs li` изменено `display: inline-block` → `display: block` + добавлены `text-align: center; white-space: nowrap; flex: 1 1 auto;`.

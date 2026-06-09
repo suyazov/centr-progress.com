@@ -1053,6 +1053,8 @@ font-weight: 500;
 	padding:0;
     position: relative;
     top: 1px;
+    display: flex;
+    flex-wrap: nowrap;
 }
 .ServicesTabs ul.Tabs li
 {
@@ -1073,7 +1075,10 @@ font-weight: 500;
 	transition:none;
 	color:#ffffff;
 	cursor:pointer;
-	display:inline-block;
+	display:block;
+	text-align:center;
+	white-space:nowrap;
+	flex: 1 1 auto;
 }
 .ServicesTabs ul.Tabs li.Active
 {
@@ -3333,7 +3338,7 @@ label.error
     width: 100%;
 transition: all ease .3s;
     transition-duration: 0.3s;
-    z-index: 100;
+    z-index: 300;
 	padding: 20px 0 30px;
 }
 .PopupSearch .Search
