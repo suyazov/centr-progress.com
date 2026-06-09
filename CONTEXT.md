@@ -118,9 +118,15 @@
 **Файлы:** 
 - `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php`
 - `public_html/bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php`
+- `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/template.php`
+- `public_html/bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/template.php`
 
 **Проблема:** На страницах элементов каталога (например, "Специальная оценка условий труда") заголовок формировался как "Повышение квалификации по профессии «...»".
-**Решение:** В `result_modifier.php` добавлена замена `str_replace(' по профессии ', ' ', ...)` для `ELEMENT_PAGE_TITLE` с последующим `$APPLICATION->SetTitle()`.
+**Решение:** 
+1. В `result_modifier.php` добавлена замена `str_replace(' по профессии ', ' ', ...)` для `ELEMENT_PAGE_TITLE` с последующим `$APPLICATION->SetTitle()`.
+2. В `template.php` изменён вывод H1 с `$APPLICATION->ShowTitle(true)` на прямой вывод `$arResult["IPROPERTY_VALUES"]["ELEMENT_PAGE_TITLE"]` (с fallback на `ShowTitle`).
+
+**Важно:** при деплое был случайно залит обрезанный `template.php` (887 байт вместо полного ~21 КБ), из-за чего пропал весь контент на карточках товаров. Исправлено — восстановлен полный шаблон из git + внесено изменение H1.
 
 ### 4. Исправление поиска — перекрытие верхним меню
 **Файлы:** 

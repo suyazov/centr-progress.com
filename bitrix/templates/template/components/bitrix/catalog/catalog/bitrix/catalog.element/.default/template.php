@@ -15,7 +15,7 @@ function formatFileSize($bytes)
 						<div class="Product" itemscope itemtype="http://schema.org/Product">
 							<div class="Flex">
 								<div class="DetailInfo">
-								<h1 itemprop="name"><?$APPLICATION->ShowTitle(true);?></h1>
+								<h1 itemprop="name"><?if(!empty($arResult["IPROPERTY_VALUES"]["ELEMENT_PAGE_TITLE"])):?><?=$arResult["IPROPERTY_VALUES"]["ELEMENT_PAGE_TITLE"]?><?else:?><?=$APPLICATION->ShowTitle(true);?><?endif?></h1>
 									<div class="Mobile CostBlock">
 									<div class="CostBlock">
 								<div class="Box">
