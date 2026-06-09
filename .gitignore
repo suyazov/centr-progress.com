@@ -1,19 +1,9 @@
-# Bitrix cache and temp files
-public_html/bitrix/cache/**
-public_html/bitrix/managed_cache/**
-public_html/bitrix/stack_cache/**
-public_html/upload/tmp/**
-public_html/upload/resize_cache/**
-public_html/upload/webp/**
-
-# Large uploaded files
-public_html/upload/iblock/**
-
-# System files
-.DS_Store
-*.log
-*.tar.gz
-*.sql.gz
-*nocopyright*
-*advert*
+bitrix/cache/**
+bitrix/managed_cache/**
+bitrix/stack_cache/**
+upload/tmp/**
+upload/resize_cache/**
+upload/webp/**
+upload/iblock/**
 *.bak
+.DS_Store

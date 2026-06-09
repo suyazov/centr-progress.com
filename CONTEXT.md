@@ -94,3 +94,30 @@
 - `o-tsentre/index.php` (изменён)
 - `.top.menu.php` (изменён)
 - `.mobile.menu.php` (изменён)
+
+## Выполненные изменения (2026-06-09)
+
+### 1. Исправление поиска (z-index)
+**Файлы:** 
+- `bitrix/templates/template/template_styles.css`
+- `public_html/bitrix/templates/template/template_styles.css`
+
+**Проблема:** При клике на поисковую иконку окно поиска уходило вниз / перекрывалось другими элементами.
+**Решение:** Исправлена иерархия z-index в соответствии с предыдущим исправлением:
+- `.HeaderBlock`: `z-index: 100` → `z-index: 101`
+- `.HeaderBlock .Search`: добавлен `z-index: 610`
+
+### 2. Блок лицензий на странице "О центре"
+**Файлы:** 
+- `o-tsentre/index.php`
+- `public_html/o-tsentre/index.php`
+
+**Изменение:** Скопирован блок лицензий (`<div class="block_licmin">`) с главной страницы на страницу "О центре" (перед подвалом).
+
+### 3. Удаление слова "профессии" из H1 каталога
+**Файлы:** 
+- `bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php`
+- `public_html/bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/result_modifier.php`
+
+**Проблема:** На страницах элементов каталога (например, "Специальная оценка условий труда") заголовок формировался как "Повышение квалификации по профессии «...»".
+**Решение:** В `result_modifier.php` добавлена замена `str_replace(' по профессии ', ' ', ...)` для `ELEMENT_PAGE_TITLE` с последующим `$APPLICATION->SetTitle()`.
