@@ -51,7 +51,7 @@
 }
 .Wrapper
 {
-	max-width:1180px;
+	max-width:1305px;
 	position:relative;
 	margin: 0 auto;
 }
@@ -813,7 +813,7 @@ input:-webkit-autofill:active
 }
 .Slider .DescBlock .Desc
 {
-	max-width:1180px;
+	max-width:1305px;
 	font-family: Roboto,Arial,sans-serif;
 	color:#fff;
 	font-size:18px;
@@ -850,7 +850,7 @@ input:-webkit-autofill:active
 }
 .Slider .owl-controls .owl-pagination
 {
-	max-width:1180px;
+	max-width:1305px;
 	text-align:right;
 	margin:0 auto;
 }
@@ -2329,7 +2329,7 @@ p + .InfoEducation
 }
 .PhotoBlock .owl-controls .owl-pagination
 {
-	max-width:1180px;
+	max-width:1305px;
 	text-align:right;
 	margin:0 auto;
 }
@@ -2597,7 +2597,7 @@ p + .InfoEducation
 }
 .Affiliates
 {
-	max-width:1180px;
+	max-width:1305px;
 	margin:0 auto;
 	padding:0;
 	padding-top: 40px;

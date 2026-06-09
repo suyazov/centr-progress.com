@@ -143,3 +143,13 @@
 
 **Проблема:** Последний таб в блоке "Направления обучения" переносился на вторую строку.
 **Решение:** Для `.ServicesTabs ul.Tabs` добавлен `display: flex; flex-wrap: nowrap;`. Для `.ServicesTabs ul.Tabs li` изменено `display: inline-block` → `display: block` + добавлены `text-align: center; white-space: nowrap; flex: 1 1 auto;`.
+
+### 6. Увеличение ширины контейнера .Wrapper
+**Файлы:** 
+- `bitrix/templates/template/template_styles.css`
+- `bitrix/templates/template/template_styles-min.css`
+- `public_html/bitrix/templates/template/template_styles.css`
+- `public_html/bitrix/templates/template/template_styles-min.css`
+
+**Проблема:** Последний пункт верхнего меню в шапке переносился на новую строку из-за недостаточной ширины контейнера.
+**Решение:** `.Wrapper { max-width: 1180px; }` → `.Wrapper { max-width: 1305px; }`
