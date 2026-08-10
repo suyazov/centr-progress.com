@@ -9,14 +9,14 @@
 ## SSH-доступ
 - Хост: progrecw.beget.tech
 - Логин: progrecw
-- Пароль: V49CLjGgikFB
+- Пароль: хранится вне Git в `/root/.config/client-access/centr-progress.com/ssh.env`
 - Корень сайта: ~/centr-progress.com/public_html/
 
 ## MySQL
 - Хост: localhost
 - База: progrecw_progres
 - Пользователь: progrecw_progres
-- Пароль: b1abk9p32V49CLjGgikFB
+- Пароль: хранится вне Git в `/root/.config/client-access/centr-progress.com/mysql.env`
 
 ## Конфигурация Bitrix
 - dbconn.php: ~/centr-progress.com/public_html/bitrix/php_interface/dbconn.php
