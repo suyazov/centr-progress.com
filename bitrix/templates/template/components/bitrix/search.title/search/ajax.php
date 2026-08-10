@@ -1,19 +1,8 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
-$centrProgressFallback = \CentrProgress\Search\PrefixQuery::fallbackResult(
-	\CentrProgress\Search\PrefixQuery::originalQuery()
-);
-if ((empty($arResult["CATEGORIES"]) || !$arResult['CATEGORIES_ITEMS_EXISTS']) && !$centrProgressFallback)
+if (empty($arResult["CATEGORIES"]) || !$arResult['CATEGORIES_ITEMS_EXISTS'])
 	return;
 ?>
 <div class="bx_searche">
-<?if($centrProgressFallback):?>
-	<div class="bx_item_block others_result">
-		<div class="bx_img_element"></div>
-		<div class="bx_item_element"><a href="<?=htmlspecialcharsbx($centrProgressFallback['URL'])?>"><?=htmlspecialcharsbx($centrProgressFallback['TITLE'])?></a></div>
-		<div style="clear:both;"></div>
-	</div>
-<?endif;?>
 <?foreach($arResult["CATEGORIES"] as $category_id => $arCategory):?>
 	<?foreach($arCategory["ITEMS"] as $i => $arItem):?>
 		<?//echo $arCategory["TITLE"]?>
