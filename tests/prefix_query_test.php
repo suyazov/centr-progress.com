@@ -7,11 +7,13 @@ use CentrProgress\Catalog\EducationProgramFiles;
 use CentrProgress\Search\PrefixQuery;
 
 $cases = array(
+    'лиф' => 'лиф*',
+    'лифт' => 'лифт*',
     'тепл' => 'тепл*',
     'тепло' => 'тепло*',
     'тёпл' => 'тепл*',
     'ТЕПЛ' => 'тепл*',
-    'abc' => 'abc',
+    'abc' => 'abc*',
     '<b>тепл*</b> -test' => 'b тепл* b test*',
 );
 
@@ -22,6 +24,14 @@ foreach ($cases as $input => $expected) {
         exit(1);
     }
 }
+
+$_REQUEST = array('q' => 'лиф', 'ajax_call' => 'y', 'INPUT_ID' => 'title-search-input');
+$_GET = array('q' => 'лиф');
+if (PrefixQuery::applyToRequest() !== 'лиф*' || $_GET['q'] !== 'лиф*') {
+    fwrite(STDERR, "PrefixQuery AJAX normalization failed\n");
+    exit(1);
+}
+unset($GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']);
 
 $single = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array('SRC' => '/upload/a.pdf', 'FILE_SIZE' => 42)));
 $multiple = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array(array('SRC' => ''), array('SRC' => '/upload/b.pdf'))));

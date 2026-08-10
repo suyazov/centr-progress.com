@@ -2,13 +2,17 @@
 $(function() {
 	$('.SearchPopup').click(
 					function() {
-						$('.PopupSearch').slideDown(60);
+						$('.PopupSearch').stop(true, true).attr('aria-hidden', 'false').slideDown(60, function() {
+							$('#title-search-input').trigger('focus');
+						});
 						return false;
 					});
 
 				$('.SearchClose').click(
 					function() {
-						$('.CloseSearch').slideUp(100);
+						$('.CloseSearch').stop(true, true).slideUp(100, function() {
+							$(this).attr('aria-hidden', 'true');
+						});
 						return false;
 					});
     $("#owl-demo").owlCarousel({
