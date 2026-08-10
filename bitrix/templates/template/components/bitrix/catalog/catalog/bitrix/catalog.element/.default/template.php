@@ -328,14 +328,7 @@ function formatFileSize($bytes)
 										</p>
 									<?endif?>
 									</div>
-									<?/*if($arResult["DISPLAY_PROPERTIES"]["PROGRAMM"]["VALUE"]):
-									$file=substr($arResult["DISPLAY_PROPERTIES"]['PROGRAMM']['FILE_VALUE']['SRC'], strrpos($arResult["DISPLAY_PROPERTIES"]['PROGRAMM']['FILE_VALUE']['SRC'], '.') + 1);
-									?>
-									<div class="Files">
-										<span class="Name">Образовательная программа</span>
-										<a href="<?=$arResult["DISPLAY_PROPERTIES"]['PROGRAMM']['FILE_VALUE']['SRC']?>">Скачать</a> / <span class="Size"><?=formatFileSize($arResult["DISPLAY_PROPERTIES"]['PROGRAMM']['FILE_VALUE']['FILE_SIZE'])?></span> /
-									</div>
-									<?endif;*/?>
+									<?php include __DIR__ . '/parts/EducationProgram.php'; ?>
 								</div>
 							</div>
 							</div>

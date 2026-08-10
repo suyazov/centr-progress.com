@@ -224,7 +224,10 @@
 				);?>
 				<div class="PopupSearch CloseSearch ">
 					<div class="Search">
-								<?$APPLICATION->IncludeComponent(
+								<?php
+								require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
+								\CentrProgress\Search\PrefixQuery::applyToRequest();
+								$APPLICATION->IncludeComponent(
 									"bitrix:search.title",
 									"search",
 									Array(

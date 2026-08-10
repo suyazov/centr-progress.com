@@ -72,7 +72,7 @@ if ($arParams['USE_FILTER'] == 'Y')
 	
 	?>	
 	<?
-	$db_list = CIBlockSection::GetList(Array("SORT"=>"ASC"), $arFilter = Array("IBLOCK_ID"=>$arParams["IBLOCK_ID"], "ID"=>$arCurSection), true,$arSelect=Array("UF_*")); 
+	$db_list = CIBlockSection::GetList(Array("SORT"=>"ASC", "ID"=>"ASC"), $arFilter = Array("IBLOCK_ID"=>$arParams["IBLOCK_ID"], "ID"=>$arCurSection), true,$arSelect=Array("UF_*"));
 	while($ar_result = $db_list->GetNext()){
 
 		if ($ar_result["UF_FILTER"]==1)
@@ -140,10 +140,10 @@ $intSectionID = $APPLICATION->IncludeComponent(
 	array(
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-					"ELEMENT_SORT_FIELD" => $sort,
-					"ELEMENT_SORT_ORDER" => $sort_order,
-					"ELEMENT_SORT_FIELD2" => $sort,
-					"ELEMENT_SORT_ORDER2" => $sort_order,
+					"ELEMENT_SORT_FIELD" => "sort",
+					"ELEMENT_SORT_ORDER" => "asc",
+					"ELEMENT_SORT_FIELD2" => "id",
+					"ELEMENT_SORT_ORDER2" => "asc",
 		"PROPERTY_CODE" => $arParams["LIST_PROPERTY_CODE"],
 		"META_KEYWORDS" => $arParams["LIST_META_KEYWORDS"],
 		"META_DESCRIPTION" => $arParams["LIST_META_DESCRIPTION"],
