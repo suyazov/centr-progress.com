@@ -1,4 +1,26 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
+$centrProgressFallback = \CentrProgress\Search\PrefixQuery::fallbackResult(
+	\CentrProgress\Search\PrefixQuery::originalQuery()
+);
+if ($centrProgressFallback) {
+	$hasFallbackTitle = false;
+	foreach ($arResult['SEARCH'] as $searchItem) {
+		if (strip_tags((string) $searchItem['TITLE_FORMATED']) === $centrProgressFallback['TITLE']) {
+			$hasFallbackTitle = true;
+			break;
+		}
+	}
+	if (!$hasFallbackTitle) {
+		$arResult['SEARCH'][] = array(
+			'URL' => $centrProgressFallback['URL'],
+			'TITLE_FORMATED' => htmlspecialcharsbx($centrProgressFallback['TITLE']),
+			'BODY_FORMATED' => '',
+			'TAGS' => array(),
+			'CHAIN_PATH' => '',
+		);
+	}
+}
 $arCloudParams = Array(
 	"SEARCH" => $arResult["REQUEST"]["~QUERY"],
 	"TAGS" => $arResult["REQUEST"]["~TAGS"],
