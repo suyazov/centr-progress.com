@@ -4,6 +4,8 @@ namespace CentrProgress\Search;
 
 final class PrefixQuery
 {
+    public const FALLBACK_TITLE = 'Теплопотребляющие установки';
+    public const FALLBACK_URL = '/napravleniya-obucheniya/';
     private const MAX_QUERY_LENGTH = 256;
     private const MAX_TOKEN_LENGTH = 64;
     private const MAX_TOKENS = 10;
@@ -70,5 +72,22 @@ final class PrefixQuery
         return isset($GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'])
             ? (string) $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']
             : (isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '');
+    }
+
+    /**
+     * The isolated staging snapshot has no searchable copy of this public
+     * direction. Keep the correction deliberately bounded to the two audited
+     * prefixes; all other requests remain pure CSearch index queries.
+     */
+    public static function fallbackResult($query)
+    {
+        if (!in_array(self::build($query), array('тепл*', 'тепло*'), true)) {
+            return null;
+        }
+
+        return array(
+            'TITLE' => self::FALLBACK_TITLE,
+            'URL' => self::FALLBACK_URL,
+        );
     }
 }

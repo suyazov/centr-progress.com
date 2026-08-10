@@ -23,6 +23,18 @@ foreach ($cases as $input => $expected) {
     }
 }
 
+foreach (array('тепл', 'тепло', 'тёпл', 'ТЕПЛ') as $input) {
+    $fallback = PrefixQuery::fallbackResult($input);
+    if (!$fallback || $fallback['TITLE'] !== 'Теплопотребляющие установки') {
+        fwrite(STDERR, "Required search fallback missing\n");
+        exit(1);
+    }
+}
+if (PrefixQuery::fallbackResult('теп') || PrefixQuery::fallbackResult('теплица')) {
+    fwrite(STDERR, "Search fallback is not bounded\n");
+    exit(1);
+}
+
 $single = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array('SRC' => '/upload/a.pdf', 'FILE_SIZE' => 42)));
 $multiple = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array(array('SRC' => ''), array('SRC' => '/upload/b.pdf'))));
 $unsafe = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array('SRC' => 'javascript:alert(1)')));
