@@ -7,7 +7,7 @@ final class PrefixQuery
     private const MAX_QUERY_LENGTH = 256;
     private const MAX_TOKEN_LENGTH = 64;
     private const MAX_TOKENS = 10;
-    private const MIN_PREFIX_LENGTH = 4;
+    private const MIN_PREFIX_LENGTH = 3;
     private const MAX_INDEX_EXPANSIONS = 40;
     private const MAX_EXPANDED_QUERY_LENGTH = 220;
 
@@ -54,12 +54,12 @@ final class PrefixQuery
             ? (string) $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']
             : (isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '');
         $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'] = $original;
-        // CSearchTitle already performs indexed prefix matching natively;
-        // replacing its AJAX query with a boolean OR expression yields no
-        // suggestions. Expand only the full search.page request.
+        // CSearchTitle performs indexed prefix matching natively. Keep its
+        // query bounded to normalized wildcard tokens; only search.page needs
+        // the dictionary expansion used for ranking complete indexed stems.
         $isTitleAjax = isset($_REQUEST['ajax_call'], $_REQUEST['INPUT_ID'])
             && (string) $_REQUEST['ajax_call'] === 'y';
-        $normalized = $isTitleAjax ? $original : self::buildIndexed($original);
+        $normalized = $isTitleAjax ? self::build($original) : self::buildIndexed($original);
         $_REQUEST['q'] = $normalized;
 
         if (isset($_GET['q'])) {

@@ -3338,7 +3338,10 @@ label.error
     width: 100%;
 transition: all ease .3s;
     transition-duration: 0.3s;
-    z-index: 300;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    z-index: 2147483600;
 	padding: 20px 0 30px;
 }
 .PopupSearch .Search
@@ -3347,6 +3350,7 @@ transition: all ease .3s;
     margin: 0 auto;
     padding: 0 70px 0 0;
     position: relative;
+    z-index: 1;
 }
 .PopupSearch .SearchClose 
 {
