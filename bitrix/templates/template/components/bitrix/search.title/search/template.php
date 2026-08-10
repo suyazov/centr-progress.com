@@ -24,11 +24,15 @@ if(strlen($CONTAINER_ID) <= 0)
 	$CONTAINER_ID = "title-search";
 $CONTAINER_ID = CUtil::JSEscape($CONTAINER_ID);
 
+$searchInputValue = class_exists('CentrProgress\\Search\\PrefixQuery')
+	? \CentrProgress\Search\PrefixQuery::originalQuery()
+	: (isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '');
+
 if($arParams["SHOW_INPUT"] !== "N"):?>
 <div id="<?echo $CONTAINER_ID?>" class="bx-searchtitle">
 	<form action="<?echo $arResult["FORM_ACTION"]?>">
 		<div class="bx-input-group">
-			<input id="<?echo $INPUT_ID?>" type="text" name="q" placeholder="<?=GetMessage('CT_BST_SEARCH')?>" value="<?=htmlspecialcharsbx($_REQUEST["q"])?>" autocomplete="off" class="bx-form-control">
+			<input id="<?echo $INPUT_ID?>" type="text" name="q" placeholder="<?=GetMessage('CT_BST_SEARCH')?>" value="<?=htmlspecialcharsbx($searchInputValue)?>" autocomplete="off" class="bx-form-control">
 			<span class="bx-input-group-btn">
 				<button class="btn btn-default" type="submit" name="s"><?=GetMessage('CT_BST_SEARCH_BUTTON')?></button>
 			</span>
@@ -46,4 +50,3 @@ if($arParams["SHOW_INPUT"] !== "N"):?>
 		});
 	});
 </script>
-

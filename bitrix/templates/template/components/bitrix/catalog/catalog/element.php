@@ -1,11 +1,18 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?$ElementID=$APPLICATION->IncludeComponent(
+<?php
+$detailPropertyCode = isset($arParams["DETAIL_PROPERTY_CODE"]) && is_array($arParams["DETAIL_PROPERTY_CODE"])
+	? $arParams["DETAIL_PROPERTY_CODE"]
+	: array();
+if (!in_array("PROGRAMM", $detailPropertyCode, true)) {
+	$detailPropertyCode[] = "PROGRAMM";
+}
+$ElementID=$APPLICATION->IncludeComponent(
 	"bitrix:catalog.element",
 	"",
 	array(
 			"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 			"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-			"PROPERTY_CODE" => $arParams["DETAIL_PROPERTY_CODE"],
+			"PROPERTY_CODE" => $detailPropertyCode,
 			"META_KEYWORDS" => $arParams["DETAIL_META_KEYWORDS"],
 			"META_DESCRIPTION" => $arParams["DETAIL_META_DESCRIPTION"],
 			"BROWSER_TITLE" => $arParams["DETAIL_BROWSER_TITLE"],
@@ -100,4 +107,3 @@
 		),
 		$component
 	);?>
-	
