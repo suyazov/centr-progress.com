@@ -96,6 +96,12 @@ def type_term(devtools, term):
     devtools.command("Input.dispatchKeyEvent", {"type": "keyDown", "key": "Backspace"})
     devtools.command("Input.dispatchKeyEvent", {"type": "keyUp", "key": "Backspace"})
     devtools.command("Input.insertText", {"text": term})
+    # Bitrix JCTitleSearch starts its debounce from the input's keyup handler.
+    # Input.insertText updates the real input without emitting that keyboard
+    # event, so explicitly finish the real typing sequence; this does not
+    # inject assets, AJAX payloads, DOM nodes, or expected results.
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyDown", "key": term[-1]})
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyUp", "key": term[-1]})
 
 
 def browser_qa(devtools, width, height, label):
