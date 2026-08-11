@@ -2,17 +2,48 @@
 $(function() {
 	var $searchPopup = $('.PopupSearch').first();
 	var $searchAnchor = $('<span class="PopupSearchAnchor" hidden aria-hidden="true"></span>');
+	var searchScrollY = 0;
+	var searchBodyStyle = null;
+	var searchResultObserver = null;
 	if ($searchPopup.length) {
 		$searchAnchor.insertBefore($searchPopup);
+	}
+	function adoptSearchResult() {
+		var $result = $('div.title-search-result').first();
+		var $titleSearch = $searchPopup.find('#title-search').first();
+		if ($result.length && $titleSearch.length && !$result.closest('.PopupSearch').length) {
+			$result.insertAfter($titleSearch);
+		}
+	}
+	function lockSearchPage() {
+		searchScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+		searchBodyStyle = document.body.getAttribute('style');
+		var scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+		$('body').addClass('PopupSearchOpen').css({position: 'fixed', top: -searchScrollY + 'px', left: 0, right: 0, width: '100%', paddingRight: scrollbarWidth + 'px'});
+	}
+	function unlockSearchPage() {
+		$('body').removeClass('PopupSearchOpen');
+		if (searchBodyStyle === null) {
+			document.body.removeAttribute('style');
+		} else {
+			document.body.setAttribute('style', searchBodyStyle);
+		}
+		window.scrollTo(0, searchScrollY);
 	}
 	$('.SearchPopup').click(
 					function() {
 						if (!$searchPopup.length) {
 							return false;
 						}
+						lockSearchPage();
 						$searchPopup.appendTo(document.body).stop(true, true).attr('aria-hidden', 'false').slideDown(60, function() {
 							$('#title-search-input').trigger('focus');
+							adoptSearchResult();
 						});
+						if (window.MutationObserver && !searchResultObserver) {
+							searchResultObserver = new MutationObserver(adoptSearchResult);
+							searchResultObserver.observe(document.body, {childList: true});
+						}
 						$('.SearchPopup').attr('aria-expanded', 'true');
 						return false;
 					});
@@ -21,7 +52,12 @@ $(function() {
 					function() {
 						$searchPopup.stop(true, true).slideUp(100, function() {
 							$(this).attr('aria-hidden', 'true').insertAfter($searchAnchor);
+							unlockSearchPage();
 						});
+						if (searchResultObserver) {
+							searchResultObserver.disconnect();
+							searchResultObserver = null;
+						}
 						$('.SearchPopup').attr('aria-expanded', 'false');
 						return false;
 					});
