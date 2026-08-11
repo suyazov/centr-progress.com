@@ -3369,6 +3369,11 @@ body.PopupSearchOpen
 {
     overflow: hidden !important;
 }
+body.PopupSearchOpen > :not(.PopupSearch),
+body.PopupSearchOpen > :not(.PopupSearch) *
+{
+    pointer-events: none !important;
+}
 @media (max-width: 767px)
 {
 	.PopupSearch .Search { box-sizing: border-box; max-width: calc(100vw - 30px); padding: 0 40px 0 0; }

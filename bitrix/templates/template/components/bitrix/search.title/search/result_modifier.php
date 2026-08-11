@@ -26,6 +26,9 @@ foreach($arResult["CATEGORIES"] as $category_id => $arCategory)
 				&& substr($arItem["ITEM_ID"], 0, 1) !== "S"
 			)
 			{
+				// Current names are required even when the content iblock is not
+				// configured as a Bitrix catalog.
+				$arResult["ELEMENTS"][$arItem["ITEM_ID"]] = $arItem["ITEM_ID"];
 				if ($arCatalogs === false)
 				{
 					$arCatalogs = array();
@@ -44,10 +47,6 @@ foreach($arResult["CATEGORIES"] as $category_id => $arCategory)
 					}
 				}
 
-				if (array_key_exists($arItem["PARAM2"], $arCatalogs))
-				{
-					$arResult["ELEMENTS"][$arItem["ITEM_ID"]] = $arItem["ITEM_ID"];
-				}
 			}
 		}
 	}
@@ -89,6 +88,7 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 	$arSelect = array(
 		"ID",
 		"IBLOCK_ID",
+		"NAME",
 		"PREVIEW_TEXT",
 		"PREVIEW_PICTURE",
 		"DETAIL_PICTURE",
@@ -127,6 +127,9 @@ foreach($arResult["SEARCH"] as $i=>$arItem)
 			if(array_key_exists($arItem["ITEM_ID"], $arResult["ELEMENTS"]))
 			{
 				$arElement = &$arResult["ELEMENTS"][$arItem["ITEM_ID"]];
+				// The search index can retain an old short title. Suggestions must
+				// render the current element name, not stale indexed display text.
+				$arResult["SEARCH"][$i]["NAME"] = htmlspecialcharsbx($arElement["NAME"]);
 
 				if ($arParams["SHOW_PREVIEW"] == "Y")
 				{
