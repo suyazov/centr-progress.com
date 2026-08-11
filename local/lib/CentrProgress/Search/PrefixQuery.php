@@ -110,7 +110,11 @@ final class PrefixQuery
                 . "ORDER BY MAX(cs.TF) DESC, CHAR_LENGTH(s.STEM), s.STEM "
                 . "LIMIT " . self::MAX_INDEX_EXPANSIONS
             );
-            $stems = array();
+            // Keep the normalized wildcard in the expression. Dictionary
+            // expansion improves ranking, but it must never replace the
+            // actual prefix match (a sparse/stale stem dictionary can omit
+            // the course that the user is looking for).
+            $stems = array($fallback => true);
             while ($row = $result->fetch()) {
                 $stem = isset($row['STEM']) ? trim((string) $row['STEM']) : '';
                 if ($stem !== '') {
@@ -122,7 +126,7 @@ final class PrefixQuery
                     $stems[$stem] = true;
                 }
             }
-            if ($stems) {
+            if (count($stems) > 1) {
                 return implode(' OR ', array_keys($stems));
             }
         } catch (\Exception $error) {
