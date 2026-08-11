@@ -3343,6 +3343,7 @@ transition: all ease .3s;
     right: 0;
     box-sizing: border-box;
     z-index: 2147483600;
+	overflow: visible;
 	padding: 20px 0 30px;
 }
 .PopupSearch .Search
@@ -3352,6 +3353,11 @@ transition: all ease .3s;
     padding: 0 70px 0 0;
     position: relative;
     z-index: 1;
+}
+@media (max-width: 767px)
+{
+	.PopupSearch .Search { max-width: none; padding: 0 55px 0 15px; }
+	div.title-search-result { max-width: calc(100vw - 30px); min-width: 0; }
 }
 .PopupSearch .SearchClose 
 {
