@@ -5,6 +5,8 @@ $(function() {
 	var searchScrollY = 0;
 	var searchBodyStyle = null;
 	var searchResultObserver = null;
+	var searchBackground = [];
+	var searchOpen = false;
 	if ($searchPopup.length) {
 		$searchAnchor.insertBefore($searchPopup);
 	}
@@ -16,12 +18,35 @@ $(function() {
 		}
 	}
 	function lockSearchPage() {
+		if (searchOpen) {
+			return;
+		}
+		searchOpen = true;
 		searchScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
 		searchBodyStyle = document.body.getAttribute('style');
 		var scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
 		$('body').addClass('PopupSearchOpen').css({position: 'fixed', top: -searchScrollY + 'px', left: 0, right: 0, width: '100%', paddingRight: scrollbarWidth + 'px'});
+		searchBackground = [];
+		$(document.body).children().not($searchPopup).each(function() {
+			searchBackground.push({element: this, inert: this.inert, ariaHidden: this.getAttribute('aria-hidden')});
+			this.inert = true;
+			this.setAttribute('aria-hidden', 'true');
+		});
 	}
 	function unlockSearchPage() {
+		if (!searchOpen) {
+			return;
+		}
+		searchOpen = false;
+		$.each(searchBackground, function(_, state) {
+			state.element.inert = state.inert;
+			if (state.ariaHidden === null) {
+				state.element.removeAttribute('aria-hidden');
+			} else {
+				state.element.setAttribute('aria-hidden', state.ariaHidden);
+			}
+		});
+		searchBackground = [];
 		$('body').removeClass('PopupSearchOpen');
 		if (searchBodyStyle === null) {
 			document.body.removeAttribute('style');
@@ -36,13 +61,12 @@ $(function() {
 							return false;
 						}
 						lockSearchPage();
-						$searchPopup.appendTo(document.body).stop(true, true).attr('aria-hidden', 'false').slideDown(60, function() {
-							$('#title-search-input').trigger('focus');
-							adoptSearchResult();
-						});
+						$searchPopup.appendTo(document.body).stop(true, true).attr('aria-hidden', 'false').show();
+						$('#title-search-input').trigger('focus');
+						adoptSearchResult();
 						if (window.MutationObserver && !searchResultObserver) {
 							searchResultObserver = new MutationObserver(adoptSearchResult);
-							searchResultObserver.observe(document.body, {childList: true});
+							searchResultObserver.observe(document.body, {childList: true, subtree: true});
 						}
 						$('.SearchPopup').attr('aria-expanded', 'true');
 						return false;
@@ -50,10 +74,8 @@ $(function() {
 
 				$('.SearchClose').click(
 					function() {
-						$searchPopup.stop(true, true).slideUp(100, function() {
-							$(this).attr('aria-hidden', 'true').insertAfter($searchAnchor);
-							unlockSearchPage();
-						});
+						$searchPopup.stop(true, true).hide().attr('aria-hidden', 'true').insertAfter($searchAnchor);
+						unlockSearchPage();
 						if (searchResultObserver) {
 							searchResultObserver.disconnect();
 							searchResultObserver = null;
