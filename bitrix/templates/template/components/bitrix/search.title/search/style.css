@@ -35,8 +35,7 @@ div.title-search-result {
     background: #FFF;
 	display:none;
 	overflow:hidden;
-	box-sizing: border-box;
-	z-index:2147483647;
+	z-index:999;
 	min-width: 370px;
 	margin-top:10px;
 }
