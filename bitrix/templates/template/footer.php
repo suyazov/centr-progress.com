@@ -222,7 +222,7 @@
 						"ACTIVE_COMPONENT" => "Y"
 					)
 				);?>
-				<div class="PopupSearch CloseSearch ">
+				<div class="PopupSearch CloseSearch" aria-hidden="true">
 					<div class="Search">
 								<?php
 								require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
