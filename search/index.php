@@ -1,5 +1,14 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
+$isTitleSearchAjax = isset($_REQUEST['ajax_call'], $_REQUEST['INPUT_ID'])
+    && (string) $_REQUEST['ajax_call'] === 'y'
+    && (string) $_REQUEST['INPUT_ID'] === 'title-search-input';
+
+if ($isTitleSearchAjax) {
+    define('PUBLIC_AJAX_MODE', true);
+    require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
+} else {
+    require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
+}
 
 $APPLICATION->SetTitle('Поиск');
 
@@ -9,10 +18,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/Prefix
 // search.title must use a dedicated, deterministic entry point. Rendering it
 // from the course footer lets the catalog page consume the AJAX request first
 // and returns an entire HTML document instead of the suggestion fragment.
-if (isset($_REQUEST['ajax_call'], $_REQUEST['INPUT_ID'])
-    && (string) $_REQUEST['ajax_call'] === 'y'
-    && (string) $_REQUEST['INPUT_ID'] === 'title-search-input'
-) {
+if ($isTitleSearchAjax) {
     $APPLICATION->IncludeComponent(
         'bitrix:search.title',
         'search',
@@ -39,6 +45,7 @@ if (isset($_REQUEST['ajax_call'], $_REQUEST['INPUT_ID'])
         ),
         false
     );
+    require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
     exit;
 }
 
