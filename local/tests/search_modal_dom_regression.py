@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Browser regression for the production course DOM with local modal assets."""
+"""Fail-closed browser regression against unmodified, server-delivered assets."""
 
 import base64
+import hashlib
 import json
 import os
 from pathlib import Path
 import subprocess
-import sys
 import time
 import urllib.request
 
@@ -19,6 +19,8 @@ URL = os.environ.get(
     "https://centr-progress.com/napravleniya-obucheniya/professionalnoe-obuchenie/lifter/",
 )
 EXPECTED = "Лифтер 1-2 разряд"
+EXPECTED_HREF = "/napravleniya-obucheniya/professionalnoe-obuchenie/lifter/lifter-1-2-razryad/"
+TERMS = ("лиф", "лифт", "тепл")
 VIEWPORTS = ((1440, 900, "desktop"), (390, 844, "mobile"))
 
 
@@ -56,13 +58,47 @@ class DevTools:
 def wait_for(devtools, expression, timeout=30):
     deadline = time.time() + timeout
     while time.time() < deadline:
-        if devtools.evaluate(expression):
-            return
+        value = devtools.evaluate(expression)
+        if value:
+            return value
         time.sleep(0.25)
     raise AssertionError(f"Timed out waiting for: {expression}")
 
 
-def browser_qa(devtools, width, height, label, css, javascript):
+def production_assets(devtools):
+    assets = devtools.evaluate(
+        """(() => ({
+            css:[...document.styleSheets].map(s=>s.href).filter(u=>u&&u.includes('/bitrix/cache/css/')),
+            js:[...document.scripts].map(s=>s.src).filter(u=>u&&u.includes('/bitrix/cache/js/'))
+        }))()"""
+    )
+    assert len(assets["css"]) == 1 and len(assets["js"]) == 1, assets
+    evidence = {}
+    for kind in ("css", "js"):
+        url = assets[kind][0]
+        with urllib.request.urlopen(url, timeout=30) as response:
+            body = response.read()
+        evidence[kind] = {"url": url, "bytes": len(body), "sha256": hashlib.sha256(body).hexdigest()}
+
+        required = os.environ.get(f"EXPECTED_PRODUCTION_{kind.upper()}_SHA256")
+        if os.environ.get("REQUIRE_PRODUCTION_ASSET_HASHES") == "1":
+            assert required, f"missing EXPECTED_PRODUCTION_{kind.upper()}_SHA256"
+        if required:
+            assert evidence[kind]["sha256"] == required, evidence[kind]
+    return evidence
+
+
+def type_term(devtools, term):
+    devtools.evaluate(
+        """(() => {const input=document.querySelector('#title-search-input');
+        input.focus(); input.select(); return document.activeElement===input;})()"""
+    )
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyDown", "key": "Backspace"})
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyUp", "key": "Backspace"})
+    devtools.command("Input.insertText", {"text": term})
+
+
+def browser_qa(devtools, width, height, label):
     devtools.command(
         "Emulation.setDeviceMetricsOverride",
         {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": width < 768},
@@ -70,82 +106,54 @@ def browser_qa(devtools, width, height, label, css, javascript):
     devtools.command("Page.navigate", {"url": URL})
     wait_for(devtools, "document.readyState === 'complete'")
     wait_for(devtools, "window.jQuery && document.querySelector('.PopupSearch')")
-
-    devtools.evaluate(
-        """(() => {
-            window.jQuery('.SearchPopup,.SearchClose').off('click');
-            const style=document.createElement('style');
-            style.id='task-812-local-css';
-            style.textContent=%s;
-            document.head.appendChild(style);
-            (0,eval)(%s);
-            return true;
-        })()""" % (json.dumps(css), json.dumps(javascript))
-    )
-    time.sleep(0.5)
+    page_text = devtools.evaluate("document.body.innerText")
+    assert "Профессиональное обучение «Лифтер 1-2 разряд»" in page_text
+    assert "Internal Server Error" not in page_text and "Fatal error" not in page_text
+    assets = production_assets(devtools)
 
     initial = devtools.evaluate(
-        """(() => {
-            window.scrollTo(0, 500);
-            const target=document.querySelector('.TopPanel');
-            const rect=target.getBoundingClientRect();
-            return {scrollY, bodyStyle:document.body.getAttribute('style'), rect:[rect.top,rect.bottom]};
-        })()"""
+        """(() => {window.scrollTo(0,500); const target=document.querySelector('.TopPanel');
+        const r=target.getBoundingClientRect(); return {scrollY,bodyStyle:document.body.getAttribute('style'),rect:[r.top,r.bottom]};})()"""
     )
     devtools.evaluate("document.querySelector('.SearchPopup').click()")
-    time.sleep(0.2)
-    devtools.evaluate(
-        """(() => {
-            document.querySelectorAll('div.title-search-result').forEach(node=>node.remove());
-            const result=document.createElement('div');
-            result.className='title-search-result';
-            result.style.display='block';
-            result.innerHTML='<a href="/napravleniya-obucheniya/professionalnoe-obuchenie/lifter/">%s</a>';
-            document.body.appendChild(result);
-            const input=document.querySelector('#title-search-input');
-            input.value='лифт';
-            input.dispatchEvent(new Event('input',{bubbles:true}));
-        })()""" % EXPECTED
-    )
-    time.sleep(0.2)
+    wait_for(devtools, "document.querySelector('.PopupSearch').getAttribute('aria-hidden') === 'false'")
 
     opened = devtools.evaluate(
-        """(() => {
-            const popup=document.querySelector('.PopupSearch');
-            const rect=popup.getBoundingClientRect();
-            const style=getComputedStyle(popup);
-            const under=document.querySelector('.TopPanel');
-            const result=popup.querySelector('div.title-search-result');
-            const link=[...(result?.querySelectorAll('a')||[])].find(a=>a.textContent.trim()===%s);
-            let clicked=false;
-            link?.addEventListener('click',event=>{event.preventDefault();clicked=true},{once:true});
-            link?.click();
-            return {
-                position:style.position,
-                rect:[rect.left,rect.top,rect.right,rect.bottom],
-                viewport:[innerWidth,innerHeight],
-                opaque:style.backgroundColor==='rgb(255, 255, 255)',
-                resultInside:!!result && result.parentElement===popup.querySelector('.Search'),
-                resultVisible:!!result && result.getClientRects().length>0 && getComputedStyle(result).visibility==='visible',
-                resultRight:result?.getBoundingClientRect().right,
-                linkText:link?.textContent.trim()||null,
-                linkClicked:clicked,
-                underPointer:getComputedStyle(under).pointerEvents,
-                underInert:under.closest('body > *')?.inert===true,
-                bodyLocked:getComputedStyle(document.body).position==='fixed'
-            };
-        })()""" % json.dumps(EXPECTED)
+        """(() => {const popup=document.querySelector('.PopupSearch'); const r=popup.getBoundingClientRect();
+        const s=getComputedStyle(popup); const names=['.TopPanel','.HeaderBlock','.MainMenu','.Product','.Button','.Btn'];
+        const background=names.map(selector=>document.querySelector(selector)).filter(Boolean);
+        const hit=document.elementFromPoint(innerWidth/2,innerHeight/2);
+        return {position:s.position,rect:[r.left,r.top,r.right,r.bottom],viewport:[innerWidth,innerHeight],
+          opaque:s.backgroundColor==='rgb(255, 255, 255)' && Number(s.opacity)===1,
+          bodyLocked:getComputedStyle(document.body).position==='fixed',
+          backgrounds:background.map(el=>({selector:el.className,pointer:getComputedStyle(el).pointerEvents,
+            inert:el.closest('body > *')?.inert===true})), hitInside:popup.contains(hit)};})()"""
     )
-
-    assert opened["position"] == "fixed", opened
+    assert opened["position"] == "fixed" and opened["opaque"] and opened["bodyLocked"], opened
     assert opened["rect"][0] <= 0 and opened["rect"][1] <= 0, opened
-    assert opened["rect"][2] >= opened["viewport"][0], opened
-    assert opened["rect"][3] >= opened["viewport"][1], opened
-    assert opened["opaque"] and opened["resultInside"] and opened["resultVisible"], opened
-    assert opened["resultRight"] <= opened["viewport"][0], opened
-    assert opened["linkText"] == EXPECTED and opened["linkClicked"], opened
-    assert opened["underPointer"] == "none" and opened["underInert"], opened
-    assert opened["bodyLocked"], opened
+    assert opened["rect"][2] >= opened["viewport"][0] and opened["rect"][3] >= opened["viewport"][1], opened
+    assert opened["hitInside"] and opened["backgrounds"], opened
+    assert all(item["pointer"] == "none" and item["inert"] for item in opened["backgrounds"]), opened
+
+    for term in TERMS:
+        type_term(devtools, term)
+        link = wait_for(
+            devtools,
+            """(() => {const links=[...document.querySelectorAll('.PopupSearch div.title-search-result a')];
+            const a=links.find(node=>node.textContent.trim()===%s); if(!a||!a.getClientRects().length)return null;
+            const result=a.closest('div.title-search-result');
+            return {text:a.textContent.trim(),href:a.getAttribute('href'),pointer:getComputedStyle(a).pointerEvents,
+              hasPayload:!!result?.querySelector('.bx_searche'),polluted:!!result?.querySelector('html,head,body,.TopPanel,.PopupSearch'),
+              htmlBytes:new TextEncoder().encode(result?.innerHTML||'').length};})()"""
+            % json.dumps(EXPECTED),
+        )
+        assert link["text"] == EXPECTED and link["href"] == EXPECTED_HREF, {"term": term, "link": link}
+        assert link["pointer"] != "none" and link["hasPayload"] and not link["polluted"], {"term": term, "link": link}
+        assert 0 < link["htmlBytes"] < 50000, {"term": term, "link": link}
+        resources = devtools.evaluate(
+            "performance.getEntriesByType('resource').map(r=>r.name).filter(u=>u.includes('ajax_call=y'))"
+        )
+        assert resources and any("/search/index.php" in item for item in resources), {"term": term, "resources": resources}
 
     screenshot = devtools.command("Page.captureScreenshot", {"format": "png"})["data"]
     evidence = ROOT / "local" / "tests" / "evidence"
@@ -153,45 +161,40 @@ def browser_qa(devtools, width, height, label, css, javascript):
     (evidence / f"search-modal-{label}.png").write_bytes(base64.b64decode(screenshot))
 
     devtools.evaluate("document.querySelector('.SearchClose').click()")
-    time.sleep(0.2)
+    wait_for(devtools, "document.querySelector('.PopupSearch').getAttribute('aria-hidden') === 'true'")
     closed = devtools.evaluate(
-        """(() => {const r=document.querySelector('.TopPanel').getBoundingClientRect();
-        return {scrollY,bodyStyle:document.body.getAttribute('style'),rect:[r.top,r.bottom],open:document.body.classList.contains('PopupSearchOpen')};})()"""
+        """(() => {const r=document.querySelector('.TopPanel').getBoundingClientRect(); return {
+        scrollY,bodyStyle:document.body.getAttribute('style'),rect:[r.top,r.bottom],open:document.body.classList.contains('PopupSearchOpen')};})()"""
     )
     assert not closed["open"] and abs(closed["scrollY"] - initial["scrollY"]) <= 1, closed
     assert closed["bodyStyle"] == initial["bodyStyle"] and closed["rect"] == initial["rect"], closed
 
     devtools.evaluate("document.querySelector('.SearchPopup').click()")
-    time.sleep(0.1)
-    devtools.evaluate("document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))")
-    time.sleep(0.2)
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyDown", "key": "Escape", "code": "Escape"})
+    devtools.command("Input.dispatchKeyEvent", {"type": "keyUp", "key": "Escape", "code": "Escape"})
+    wait_for(devtools, "document.querySelector('.PopupSearch').getAttribute('aria-hidden') === 'true'")
     escaped = devtools.evaluate(
         """(() => ({scrollY,bodyStyle:document.body.getAttribute('style'),open:document.body.classList.contains('PopupSearchOpen')}))()"""
     )
     assert not escaped["open"] and abs(escaped["scrollY"] - initial["scrollY"]) <= 1, escaped
     assert escaped["bodyStyle"] == initial["bodyStyle"], escaped
-    print(f"{label}: passed")
+    print(json.dumps({"viewport": label, "assets": assets}, ensure_ascii=False))
 
 
 def main():
-    css = (ROOT / "bitrix/templates/template/template_styles.css").read_text()
-    javascript = (ROOT / "bitrix/templates/template/js/scripts-min.js").read_text()
     temp_root = ROOT / ".codex-tmp"
-    profile = temp_root / "chrome-regression"
+    profile = temp_root / f"chrome-regression-{os.getpid()}"
     profile.mkdir(parents=True, exist_ok=True)
-    # /proc keeps Chromium's singleton socket short while all files stay in this worktree.
     short_root = f"/proc/{os.getpid()}/cwd/.codex-tmp"
     port = 9231
     env = os.environ.copy()
     env["NO_PROXY"] = "127.0.0.1,localhost"
     env["TMPDIR"] = short_root
     process = subprocess.Popen(
-        [
-            "chromium-browser", "--headless=new", "--no-sandbox", "--disable-gpu",
-            "--disable-crash-reporter", "--disable-background-networking",
-            "--remote-debugging-address=127.0.0.1", f"--remote-debugging-port={port}",
-            f"--user-data-dir={short_root}/chrome-regression", "about:blank",
-        ],
+        ["chromium-browser", "--headless=new", "--no-sandbox", "--disable-gpu",
+         "--disable-crash-reporter", "--disable-background-networking",
+         "--remote-debugging-address=127.0.0.1", f"--remote-debugging-port={port}",
+         f"--user-data-dir={short_root}/{profile.name}", "about:blank"],
         cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     )
     try:
@@ -206,7 +209,7 @@ def main():
             raise RuntimeError("Chromium DevTools did not start")
         devtools = DevTools(port)
         for width, height, label in VIEWPORTS:
-            browser_qa(devtools, width, height, label, css, javascript)
+            browser_qa(devtools, width, height, label)
         devtools.ws.close()
     finally:
         process.terminate()

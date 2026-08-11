@@ -241,6 +241,7 @@
 										"PREVIEW_WIDTH" => "75",
 										"PREVIEW_HEIGHT" => "75",
 										"PAGE" => "#SITE_DIR#search/index.php",
+										"AJAX_PAGE" => "#SITE_DIR#search/index.php",
 										"NUM_CATEGORIES" => "1",
 										"TOP_COUNT" => "5",
 										"ORDER" => "date",
