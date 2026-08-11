@@ -15,7 +15,11 @@ use Bitrix\Main\ModuleManager;
 $this->setFrameMode(true);
 ?>
 
+<?if (isset($arResult["VARIABLES"]["SECTION_CODE"]) && $arResult["VARIABLES"]["SECTION_CODE"] === "lifter"):?>
+<h1>Профессиональное обучение «Лифтер 1-2 разряд»</h1>
+<?else:?>
 <h1><?$APPLICATION->ShowTitle(true);?></h1>
+<?endif;?>
 <?
 if ($arParams['USE_FILTER'] == 'Y')
 {
