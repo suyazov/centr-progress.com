@@ -328,7 +328,6 @@ function formatFileSize($bytes)
 										</p>
 									<?endif?>
 									</div>
-									<?php include __DIR__ . '/parts/EducationProgram.php'; ?>
 								</div>
 							</div>
 							</div>
