@@ -43,7 +43,10 @@ if($arParams["SHOW_INPUT"] !== "N"):?>
 <script>
 	BX.ready(function(){
 		new JCTitleSearch({
-			'AJAX_PAGE' : '<?echo CUtil::JSEscape(isset($arParams["AJAX_PAGE"]) && $arParams["AJAX_PAGE"] !== "" ? $arParams["AJAX_PAGE"] : POST_FORM_ACTION_URI)?>',
+			// This project has one canonical, output-isolated search.title AJAX
+			// endpoint. Do not fall back to the current catalog page: Bitrix may
+			// discard unknown component parameters before the template runs.
+			'AJAX_PAGE' : '/search/index.php',
 			'CONTAINER_ID': '<?echo $CONTAINER_ID?>',
 			'INPUT_ID': '<?echo $INPUT_ID?>',
 			'MIN_QUERY_LEN': 2
