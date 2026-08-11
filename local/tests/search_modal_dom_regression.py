@@ -154,13 +154,17 @@ def browser_qa(devtools, width, height, label):
             % json.dumps(EXPECTED),
         )
         resources = devtools.evaluate(
-            "performance.getEntriesByType('resource').map(r=>r.name).filter(u=>u.includes('ajax_call=y'))"
+            "performance.getEntriesByType('resource').map(r=>r.name).filter(u=>u.includes('/search/index.php'))"
         )
         diagnostic = {"term": term, "link": link, "resources": resources}
         assert link["text"] == EXPECTED and link["href"] == EXPECTED_HREF, diagnostic
         assert link["pointer"] != "none" and link["hasPayload"] and not link["polluted"], diagnostic
         assert 0 < link["htmlBytes"] < 50000, diagnostic
-        assert resources and any("/search/index.php" in item for item in resources), {"term": term, "resources": resources}
+        # JCTitleSearch sends ajax_call=y in the POST body, not the URL. The
+        # initial document is a course URL, so a real search/index.php resource
+        # here is the network evidence; the clean Bitrix payload assertions
+        # above prove it is the title-search response rather than page markup.
+        assert resources, {"term": term, "resources": resources}
 
     screenshot = devtools.command("Page.captureScreenshot", {"format": "png"})["data"]
     evidence = ROOT / "local" / "tests" / "evidence"
