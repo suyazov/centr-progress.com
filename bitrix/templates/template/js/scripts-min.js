@@ -1,36 +1,16 @@
 (function($) {
 $(function() {
-	var $searchPopup = $('.PopupSearch').first();
-	var $searchAnchor = $('<span class="PopupSearchAnchor" hidden aria-hidden="true"></span>');
-	if ($searchPopup.length) {
-		$searchAnchor.insertBefore($searchPopup);
-	}
 	$('.SearchPopup').click(
 					function() {
-						if (!$searchPopup.length) {
-							return false;
-						}
-						$searchPopup.appendTo(document.body).stop(true, true).attr('aria-hidden', 'false').slideDown(60, function() {
-							$('#title-search-input').trigger('focus');
-						});
-						$('.SearchPopup').attr('aria-expanded', 'true');
+						$('.PopupSearch').slideDown(60);
 						return false;
 					});
 
 				$('.SearchClose').click(
 					function() {
-						$searchPopup.stop(true, true).slideUp(100, function() {
-							$(this).attr('aria-hidden', 'true').insertAfter($searchAnchor);
-						});
-						$('.SearchPopup').attr('aria-expanded', 'false');
+						$('.CloseSearch').slideUp(100);
 						return false;
 					});
-
-				$(document).on('keydown', function(event) {
-					if (event.key === 'Escape' && $searchPopup.attr('aria-hidden') === 'false') {
-						$('.SearchClose').trigger('click');
-					}
-				});
     $("#owl-demo").owlCarousel({
         pagination : true,
 		slideSpeed : 300,
