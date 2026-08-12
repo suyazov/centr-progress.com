@@ -2,6 +2,7 @@
 
 $root = dirname(__DIR__);
 $prefix = file_get_contents($root . '/local/lib/CentrProgress/Search/PrefixQuery.php');
+$titleResultModifier = file_get_contents($root . '/bitrix/templates/template/components/bitrix/search.title/search/result_modifier.php');
 $jsAssets = array(
     file_get_contents($root . '/bitrix/templates/template/js/scripts.js'),
     file_get_contents($root . '/bitrix/templates/template/js/scripts-min.js'),
@@ -30,6 +31,10 @@ foreach (array(
 }
 if (stripos($prefix, ' LIKE ') !== false) {
     fwrite(STDERR, "Prefix expansion must not use SQL LIKE\n");
+    exit(1);
+}
+if (strpos($titleResultModifier, 'restoreOriginalInUserOutput($allItem["URL"])') === false) {
+    fwrite(STDERR, "Quick-search all-results URL must preserve the original query\n");
     exit(1);
 }
 
