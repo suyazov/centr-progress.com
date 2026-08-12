@@ -145,4 +145,78 @@ foreach($arResult["SEARCH"] as $i=>$arItem)
 	$arResult["SEARCH"][$i]["ICON"] = true;
 }
 
+// The search index order is not suitable for quick suggestions. Rank only
+// currently active, readable iblock elements by their current names, then
+// render a bounded list. No course-specific values are encoded here.
+$searchQuery = isset($_REQUEST['q']) ? trim((string) $_REQUEST['q']) : '';
+if (class_exists('CentrProgress\\Search\\PrefixQuery'))
+	$searchQuery = trim((string) \CentrProgress\Search\PrefixQuery::originalQuery());
+
+$normalizeSearchText = static function ($value) {
+	$value = html_entity_decode(strip_tags((string) $value), ENT_QUOTES, SITE_CHARSET);
+	return function_exists('mb_strtolower')
+		? mb_strtolower($value, SITE_CHARSET)
+		: strtolower($value);
+};
+$normalizedQuery = $normalizeSearchText($searchQuery);
+$rankedItems = array();
+
+foreach ($arResult["CATEGORIES"] as $arCategory)
+{
+	foreach ($arCategory["ITEMS"] as $arItem)
+	{
+		$itemId = isset($arItem["ITEM_ID"]) ? (string) $arItem["ITEM_ID"] : '';
+		if ($itemId === '' || !isset($arResult["ELEMENTS"][$itemId]))
+			continue;
+
+		$name = (string) $arResult["ELEMENTS"][$itemId]["NAME"];
+		$normalizedName = $normalizeSearchText($name);
+		$position = $normalizedQuery === '' ? false : strpos($normalizedName, $normalizedQuery);
+		if ($position === false)
+			continue;
+
+		$wordPrefix = $position === 0;
+		if (!$wordPrefix && function_exists('preg_match'))
+		{
+			$wordPrefix = preg_match(
+				'/(?:^|[^\\p{L}\\p{N}])' . preg_quote($normalizedQuery, '/') . '/u',
+				$normalizedName
+			) === 1;
+		}
+
+		$arItem["NAME"] = htmlspecialcharsbx($name);
+		$rankedItems[] = array(
+			"ITEM" => $arItem,
+			"RANK" => $position === 0 ? 0 : ($wordPrefix ? 1 : 2),
+			"POSITION" => $position,
+			"NAME" => $normalizedName,
+			"ID" => (int) $itemId,
+		);
+	}
+}
+
+usort($rankedItems, static function ($left, $right) {
+	foreach (array("RANK", "POSITION", "NAME", "ID") as $key)
+	{
+		if ($left[$key] == $right[$key])
+			continue;
+		return $left[$key] < $right[$key] ? -1 : 1;
+	}
+	return 0;
+});
+
+$suggestions = array();
+foreach (array_slice($rankedItems, 0, 5) as $rankedItem)
+	$suggestions[] = $rankedItem["ITEM"];
+
+$allItems = isset($arResult["CATEGORIES"]["all"]["ITEMS"])
+	? $arResult["CATEGORIES"]["all"]["ITEMS"]
+	: array();
+$arResult["CATEGORIES"] = array();
+if (!empty($suggestions))
+	$arResult["CATEGORIES"]["suggestions"] = array("ITEMS" => $suggestions);
+if (!empty($allItems))
+	$arResult["CATEGORIES"]["all"] = array("ITEMS" => array_slice($allItems, 0, 1));
+$arResult['CATEGORIES_ITEMS_EXISTS'] = !empty($suggestions);
+
 ?>
