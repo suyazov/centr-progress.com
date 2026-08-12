@@ -212,6 +212,18 @@ foreach (array_slice($rankedItems, 0, 5) as $rankedItem)
 $allItems = isset($arResult["CATEGORIES"]["all"]["ITEMS"])
 	? $arResult["CATEGORIES"]["all"]["ITEMS"]
 	: array();
+// Bitrix builds the "all results" URL from the backend query. Keep the
+// wildcard/stem expression internal just like the visible search inputs and
+// full-search pager links.
+if (class_exists('CentrProgress\\Search\\PrefixQuery'))
+{
+	foreach ($allItems as &$allItem)
+	{
+		if (isset($allItem["URL"]))
+			$allItem["URL"] = \CentrProgress\Search\PrefixQuery::restoreOriginalInUserOutput($allItem["URL"]);
+	}
+	unset($allItem);
+}
 $arResult["CATEGORIES"] = array();
 if (!empty($suggestions))
 	$arResult["CATEGORIES"]["suggestions"] = array("ITEMS" => $suggestions);

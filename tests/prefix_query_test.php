@@ -31,6 +31,10 @@ if (PrefixQuery::applyToRequest() !== 'лиф*' || $_GET['q'] !== 'лиф*') {
     fwrite(STDERR, "PrefixQuery AJAX normalization failed\n");
     exit(1);
 }
+if (PrefixQuery::restoreOriginalInUserOutput('/search/index.php?q=%D0%BB%D0%B8%D1%84%2A') !== '/search/index.php?q=%D0%BB%D0%B8%D1%84') {
+    fwrite(STDERR, "PrefixQuery AJAX all-results URL leaked backend syntax\n");
+    exit(1);
+}
 unset($GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']);
 
 $single = EducationProgramFiles::fromDisplayProperty(array('FILE_VALUE' => array('SRC' => '/upload/a.pdf', 'FILE_SIZE' => 42)));
