@@ -1,6 +1,15 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
+$userSearchQuery = class_exists('CentrProgress\\Search\\PrefixQuery')
+	? \CentrProgress\Search\PrefixQuery::originalQuery()
+	: $arResult["REQUEST"]["~QUERY"];
+$userSearchQueryHtml = htmlspecialcharsbx($userSearchQuery);
+$restoreUserSearchOutput = static function ($value) {
+	return class_exists('CentrProgress\\Search\\PrefixQuery')
+		? \CentrProgress\Search\PrefixQuery::restoreOriginalInUserOutput($value)
+		: $value;
+};
 $arCloudParams = Array(
-	"SEARCH" => $arResult["REQUEST"]["~QUERY"],
+	"SEARCH" => $userSearchQuery,
 	"TAGS" => $arResult["REQUEST"]["~TAGS"],
 	"CHECK_DATES" => $arParams["CHECK_DATES"],
 	"arrFILTER" => $arParams["arrFILTER"],
@@ -67,7 +76,7 @@ $APPLICATION->IncludeComponent("bitrix:search.tags.cloud", ".default", $arCloudP
 		"",
 		array(
 			"NAME" => "q",
-			"VALUE" => $arResult["REQUEST"]["~QUERY"],
+			"VALUE" => $userSearchQuery,
 			"INPUT_SIZE" => 40,
 			"DROPDOWN_SIZE" => 10,
 			"FILTER_MD5" => $arResult["FILTER_MD5"],
@@ -75,7 +84,7 @@ $APPLICATION->IncludeComponent("bitrix:search.tags.cloud", ".default", $arCloudP
 		$component, array("HIDE_ICONS" => "Y")
 	);?>
 <?else:?>
-	<input type="text" name="q" value="<?=$arResult["REQUEST"]["QUERY"]?>" placeholder="Введите поисковой запрос" size="40" />
+	<input type="text" name="q" value="<?=$userSearchQueryHtml?>" placeholder="Введите поисковой запрос" size="40" />
 <?endif;?>
 <?if($arParams["SHOW_WHERE"]):?>
 	&nbsp;<select name="where">
@@ -145,7 +154,7 @@ $APPLICATION->IncludeComponent("bitrix:search.tags.cloud", ".default", $arCloudP
 <?if(isset($arResult["REQUEST"]["ORIGINAL_QUERY"])):
 	?>
 	<div class="search-language-guess">
-		<?echo GetMessage("CT_BSP_KEYBOARD_WARNING", array("#query#"=>'<a href="'.$arResult["ORIGINAL_QUERY_URL"].'">'.$arResult["REQUEST"]["ORIGINAL_QUERY"].'</a>'))?>
+		<?echo $restoreUserSearchOutput(GetMessage("CT_BSP_KEYBOARD_WARNING", array("#query#"=>'<a href="'.$arResult["ORIGINAL_QUERY_URL"].'">'.$arResult["REQUEST"]["ORIGINAL_QUERY"].'</a>')))?>
 	</div><br /><?
 endif;?>
 
@@ -205,7 +214,7 @@ endif;?>
 		</div>
 	<?endforeach;?>
 	</div>
-	<?if($arParams["DISPLAY_BOTTOM_PAGER"] != "N") echo $arResult["NAV_STRING"]?>
+	<?if($arParams["DISPLAY_BOTTOM_PAGER"] != "N") echo $restoreUserSearchOutput($arResult["NAV_STRING"])?>
 	
 <?else:?>
 	<?ShowNote(GetMessage("SEARCH_NOTHING_TO_FOUND"));?>
