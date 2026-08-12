@@ -34,7 +34,9 @@ if ($isTitleSearchAjax) {
             'PREVIEW_HEIGHT' => '75',
             'PAGE' => '#SITE_DIR#search/index.php',
             'NUM_CATEGORIES' => '1',
-            'TOP_COUNT' => '5',
+            // Fetch candidates for current-name ranking in result_modifier;
+            // the rendered quick-suggestion list remains capped at five.
+            'TOP_COUNT' => '50',
             'ORDER' => 'date',
             'USE_LANGUAGE_GUESS' => 'Y',
             'CHECK_DATES' => 'N',

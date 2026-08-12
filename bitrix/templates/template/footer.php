@@ -242,7 +242,9 @@
 										"PREVIEW_HEIGHT" => "75",
 										"PAGE" => "#SITE_DIR#search/index.php",
 										"NUM_CATEGORIES" => "1",
-										"TOP_COUNT" => "5",
+										// Fetch enough candidates for deterministic name ranking;
+										// result_modifier.php limits the rendered suggestions to five.
+										"TOP_COUNT" => "50",
 										"ORDER" => "date",
 										"USE_LANGUAGE_GUESS" => "Y",
 										"CHECK_DATES" => "N",

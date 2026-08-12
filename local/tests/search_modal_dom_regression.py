@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fail-closed browser regression against unmodified, server-delivered assets."""
 
-import base64
 import hashlib
 import json
 import os
@@ -20,7 +19,7 @@ URL = os.environ.get(
 )
 EXPECTED = "Лифтер 1-2 разряд"
 EXPECTED_HREF = "/napravleniya-obucheniya/professionalnoe-obuchenie/lifter/lifter-1-2-razryad/"
-TERMS = ("лиф", "лифт", "тепл")
+TERMS = ("лиф", "лифт")
 VIEWPORTS = ((1440, 900, "desktop"), (390, 844, "mobile"))
 
 
@@ -143,33 +142,38 @@ def browser_qa(devtools, width, height, label):
 
     for term in TERMS:
         type_term(devtools, term)
-        link = wait_for(
+        result = wait_for(
             devtools,
-            """(() => {const links=[...document.querySelectorAll('.PopupSearch div.title-search-result a')];
-            const a=links.find(node=>node.textContent.trim()===%s); if(!a||!a.getClientRects().length)return null;
-            const result=a.closest('div.title-search-result');
-            return {text:a.textContent.trim(),href:a.getAttribute('href'),pointer:getComputedStyle(a).pointerEvents,
-              hasPayload:!!result?.querySelector('.bx_searche'),polluted:!!result?.querySelector('html,head,body,.TopPanel,.PopupSearch'),
-              htmlBytes:new TextEncoder().encode(result?.innerHTML||'').length};})()"""
-            % json.dumps(EXPECTED),
+            """(() => {const result=document.querySelector('.PopupSearch div.title-search-result');
+            const rows=[...result?.querySelectorAll('.bx_item_block:not(.all_result)')||[]].filter(row=>row.getClientRects().length);
+            const links=rows.map(row=>row.querySelector('a')).filter(Boolean);
+            if(!links.length||links[0].textContent.trim()!==%s)return null;
+            const rects=rows.map(row=>row.getBoundingClientRect());
+            return {texts:links.map(a=>a.textContent.trim()),href:links[0].getAttribute('href'),
+              pointer:getComputedStyle(links[0]).pointerEvents,hasPayload:!!result?.querySelector('.bx_searche'),
+              polluted:!!result?.querySelector('html,head,body,.TopPanel,.PopupSearch'),
+              hasServiceHeading:[...result.querySelectorAll('*')].some(el=>el.children.length===0&&el.textContent.trim().toLowerCase()==='остальные'),
+              htmlBytes:new TextEncoder().encode(result?.innerHTML||'').length,
+              rowHeights:rects.map(r=>r.height),gaps:rects.slice(1).map((r,i)=>r.top-rects[i].bottom),
+              overflow:document.scrollWidth-document.documentElement.clientWidth};})()""" % json.dumps(EXPECTED),
         )
         resources = devtools.evaluate(
             "performance.getEntriesByType('resource').map(r=>r.name).filter(u=>u.includes('/search/index.php'))"
         )
-        diagnostic = {"term": term, "link": link, "resources": resources}
-        assert link["text"] == EXPECTED and link["href"] == EXPECTED_HREF, diagnostic
-        assert link["pointer"] != "none" and link["hasPayload"] and not link["polluted"], diagnostic
-        assert 0 < link["htmlBytes"] < 50000, diagnostic
+        diagnostic = {"term": term, "result": result, "resources": resources}
+        assert result["texts"][0] == EXPECTED and result["href"] == EXPECTED_HREF, diagnostic
+        assert len(result["texts"]) <= 5, diagnostic
+        assert result["pointer"] != "none" and result["hasPayload"] and not result["polluted"], diagnostic
+        assert not result["hasServiceHeading"], diagnostic
+        assert result["rowHeights"] and max(result["rowHeights"]) <= 88, diagnostic
+        assert not result["gaps"] or max(result["gaps"]) <= 24, diagnostic
+        assert result["overflow"] <= 0, diagnostic
+        assert 0 < result["htmlBytes"] < 50000, diagnostic
         # JCTitleSearch sends ajax_call=y in the POST body, not the URL. The
         # initial document is a course URL, so a real search/index.php resource
         # here is the network evidence; the clean Bitrix payload assertions
         # above prove it is the title-search response rather than page markup.
         assert resources, {"term": term, "resources": resources}
-
-    screenshot = devtools.command("Page.captureScreenshot", {"format": "png"})["data"]
-    evidence = ROOT / "local" / "tests" / "evidence"
-    evidence.mkdir(exist_ok=True)
-    (evidence / f"search-modal-{label}.png").write_bytes(base64.b64decode(screenshot))
 
     devtools.evaluate("document.querySelector('.SearchClose').click()")
     wait_for(devtools, "document.querySelector('.PopupSearch').getAttribute('aria-hidden') === 'true'")

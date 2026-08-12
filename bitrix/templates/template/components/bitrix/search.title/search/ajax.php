@@ -47,14 +47,6 @@ if (empty($arResult["CATEGORIES"]) || !$arResult['CATEGORIES_ITEMS_EXISTS'])
 				</div>
 				<div style="clear:both;"></div>
 			</div>
-		<?else:?>
-			<div class="bx_item_block others_result">
-				<div class="bx_img_element"></div>
-				<div class="bx_item_element">
-					<a href="<?echo $arItem["URL"]?>"><?echo $arItem["NAME"]?></a>
-				</div>
-				<div style="clear:both;"></div>
-			</div>
 		<?endif;?>
 	<?endforeach;?>
 <?endforeach;?>
