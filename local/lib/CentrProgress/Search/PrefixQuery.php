@@ -73,6 +73,31 @@ final class PrefixQuery
     }
 
     /**
+     * Replace the backend-only expanded query in a user-facing HTML fragment.
+     * Bitrix builds pager and language-guess links while the expanded request
+     * is active, so those fragments must be restored before they reach the DOM.
+     */
+    public static function restoreOriginalInUserOutput($value)
+    {
+        $value = (string) $value;
+        $original = self::originalQuery();
+        $expanded = isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '';
+
+        if ($value === '' || $expanded === '' || $expanded === $original) {
+            return $value;
+        }
+
+        $replacements = array(
+            $expanded => $original,
+            htmlspecialchars($expanded, ENT_QUOTES, 'UTF-8') => htmlspecialchars($original, ENT_QUOTES, 'UTF-8'),
+            rawurlencode($expanded) => rawurlencode($original),
+            urlencode($expanded) => urlencode($original),
+        );
+
+        return str_replace(array_keys($replacements), array_values($replacements), $value);
+    }
+
+    /**
      * Expand a single bounded prefix through Bitrix's indexed stem dictionary.
      * The range predicate uses the b_search_stem.STEM index and deliberately
      * avoids SQL LIKE/full table scans. Multi-token queries retain the normal
