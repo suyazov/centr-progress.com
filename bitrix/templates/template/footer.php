@@ -222,7 +222,7 @@
 						"ACTIVE_COMPONENT" => "Y"
 					)
 				);?>
-				<div class="PopupSearch CloseSearch" role="dialog" aria-modal="true" aria-label="Поиск" aria-hidden="true">
+				<div class="PopupSearch CloseSearch" role="dialog" aria-modal="false" aria-label="Поиск" aria-hidden="true">
 					<div class="Search">
 								<?php
 								require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';

@@ -2,10 +2,7 @@
 $(function() {
 	var $searchPopup = $('.PopupSearch').first();
 	var $searchAnchor = $('<span class="PopupSearchAnchor" hidden aria-hidden="true"></span>');
-	var searchScrollY = 0;
-	var searchBodyStyle = null;
 	var searchResultObserver = null;
-	var searchBackground = [];
 	var searchOpen = false;
 	if ($searchPopup.length) {
 		$searchAnchor.insertBefore($searchPopup);
@@ -22,38 +19,14 @@ $(function() {
 			return;
 		}
 		searchOpen = true;
-		searchScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-		searchBodyStyle = document.body.getAttribute('style');
-		var scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
-		$('body').addClass('PopupSearchOpen').css({position: 'fixed', top: -searchScrollY + 'px', left: 0, right: 0, width: '100%', paddingRight: scrollbarWidth + 'px'});
-		searchBackground = [];
-		$(document.body).children().not($searchPopup).each(function() {
-			searchBackground.push({element: this, inert: this.inert, ariaHidden: this.getAttribute('aria-hidden')});
-			this.inert = true;
-			this.setAttribute('aria-hidden', 'true');
-		});
+		$('body').addClass('PopupSearchOpen');
 	}
 	function unlockSearchPage() {
 		if (!searchOpen) {
 			return;
 		}
 		searchOpen = false;
-		$.each(searchBackground, function(_, state) {
-			state.element.inert = state.inert;
-			if (state.ariaHidden === null) {
-				state.element.removeAttribute('aria-hidden');
-			} else {
-				state.element.setAttribute('aria-hidden', state.ariaHidden);
-			}
-		});
-		searchBackground = [];
 		$('body').removeClass('PopupSearchOpen');
-		if (searchBodyStyle === null) {
-			document.body.removeAttribute('style');
-		} else {
-			document.body.setAttribute('style', searchBodyStyle);
-		}
-		window.scrollTo(0, searchScrollY);
 	}
 	$('.SearchPopup').click(
 					function() {
