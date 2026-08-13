@@ -105,7 +105,11 @@ final class PrefixQuery
     {
         $fallback = self::build($query);
         $tokens = self::tokens($query);
-        if (!$tokens) {
+        // Bitrix search query grammar supports a flat OR expression for one
+        // prefix. Parenthesized OR groups are rejected by CSearchTitle, while
+        // flattening several groups would change a multi-token AND query into
+        // an over-broad OR query. Keep multi-token input on bounded wildcards.
+        if (count($tokens) !== 1 || self::length($tokens[0]) < self::MIN_PREFIX_LENGTH) {
             return $fallback;
         }
 
@@ -116,53 +120,37 @@ final class PrefixQuery
         try {
             $connection = \Bitrix\Main\Application::getConnection();
             $helper = $connection->getSqlHelper();
-            $groups = array();
-            $expansionsLeft = self::MAX_INDEX_EXPANSIONS;
-            foreach ($tokens as $token) {
-                $wildcard = $token . (self::length($token) >= self::MIN_PREFIX_LENGTH ? '*' : '');
-                if (self::length($token) < self::MIN_PREFIX_LENGTH || $expansionsLeft <= 0) {
-                    $groups[] = $wildcard;
+            $token = $tokens[0];
+            $wildcard = $token . '*';
+            $prefix = function_exists('mb_strtoupper')
+                ? mb_strtoupper($token, 'UTF-8')
+                : strtoupper($token);
+            $lower = $helper->forSql($prefix, self::MAX_TOKEN_LENGTH);
+            $upper = $helper->forSql($prefix . "\xEF\xBF\xBF", self::MAX_TOKEN_LENGTH + 1);
+            $result = $connection->query(
+                "SELECT s.STEM FROM b_search_stem s "
+                . "INNER JOIN b_search_content_stem cs ON cs.STEM = s.ID "
+                . "INNER JOIN b_search_content c ON c.ID = cs.SEARCH_CONTENT_ID "
+                . "WHERE s.STEM >= '" . $lower . "' AND s.STEM < '" . $upper . "' "
+                . "AND c.MODULE_ID = 'iblock' AND c.PARAM1 = 'infosection' AND c.PARAM2 = '7' "
+                . "GROUP BY s.ID, s.STEM "
+                . "ORDER BY MAX(cs.TF) DESC, CHAR_LENGTH(s.STEM), s.STEM "
+                . "LIMIT " . self::MAX_INDEX_EXPANSIONS
+            );
+            $variants = array($wildcard => true);
+            while ($row = $result->fetch()) {
+                $stem = isset($row['STEM']) ? trim((string) $row['STEM']) : '';
+                if ($stem === '' || isset($variants[$stem])) {
                     continue;
                 }
-
-                $prefix = function_exists('mb_strtoupper')
-                    ? mb_strtoupper($token, 'UTF-8')
-                    : strtoupper($token);
-                $lower = $helper->forSql($prefix, self::MAX_TOKEN_LENGTH);
-                // U+FFFF is a valid UTF-8 sentinel above normal letter suffixes.
-                $upper = $helper->forSql($prefix . "\xEF\xBF\xBF", self::MAX_TOKEN_LENGTH + 1);
-                $result = $connection->query(
-                    "SELECT s.STEM FROM b_search_stem s "
-                    . "INNER JOIN b_search_content_stem cs ON cs.STEM = s.ID "
-                    . "INNER JOIN b_search_content c ON c.ID = cs.SEARCH_CONTENT_ID "
-                    . "WHERE s.STEM >= '" . $lower . "' AND s.STEM < '" . $upper . "' "
-                    . "AND c.MODULE_ID = 'iblock' AND c.PARAM1 = 'infosection' AND c.PARAM2 = '7' "
-                    . "GROUP BY s.ID, s.STEM "
-                    . "ORDER BY MAX(cs.TF) DESC, CHAR_LENGTH(s.STEM), s.STEM "
-                    . "LIMIT " . $expansionsLeft
-                );
-                $variants = array($wildcard => true);
-                while ($expansionsLeft > 0 && ($row = $result->fetch())) {
-                    $stem = isset($row['STEM']) ? trim((string) $row['STEM']) : '';
-                    if ($stem === '' || isset($variants[$stem])) {
-                        continue;
-                    }
-                    $candidateGroups = $groups;
-                    $candidateVariants = array_keys($variants);
-                    $candidateVariants[] = $stem;
-                    $candidateGroups[] = '(' . implode(' OR ', $candidateVariants) . ')';
-                    if (self::length(implode(' ', $candidateGroups)) > self::MAX_EXPANDED_QUERY_LENGTH) {
-                        break;
-                    }
-                    $variants[$stem] = true;
-                    $expansionsLeft--;
+                $candidate = array_keys($variants);
+                $candidate[] = $stem;
+                if (self::length(implode(' OR ', $candidate)) > self::MAX_EXPANDED_QUERY_LENGTH) {
+                    break;
                 }
-                $variantList = array_keys($variants);
-                $groups[] = count($variantList) > 1
-                    ? '(' . implode(' OR ', $variantList) . ')'
-                    : $wildcard;
+                $variants[$stem] = true;
             }
-            return implode(' ', $groups);
+            return implode(' OR ', array_keys($variants));
         } catch (\Exception $error) {
             // Search remains available through the bounded normal query if
             // the optional index lookup is unavailable.
