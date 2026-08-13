@@ -3,6 +3,7 @@
 $root = dirname(__DIR__);
 $prefix = file_get_contents($root . '/local/lib/CentrProgress/Search/PrefixQuery.php');
 $titleResultModifier = file_get_contents($root . '/bitrix/templates/template/components/bitrix/search.title/search/result_modifier.php');
+$catalogSearch = file_get_contents($root . '/local/lib/CentrProgress/Search/CatalogSearch.php');
 $jsAssets = array(
     file_get_contents($root . '/bitrix/templates/template/js/scripts.js'),
     file_get_contents($root . '/bitrix/templates/template/js/scripts-min.js'),
@@ -31,6 +32,10 @@ foreach (array(
 }
 if (stripos($prefix, ' LIKE ') !== false) {
     fwrite(STDERR, "Prefix expansion must not use SQL LIKE\n");
+    exit(1);
+}
+if (strpos($catalogSearch, "CModule::IncludeModule('iblock') || !class_exists('CIBlockElement')") === false) {
+    fwrite(STDERR, "Catalog search must load iblock before checking CIBlockElement\n");
     exit(1);
 }
 if (strpos($titleResultModifier, "rawurlencode(\$searchQuery)") === false) {

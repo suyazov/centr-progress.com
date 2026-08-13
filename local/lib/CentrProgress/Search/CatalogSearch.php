@@ -13,7 +13,7 @@ final class CatalogSearch
 
     public static function search($query, $limit = self::MAX_RESULTS)
     {
-        if (!class_exists('CIBlockElement') || !\CModule::IncludeModule('iblock')) {
+        if (!\CModule::IncludeModule('iblock') || !class_exists('CIBlockElement')) {
             return array();
         }
         $tokens = self::tokens($query);
