@@ -28,7 +28,7 @@ foreach ($cases as $input => $expected) {
 $_REQUEST = array('q' => 'лиф', 'ajax_call' => 'y', 'INPUT_ID' => 'title-search-input');
 $_GET = array('q' => 'лиф');
 if (PrefixQuery::applyToRequest() !== 'лиф*' || $_GET['q'] !== 'лиф*') {
-    fwrite(STDERR, "PrefixQuery AJAX normalization failed\n");
+    fwrite(STDERR, "PrefixQuery AJAX fallback normalization failed\n");
     exit(1);
 }
 if (PrefixQuery::restoreOriginalInUserOutput('/search/index.php?q=%D0%BB%D0%B8%D1%84%2A') !== '/search/index.php?q=%D0%BB%D0%B8%D1%84') {

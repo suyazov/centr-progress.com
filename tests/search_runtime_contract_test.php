@@ -48,9 +48,26 @@ foreach ($jsAssets as $asset) {
 }
 
 foreach ($cssAssets as $asset) {
-    foreach (array('z-index: 2147483600', 'overflow: visible', 'max-width: calc(100vw - 30px)') as $contract) {
+	foreach (array('z-index: 2147483600', 'overflow: visible') as $contract) {
         if (strpos($asset, $contract) === false) {
             fwrite(STDERR, "Missing popup CSS contract: {$contract}\n");
+            exit(1);
+        }
+    }
+}
+
+foreach (array(
+    'width: min(1180px, calc(100vw - 40px))',
+    'max-height: calc(100dvh - 112px)',
+    'body.PopupSearchOpen' => false,
+) as $contract => $expected) {
+    if (is_int($contract)) {
+        $contract = $expected;
+        $expected = true;
+    }
+    foreach (array_slice($cssAssets, 0, 2) as $asset) {
+        if ((strpos($asset, $contract) !== false) !== $expected) {
+            fwrite(STDERR, "Invalid compact popup contract: {$contract}\n");
             exit(1);
         }
     }

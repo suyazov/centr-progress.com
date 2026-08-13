@@ -134,11 +134,11 @@ def browser_qa(devtools, width, height, label):
           backgrounds:background.map(el=>({selector:el.className,pointer:getComputedStyle(el).pointerEvents,
             inert:el.closest('body > *')?.inert===true})), hitInside:popup.contains(hit)};})()"""
     )
-    assert opened["position"] == "fixed" and opened["opaque"] and opened["bodyLocked"], opened
-    assert opened["rect"][0] <= 0 and opened["rect"][1] <= 0, opened
-    assert opened["rect"][2] >= opened["viewport"][0] and opened["rect"][3] >= opened["viewport"][1], opened
+    assert opened["position"] == "fixed" and opened["opaque"] and not opened["bodyLocked"], opened
+    assert opened["rect"][0] > 0 and opened["rect"][1] > 0, opened
+    assert opened["rect"][2] < opened["viewport"][0] and opened["rect"][3] < opened["viewport"][1], opened
     assert opened["hitInside"] and opened["backgrounds"], opened
-    assert all(item["pointer"] == "none" and item["inert"] for item in opened["backgrounds"]), opened
+    assert all(item["pointer"] != "none" and not item["inert"] for item in opened["backgrounds"]), opened
 
     for term in TERMS:
         type_term(devtools, term)

@@ -54,12 +54,10 @@ final class PrefixQuery
             ? (string) $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']
             : (isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '');
         $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'] = $original;
-        // CSearchTitle performs indexed prefix matching natively. Keep its
-        // query bounded to normalized wildcard tokens; only search.page needs
-        // the dictionary expansion used for ranking complete indexed stems.
-        $isTitleAjax = isset($_REQUEST['ajax_call'], $_REQUEST['INPUT_ID'])
-            && (string) $_REQUEST['ajax_call'] === 'y';
-        $normalized = $isTitleAjax ? self::build($original) : self::buildIndexed($original);
+        // search.title and search.page must use the same indexed expansion.
+        // Bitrix's native wildcard lookup is inconsistent for adjacent roots
+        // (production: "лиф*" returned suggestions while "лифт*" did not).
+        $normalized = self::buildIndexed($original);
         $_REQUEST['q'] = $normalized;
 
         if (isset($_GET['q'])) {
@@ -107,7 +105,7 @@ final class PrefixQuery
     {
         $fallback = self::build($query);
         $tokens = self::tokens($query);
-        if (count($tokens) !== 1 || self::length($tokens[0]) < self::MIN_PREFIX_LENGTH) {
+        if (!$tokens) {
             return $fallback;
         }
 
@@ -116,44 +114,55 @@ final class PrefixQuery
         }
 
         try {
-            $prefix = function_exists('mb_strtoupper')
-                ? mb_strtoupper($tokens[0], 'UTF-8')
-                : strtoupper($tokens[0]);
             $connection = \Bitrix\Main\Application::getConnection();
             $helper = $connection->getSqlHelper();
-            $lower = $helper->forSql($prefix, self::MAX_TOKEN_LENGTH);
-            // U+FFFF is a valid three-byte UTF-8 sentinel above every normal
-            // letter suffix in Bitrix's utf8_bin stem index.
-            $upper = $helper->forSql($prefix . "\xEF\xBF\xBF", self::MAX_TOKEN_LENGTH + 1);
-            $result = $connection->query(
-                "SELECT s.STEM FROM b_search_stem s "
-                . "INNER JOIN b_search_content_stem cs ON cs.STEM = s.ID "
-                . "INNER JOIN b_search_content c ON c.ID = cs.SEARCH_CONTENT_ID "
-                . "WHERE s.STEM >= '" . $lower . "' AND s.STEM < '" . $upper . "' "
-                . "AND c.MODULE_ID = 'iblock' AND c.PARAM1 = 'infosection' AND c.PARAM2 = '7' "
-                . "GROUP BY s.ID, s.STEM "
-                . "ORDER BY MAX(cs.TF) DESC, CHAR_LENGTH(s.STEM), s.STEM "
-                . "LIMIT " . self::MAX_INDEX_EXPANSIONS
-            );
-            // Keep the normalized wildcard in the expression. Dictionary
-            // expansion improves ranking, but it must never replace the
-            // actual prefix match (a sparse/stale stem dictionary can omit
-            // the course that the user is looking for).
-            $stems = array($fallback => true);
-            while ($row = $result->fetch()) {
-                $stem = isset($row['STEM']) ? trim((string) $row['STEM']) : '';
-                if ($stem !== '') {
-                    $candidate = array_keys($stems);
-                    $candidate[] = $stem;
-                    if (self::length(implode(' OR ', $candidate)) > self::MAX_EXPANDED_QUERY_LENGTH) {
+            $groups = array();
+            $expansionsLeft = self::MAX_INDEX_EXPANSIONS;
+            foreach ($tokens as $token) {
+                $wildcard = $token . (self::length($token) >= self::MIN_PREFIX_LENGTH ? '*' : '');
+                if (self::length($token) < self::MIN_PREFIX_LENGTH || $expansionsLeft <= 0) {
+                    $groups[] = $wildcard;
+                    continue;
+                }
+
+                $prefix = function_exists('mb_strtoupper')
+                    ? mb_strtoupper($token, 'UTF-8')
+                    : strtoupper($token);
+                $lower = $helper->forSql($prefix, self::MAX_TOKEN_LENGTH);
+                // U+FFFF is a valid UTF-8 sentinel above normal letter suffixes.
+                $upper = $helper->forSql($prefix . "\xEF\xBF\xBF", self::MAX_TOKEN_LENGTH + 1);
+                $result = $connection->query(
+                    "SELECT s.STEM FROM b_search_stem s "
+                    . "INNER JOIN b_search_content_stem cs ON cs.STEM = s.ID "
+                    . "INNER JOIN b_search_content c ON c.ID = cs.SEARCH_CONTENT_ID "
+                    . "WHERE s.STEM >= '" . $lower . "' AND s.STEM < '" . $upper . "' "
+                    . "AND c.MODULE_ID = 'iblock' AND c.PARAM1 = 'infosection' AND c.PARAM2 = '7' "
+                    . "GROUP BY s.ID, s.STEM "
+                    . "ORDER BY MAX(cs.TF) DESC, CHAR_LENGTH(s.STEM), s.STEM "
+                    . "LIMIT " . $expansionsLeft
+                );
+                $variants = array($wildcard => true);
+                while ($expansionsLeft > 0 && ($row = $result->fetch())) {
+                    $stem = isset($row['STEM']) ? trim((string) $row['STEM']) : '';
+                    if ($stem === '' || isset($variants[$stem])) {
+                        continue;
+                    }
+                    $candidateGroups = $groups;
+                    $candidateVariants = array_keys($variants);
+                    $candidateVariants[] = $stem;
+                    $candidateGroups[] = '(' . implode(' OR ', $candidateVariants) . ')';
+                    if (self::length(implode(' ', $candidateGroups)) > self::MAX_EXPANDED_QUERY_LENGTH) {
                         break;
                     }
-                    $stems[$stem] = true;
+                    $variants[$stem] = true;
+                    $expansionsLeft--;
                 }
+                $variantList = array_keys($variants);
+                $groups[] = count($variantList) > 1
+                    ? '(' . implode(' OR ', $variantList) . ')'
+                    : $wildcard;
             }
-            if (count($stems) > 1) {
-                return implode(' OR ', array_keys($stems));
-            }
+            return implode(' ', $groups);
         } catch (\Exception $error) {
             // Search remains available through the bounded normal query if
             // the optional index lookup is unavailable.
