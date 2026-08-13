@@ -13,7 +13,7 @@ if ($isTitleSearchAjax) {
 $APPLICATION->SetTitle('Поиск');
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
-\CentrProgress\Search\PrefixQuery::applyToRequest();
+$GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'] = isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '';
 
 // search.title must use a dedicated, deterministic entry point. Rendering it
 // from the course footer lets the catalog page consume the AJAX request first
