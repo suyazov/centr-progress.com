@@ -226,7 +226,7 @@
 					<div class="Search">
 								<?php
 								require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/PrefixQuery.php';
-								\CentrProgress\Search\PrefixQuery::applyToRequest();
+								$GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'] = isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '';
 								$APPLICATION->IncludeComponent(
 									"bitrix:search.title",
 									"search",

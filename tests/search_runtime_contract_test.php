@@ -33,7 +33,7 @@ if (stripos($prefix, ' LIKE ') !== false) {
     fwrite(STDERR, "Prefix expansion must not use SQL LIKE\n");
     exit(1);
 }
-if (strpos($titleResultModifier, 'restoreOriginalInUserOutput($allItem["URL"])') === false) {
+if (strpos($titleResultModifier, "rawurlencode(\$searchQuery)") === false) {
     fwrite(STDERR, "Quick-search all-results URL must preserve the original query\n");
     exit(1);
 }

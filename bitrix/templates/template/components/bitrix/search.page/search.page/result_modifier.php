@@ -4,7 +4,32 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-if (!CModule::IncludeModule('iblock') || empty($arResult['SEARCH'])) {
+if (!CModule::IncludeModule('iblock')) {
+    return;
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/CatalogSearch.php';
+$query = isset($GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'])
+    ? (string) $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY']
+    : (isset($_REQUEST['q']) ? (string) $_REQUEST['q'] : '');
+$catalogResults = \CentrProgress\Search\CatalogSearch::search($query, 50);
+if ($catalogResults) {
+    $arResult['SEARCH'] = array();
+    foreach ($catalogResults as $element) {
+        $arResult['SEARCH'][] = array(
+            'MODULE_ID' => 'iblock',
+            'ITEM_ID' => (string) $element['ID'],
+            'URL' => $element['DETAIL_PAGE_URL'],
+            'TITLE' => htmlspecialcharsbx($element['NAME']),
+            'TITLE_FORMATED' => htmlspecialcharsbx($element['NAME']),
+            'BODY_FORMATED' => htmlspecialcharsbx($element['PREVIEW_TEXT']),
+            'TAGS' => array(),
+            'CHAIN_PATH' => '',
+        );
+    }
+}
+
+if (empty($arResult['SEARCH'])) {
     return;
 }
 
