@@ -19,34 +19,22 @@ $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'] = isset($_REQUEST['q']) ? (stri
 // from the course footer lets the catalog page consume the AJAX request first
 // and returns an entire HTML document instead of the suggestion fragment.
 if ($isTitleSearchAjax) {
-    $APPLICATION->IncludeComponent(
-        'bitrix:search.title',
-        'search',
-        array(
-            'SHOW_INPUT' => 'Y',
-            'INPUT_ID' => 'title-search-input',
-            'CONTAINER_ID' => 'title-search',
-            'PRICE_CODE' => array(),
-            'PRICE_VAT_INCLUDE' => 'Y',
-            'PREVIEW_TRUNCATE_LEN' => '',
-            'SHOW_PREVIEW' => 'Y',
-            'PREVIEW_WIDTH' => '75',
-            'PREVIEW_HEIGHT' => '75',
-            'PAGE' => '#SITE_DIR#search/index.php',
-            'NUM_CATEGORIES' => '1',
-            // Fetch candidates for current-name ranking in result_modifier;
-            // the rendered quick-suggestion list remains capped at five.
-            'TOP_COUNT' => '50',
-            'ORDER' => 'date',
-            'USE_LANGUAGE_GUESS' => 'Y',
-            'CHECK_DATES' => 'N',
-            'SHOW_OTHERS' => 'N',
-            'CATEGORY_0_TITLE' => '',
-            'CATEGORY_0' => array('iblock_infosection'),
-            'CATEGORY_0_iblock_infosection' => array('7'),
-        ),
-        false
-    );
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/local/lib/CentrProgress/Search/CatalogSearch.php';
+    $query = $GLOBALS['CENTR_PROGRESS_SEARCH_ORIGINAL_QUERY'];
+    $results = \CentrProgress\Search\CatalogSearch::search($query, 5);
+    if ($results) {
+        echo '<div class="bx_searche">';
+        foreach ($results as $element) {
+            $pictureId = !empty($element['PREVIEW_PICTURE']) ? $element['PREVIEW_PICTURE'] : $element['DETAIL_PICTURE'];
+            $picture = $pictureId ? CFile::ResizeImageGet($pictureId, array('width' => 75, 'height' => 75), BX_RESIZE_IMAGE_PROPORTIONAL, true) : null;
+            echo '<div class="bx_item_block">';
+            if (is_array($picture) && !empty($picture['src'])) {
+                echo '<div class="bx_img_element"><div class="bx_image" style="background-image:url(\'' . htmlspecialcharsbx($picture['src']) . '\')"></div></div>';
+            }
+            echo '<div class="bx_item_element"><a href="' . htmlspecialcharsbx($element['DETAIL_PAGE_URL']) . '">' . htmlspecialcharsbx($element['NAME']) . '</a></div><div style="clear:both"></div></div>';
+        }
+        echo '<div class="bx_item_block all_result"><div class="bx_item_element"><span class="all_result_title"><a href="/search/index.php?q=' . rawurlencode($query) . '">Все результаты</a></span></div></div></div>';
+    }
     require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
     exit;
 }
