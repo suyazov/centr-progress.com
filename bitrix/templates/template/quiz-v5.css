@@ -58,6 +58,7 @@ body .CpQuizOpen:hover,body .CpQuizOpen:focus{background:linear-gradient(135deg,
 
 body .MainMenu{position:sticky;top:0;z-index:8500;background:#fff;box-shadow:0 1px 0 rgba(23,60,174,.08)}
 @media(min-width:761px){body .HeaderBlock{z-index:8600}}
+@media(min-width:1181px){body .HeaderBlock .Logo{width:auto;flex:0 0 250px}body .HeaderBlock .Slogan{width:auto;flex:1 1 210px}body .HeaderBlock .Search{width:auto;flex:0 0 75px}body .HeaderBlock .Contacts{flex:0 0 180px}body .HeaderBlock .Contacts .Phone{white-space:nowrap}body .HeaderBlock .Personal{width:auto;flex:0 0 220px;text-align:center}}
 body .CpHeaderHelp{display:flex;flex:0 0 190px;flex-direction:column;align-items:flex-start;gap:5px;margin-left:14px;font-family:Arial,sans-serif}
 body .CpHeaderHelp>span{color:#687786;font-size:12px;line-height:1.25}
 body .CpHeaderHelpPhone{color:#203043;font-size:14px;font-weight:700;line-height:1.2;text-decoration:none}
