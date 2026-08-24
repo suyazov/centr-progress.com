@@ -35,7 +35,7 @@ check('existing popup form kept', strpos($footer, 'iblock.element.add.form') !==
 
 // Ассеты и серверные файлы
 check('quiz.js exists', is_file($root . '/bitrix/templates/template/js/quiz-v2.js'));
-check('quiz.css exists', is_file($root . '/bitrix/templates/template/quiz-v4.css'));
+check('quiz.css exists', is_file($root . '/bitrix/templates/template/quiz-v5.css'));
 $css = file_get_contents($root . '/bitrix/templates/template/template_styles.css');
 check('quiz styles present', strpos($css, '.CpQuizOpen') !== false && strpos($css, '.CpQuizHp') !== false);
 check('ajax endpoint exists', is_file($root . '/local/ajax/quiz-submit.php'));
