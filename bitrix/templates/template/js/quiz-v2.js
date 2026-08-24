@@ -200,8 +200,12 @@
 	};
 
 	function openQuiz(quiz, root) {
+		if (window.CP_B24_CHAT_WIDGET && typeof window.CP_B24_CHAT_WIDGET.close === 'function') {
+			window.CP_B24_CHAT_WIDGET.close();
+		}
 		root.setAttribute('aria-hidden', 'false');
 		root.classList.add('CpQuizActive');
+		document.body.classList.add('CpQuizOpenState');
 		document.body.style.overflow = 'hidden';
 		setTimeout(function () {
 			var first = root.querySelector('input, button');
@@ -211,6 +215,7 @@
 	function closeQuiz(root) {
 		root.setAttribute('aria-hidden', 'true');
 		root.classList.remove('CpQuizActive');
+		document.body.classList.remove('CpQuizOpenState');
 		document.body.style.overflow = '';
 	}
 
@@ -218,6 +223,19 @@
 		var root = document.getElementById('cp-quiz');
 		if (!root) return;
 		var quiz = new CpQuiz(root);
+		window.addEventListener('onBitrixLiveChat', function (event) {
+			var widget = event && event.detail ? event.detail.widget : null;
+			if (!widget) return;
+			window.CP_B24_CHAT_WIDGET = widget;
+			if (widget.subscribe && window.BX && BX.LiveChatWidget && BX.LiveChatWidget.SubscriptionType) {
+				widget.subscribe({
+					type: BX.LiveChatWidget.SubscriptionType.widgetOpen,
+					callback: function () {
+						if (root.classList.contains('CpQuizActive')) closeQuiz(root);
+					}
+				});
+			}
+		});
 		document.querySelectorAll('[data-cp-quiz-open]').forEach(function (btn) {
 			btn.addEventListener('click', function () { openQuiz(quiz, root); });
 		});

@@ -60,8 +60,35 @@ class SubmitHandler
 			$answersText .= $question . ': ' . $answer . "\n";
 		}
 
-		// Email через штатный механизм почтовых событий Bitrix.
-		// Тип события CENTR_PROGRESS_QUIZ и его шаблон создаются в административной части.
+		// CRM — источник правды: успех показывается только после receipt Bitrix24.
+		$crmResult = array('success' => false, 'error' => 'crm_not_configured');
+		$formConfig = Bitrix24Client::resolveCrmFormConfig();
+		if ($formConfig !== null) {
+			$crmResult = Bitrix24Client::sendCrmForm($formConfig, array(
+				'name' => $name,
+				'phone' => Validator::normalizePhone($phone),
+				'email' => $email,
+			));
+		} else {
+			$webhookUrl = Bitrix24Client::resolveWebhookUrl();
+			if ($webhookUrl !== null) {
+				$crmResult = array('success' => Bitrix24Client::sendLead($webhookUrl, array(
+					'TITLE' => 'Квиз с сайта ' . $siteId,
+					'NAME' => $name,
+					'PHONE' => array(array('VALUE' => Validator::normalizePhone($phone), 'VALUE_TYPE' => 'WORK')),
+					'EMAIL' => $email !== '' ? array(array('VALUE' => $email, 'VALUE_TYPE' => 'WORK')) : array(),
+					'COMMENTS' => $answersText . "\nСтраница: " . $page,
+					'SOURCE_DESCRIPTION' => 'Квиз на сайте',
+				)));
+			}
+		}
+
+		if (empty($crmResult['success'])) {
+			return array('success' => false, 'error' => 'Не удалось зарегистрировать заявку в CRM. Попробуйте ещё раз или позвоните нам.');
+		}
+
+		// Почтовое уведомление ставится в очередь после CRM. Если почта временно
+		// недоступна, сделка уже сохранена и заявка не потеряется.
 		$sent = \CEvent::Send(self::EVENT_TYPE, $siteId, array(
 			'NAME' => $name,
 			'PHONE' => $phone,
@@ -71,23 +98,18 @@ class SubmitHandler
 			'DATE' => date('d.m.Y H:i'),
 		));
 
-		if (!$sent) {
-			return array('success' => false, 'error' => 'Не удалось отправить заявку. Попробуйте позже.');
+		if (!$sent && function_exists('AddMessage2Log')) {
+			AddMessage2Log('CentrProgress Quiz: CRM saved the request, but CEvent::Send failed', 'centrprogress.quiz');
 		}
 
-		// Опциональная интеграция Bitrix24; отказ не влияет на принятие заявки.
-		$webhookUrl = Bitrix24Client::resolveWebhookUrl();
-		if ($webhookUrl !== null) {
-			Bitrix24Client::sendLead($webhookUrl, array(
-				'TITLE' => 'Квиз с сайта ' . $siteId,
-				'NAME' => $name,
-				'PHONE' => array(array('VALUE' => Validator::normalizePhone($phone), 'VALUE_TYPE' => 'WORK')),
-				'EMAIL' => $email !== '' ? array(array('VALUE' => $email, 'VALUE_TYPE' => 'WORK')) : array(),
-				'COMMENTS' => $answersText . "\nСтраница: " . $page,
-				'SOURCE_DESCRIPTION' => 'Квиз на сайте',
-			));
-		}
-
-		return array('success' => true, 'error' => null);
+		return array(
+			'success' => true,
+			'error' => null,
+			'crm' => array(
+				'channel' => isset($crmResult['channel']) ? $crmResult['channel'] : 'webhook',
+				'id' => isset($crmResult['id']) ? $crmResult['id'] : null,
+			),
+			'email_queued' => (bool)$sent,
+		);
 	}
 }

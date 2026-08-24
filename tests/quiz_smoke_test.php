@@ -54,6 +54,15 @@ check('endpoint loads protected config', strpos($ajax, 'quiz_config.php') !== fa
 $handler = file_get_contents($root . '/local/lib/CentrProgress/Quiz/Bitrix24Client.php');
 check('webhook from env/define only', strpos($handler, 'BITRIX24_WEBHOOK_URL') !== false && strpos($handler, 'bitrix24.ru/rest/1') === false);
 check('webhook has timeout', strpos($handler, 'TIMEOUT') !== false);
+check('CRM form config is protected', strpos($handler, 'BITRIX24_FORM_SECURITY_SIGN') !== false && strpos($handler, 'CENTR_PROGRESS_B24_FORM_SECURITY_SIGN') !== false);
+check('CRM form requires receipt', strpos($handler, "!empty(\$result['resultId'])") !== false);
+
+$submitHandler = file_get_contents($root . '/local/lib/CentrProgress/Quiz/SubmitHandler.php');
+check('CRM failure blocks success', strpos($submitHandler, "empty(\$crmResult['success'])") !== false);
+
+$quizJs = file_get_contents($root . '/bitrix/templates/template/js/quiz-v2.js');
+check('quiz closes Bitrix24 chat', strpos($quizJs, 'CP_B24_CHAT_WIDGET.close') !== false);
+check('opening chat closes quiz', strpos($quizJs, 'SubscriptionType.widgetOpen') !== false);
 
 // gitignore защищает конфиги
 $gitignore = file_get_contents($root . '/.gitignore');
