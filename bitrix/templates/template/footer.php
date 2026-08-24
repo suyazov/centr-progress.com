@@ -320,6 +320,7 @@ use \Bitrix\Main\Page\Asset;?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/swiper.min.css' );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/swiper.min.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/new.js');?>
+<?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/quiz.css' );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.js');?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.css' );?>

@@ -1,4 +1,4 @@
-/* Собственный многошаговый квиз centr-progress.com (замена Marquiz).
+/* Собственный многошаговый квиз centr-progress.com.
    Универсальный: шаги задаются в CP_QUIZ_STEPS, отправка — на /local/ajax/quiz-submit.php. */
 (function () {
 	'use strict';
