@@ -15,6 +15,13 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
+		"Алфавитный указатель",
+		"/napravleniya-obucheniya/",
+		Array(),
+		Array("ALPHABET_MENU" => "Y"),
+		""
+	),
+	Array(
 		"Тарифы", 
 		"/tarify/", 
 		Array(), 

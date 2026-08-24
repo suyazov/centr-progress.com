@@ -79,3 +79,15 @@
 }
 .MainMenu .Wrapper .dropdown:hover .dropdown-menu{display: block;}
 .MainMenu .Wrapper .dropdown{position: relative;}
+
+.MainMenu .Wrapper .alphabet-dropdown .alphabet-mega{display:none;list-style:none;width:940px;max-width:calc(100vw - 40px);top:70px;right:0;left:auto;padding:20px 24px;position:absolute;z-index:50;background:#fff;border-radius:2px;box-shadow:0 2px 15px rgba(0,0,0,.16);text-align:left;overflow-x:hidden}
+.MainMenu .Wrapper .alphabet-dropdown:hover .alphabet-mega,.MainMenu .Wrapper .alphabet-dropdown.open .alphabet-mega,.MainMenu .Wrapper .alphabet-dropdown:focus-within .alphabet-mega{display:block}
+.MainMenu .Wrapper .alphabet-mega .alphabet-groups{display:flex;flex-wrap:wrap}
+.MainMenu .Wrapper .alphabet-mega .alphabet-group{width:25%;min-width:200px;padding:0 12px 14px 0;box-sizing:border-box}
+.MainMenu .Wrapper .alphabet-mega .alphabet-letter{display:block;font-weight:700;font-size:16px;color:#27aaf5;border-bottom:1px solid #ebedf1;margin-bottom:6px;padding-bottom:4px}
+.MainMenu .Wrapper .alphabet-mega ul{list-style:none;margin:0;padding:0}
+.MainMenu .Wrapper .alphabet-mega li{display:block!important;padding:4px 0;margin:0;border:0;line-height:1.3;text-align:left}
+.MainMenu .Wrapper .alphabet-mega li>a{background:none!important;color:#212121;font-size:14px;text-decoration:none;white-space:normal}
+.MainMenu .Wrapper .alphabet-mega li>a:hover,.MainMenu .Wrapper .alphabet-mega li>a:focus{color:#27aaf5;text-decoration:underline;outline:none}
+.MainMenu .Wrapper .alphabet-mega .alphabet-all{display:inline-block;margin-top:6px;font-weight:600;font-size:15px;color:#27aaf5;text-decoration:none}
+@media (max-width:1024px){.MainMenu .Wrapper .alphabet-dropdown .alphabet-mega{display:none!important}}
