@@ -77,10 +77,11 @@ $cpAlphabetGroups = cpAlphabetMenuGroup($cpAlphabetSections);
 	<?if(!empty($arResult)):
 		$previousLevel = 0;					
 		foreach($arResult as $arItem):
-			if($previousLevel && $arItem["DEPTH_LEVEL"] < $previousLevel):
-				echo str_repeat("</ul></li>", ($previousLevel - $arItem["DEPTH_LEVEL"]));
-			endif;
-			<?if($arItem['TEXT'] === 'Алфавитный указатель' || (isset($arItem['PARAMS']['ALPHABET_MENU']) && $arItem['PARAMS']['ALPHABET_MENU'] === 'Y')):?>
+				if($previousLevel && $arItem["DEPTH_LEVEL"] < $previousLevel):
+					echo str_repeat("</ul></li>", ($previousLevel - $arItem["DEPTH_LEVEL"]));
+				endif;
+				?>
+				<?if($arItem['TEXT'] === 'Алфавитный указатель' || (isset($arItem['PARAMS']['ALPHABET_MENU']) && $arItem['PARAMS']['ALPHABET_MENU'] === 'Y')):?>
 				<li class="dropdown alphabet-dropdown<?=($arItem['SELECTED'] ? ' Active' : '');?>">
 					<a href="<?=$arItem['LINK']?>" itemprop="discussionUrl" aria-haspopup="true" aria-expanded="false"><span><?=$arItem['TEXT']?><i></i></span></a>
 					<?if($cpAlphabetGroups):?>
