@@ -1,0 +1,20 @@
+/* Изоляция широкого меню от старых dropdown-стилей шаблона. */
+.MainMenu .Wrapper .service-menu .service-mega .service-mega-group,
+.MainMenu .Wrapper .service-menu .service-mega .service-mega-group > ul,
+.MainMenu .Wrapper .service-menu .service-mega .service-mega-group > ul > li {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.MainMenu .Wrapper .service-menu .service-mega .service-mega-group > ul > li > a {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+}

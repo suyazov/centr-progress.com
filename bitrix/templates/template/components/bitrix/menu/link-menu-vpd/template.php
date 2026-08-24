@@ -3,6 +3,7 @@ $this->setFrameMode(true);
 if(empty($arResult)) return;
 
 \Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css');
+\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/service-mega-menu.css');
 \Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/service-mega-menu.js');
 CModule::IncludeModule('iblock');
 
