@@ -7,3 +7,5 @@ upload/webp/**
 upload/iblock/**
 *.bak
 .DS_Store
+local/php_interface/include/quiz_config.php
+local/php_interface/include/openlines.php

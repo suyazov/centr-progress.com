@@ -3779,3 +3779,126 @@ color:#fff !important;
 	background:#be0009;
 	color:#fff;
 }
+
+/* Собственный квиз (замена Marquiz) */
+.CpQuizOpen
+{
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	z-index: 9000;
+	background: #f9030f;
+	color: #fff;
+	border: none;
+	border-radius: 23px;
+	padding: 0 28px;
+	line-height: 46px;
+	height: 46px;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 4px 14px rgba(249, 3, 15, 0.35);
+}
+.CpQuizOpen:hover { background: #be0009; }
+.CpQuiz
+{
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+}
+.CpQuiz.CpQuizActive { display: block; }
+.CpQuizOverlay
+{
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+.CpQuizDialog
+{
+	position: relative;
+	background: #fff;
+	max-width: 520px;
+	width: calc(100% - 40px);
+	margin: 8vh auto 0;
+	border-radius: 8px;
+	padding: 30px;
+	box-sizing: border-box;
+}
+.CpQuizClose
+{
+	position: absolute;
+	top: 10px;
+	right: 14px;
+	background: none;
+	border: none;
+	font-size: 26px;
+	line-height: 1;
+	cursor: pointer;
+	color: #888;
+}
+.CpQuizStepTitle
+{
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 18px;
+	padding-right: 30px;
+}
+.CpQuizOptions { display: flex; flex-direction: column; gap: 10px; }
+.CpQuizOption
+{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	padding: 10px 14px;
+	cursor: pointer;
+}
+.CpQuizOption:hover { border-color: #f9030f; }
+.CpQuizContacts { display: flex; flex-direction: column; gap: 12px; }
+.CpQuizInput
+{
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	padding: 10px 14px;
+	font-size: 15px;
+	width: 100%;
+	box-sizing: border-box;
+}
+.CpQuizConsent { display: flex; gap: 8px; font-size: 13px; align-items: flex-start; }
+.CpQuizNav
+{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 22px;
+	gap: 10px;
+}
+.CpQuizBtn
+{
+	border: none;
+	border-radius: 23px;
+	padding: 0 26px;
+	line-height: 42px;
+	height: 42px;
+	font-size: 15px;
+	cursor: pointer;
+}
+.CpQuizBtnPrev { background: #eee; color: #333; }
+.CpQuizBtnNext { background: #f9030f; color: #fff; }
+.CpQuizBtnNext:hover { background: #be0009; }
+.CpQuizBtn:disabled { opacity: 0.6; cursor: default; }
+.CpQuizProgress { margin-top: 12px; font-size: 13px; color: #888; }
+.CpQuizError { margin-top: 12px; color: #f9030f; font-size: 14px; }
+.CpQuizResult { font-size: 17px; line-height: 1.5; padding: 10px 0; }
+.CpQuizHp
+{
+	position: absolute;
+	left: -9999px;
+	top: -9999px;
+	visibility: hidden;
+}
+@media (max-width: 600px) {
+	.CpQuizDialog { padding: 20px; margin-top: 4vh; }
+	.CpQuizOpen { right: 12px; bottom: 12px; padding: 0 20px; }
+}

@@ -275,30 +275,30 @@
 				</script>
 				<noscript><div><img src="https://mc.yandex.ru/watch/54496510" style="position:absolute; left:-9999px;" title="Yandex.Metrika" alt="Yandex.Metrika"></div></noscript>
 				<!-- /Yandex.Metrika counter -->
-<div data-marquiz-id="60bf33a35ffebe003e8a5c65"></div>
-<script>(function(t, p) {window.Marquiz ? Marquiz.add([t, p]) : document.addEventListener('marquizLoaded', function() {Marquiz.add([t, p])})})('Button', {id: '60bf33a35ffebe003e8a5c65', buttonText: 'Получить скидку', bgColor: '#f9030f', textColor: '#fff', rounded: true, shadow: '', blicked: true})</script>
-<!-- Marquiz script start -->
+<!-- Собственный квиз -->
+<button type="button" class="CpQuizOpen" data-cp-quiz-open>Получить скидку</button>
+<div class="CpQuiz" id="cp-quiz" role="dialog" aria-modal="true" aria-label="Квиз" aria-hidden="true">
+	<div class="CpQuizOverlay" data-cp-quiz-close></div>
+	<div class="CpQuizDialog">
+		<button type="button" class="CpQuizClose" data-cp-quiz-close aria-label="Закрыть">&times;</button>
+		<form class="CpQuizForm" id="cp-quiz-form" novalidate>
+			<div class="CpQuizSteps" data-cp-quiz-steps></div>
+			<div class="CpQuizNav">
+				<button type="button" class="CpQuizBtn CpQuizBtnPrev" data-cp-quiz-prev>Назад</button>
+				<button type="button" class="CpQuizBtn CpQuizBtnNext" data-cp-quiz-next>Далее</button>
+			</div>
+			<div class="CpQuizProgress"><span data-cp-quiz-progress></span></div>
+			<div class="CpQuizResult" data-cp-quiz-result hidden></div>
+			<input type="text" name="company" class="CpQuizHp" data-cp-quiz-hp tabindex="-1" autocomplete="off" aria-hidden="true">
+		</form>
+	</div>
+</div>
 <script>
-(function(w, d, s, o){
-  var j = d.createElement(s); j.async = true; j.src = '//script.marquiz.ru/v2.js';j.onload = function() {
-    if (document.readyState !== 'loading') Marquiz.init(o);
-    else document.addEventListener("DOMContentLoaded", function() {
-      Marquiz.init(o);
-    });
-  };
-  d.head.insertBefore(j, d.head.firstElementChild);
-})(window, document, 'script', {
-    host: '//quiz.marquiz.ru',
-    region: 'eu',
-    id: '60bf33a35ffebe003e8a5c65',
-    autoOpen: false,
-    autoOpenFreq: 'once',
-    openOnExit: false,
-    disableOnMobile: false
-  }
-);
+window.CP_QUIZ = {
+	endpoint: '/local/ajax/quiz-submit.php',
+	token: '<?=substr(md5('cp_quiz'.bitrix_sessid()), 0, 32)?>'
+};
 </script>
-<!-- Marquiz script end -->
 <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1436230-1UEdl"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1436230-1UEdl" style="position:fixed; left:-999px;" alt="vk.com" title="vk.com"></noscript>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:main.include",
@@ -310,7 +310,9 @@
 		"HIDE_ICONS"=>"Y"
 	)
 );?> 
-<script src="//code.jivo.ru/widget/p9xd3hjfMB" async></script>
+<?// Код виджета Открытых линий выдаётся в Bitrix24 и подключается через защищённый include (не в Git). ?>
+<?$cpOpenLines = $_SERVER['DOCUMENT_ROOT'].'/local/php_interface/include/openlines.php';?>
+<?if (is_file($cpOpenLines)) include $cpOpenLines;?>
 
 <?
 use \Bitrix\Main\Page\Asset;?>
@@ -318,6 +320,7 @@ use \Bitrix\Main\Page\Asset;?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/swiper.min.css' );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/swiper.min.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/new.js');?>
+<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.js');?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.css' );?>
  <script>
