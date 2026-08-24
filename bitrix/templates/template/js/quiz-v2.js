@@ -1,4 +1,4 @@
-/* Собственный многошаговый квиз centr-progress.com.
+/* Собственный многошаговый квиз centr-progress.com, версия 2.
    Универсальный: шаги задаются в CP_QUIZ_STEPS, отправка — на /local/ajax/quiz-submit.php. */
 (function () {
 	'use strict';
@@ -49,9 +49,12 @@
 		this.stepsBox = $('[data-cp-quiz-steps]', root);
 		this.resultBox = $('[data-cp-quiz-result]', root);
 		this.progressBox = $('[data-cp-quiz-progress]', root);
+		this.progressLabel = $('[data-cp-quiz-progress-label]', root);
 		this.prevBtn = $('[data-cp-quiz-prev]', root);
 		this.nextBtn = $('[data-cp-quiz-next]', root);
 		this.current = 0;
+		this.answers = {};
+		this.contacts = { name: '', phone: '', email: '', consent: false };
 		this.steps = (window.CP_QUIZ && window.CP_QUIZ.steps) || STEPS;
 		this.endpoint = (window.CP_QUIZ && window.CP_QUIZ.endpoint) || '/local/ajax/quiz-submit.php';
 		this.token = (window.CP_QUIZ && window.CP_QUIZ.token) || '';
@@ -66,16 +69,17 @@
 		if (step.type === 'radio') {
 			html += '<div class="CpQuizOptions">';
 			for (i = 0; i < step.options.length; i++) {
+				var checked = this.answers[step.key] === step.options[i] ? ' checked' : '';
 				html += '<label class="CpQuizOption"><input type="radio" name="' + escapeHtml(name) +
-					'" value="' + escapeHtml(step.options[i]) + '"><span>' + escapeHtml(step.options[i]) + '</span></label>';
+					'" value="' + escapeHtml(step.options[i]) + '"' + checked + '><span>' + escapeHtml(step.options[i]) + '</span></label>';
 			}
 			html += '</div>';
 		} else if (step.type === 'contacts') {
 			html += '<div class="CpQuizContacts">' +
-				'<input type="text" name="name" class="CpQuizInput" placeholder="Ваше имя" maxlength="100" required>' +
-				'<input type="tel" name="phone" class="CpQuizInput inp_tel" placeholder="Телефон" maxlength="32" required>' +
-				'<input type="email" name="email" class="CpQuizInput" placeholder="E-mail (необязательно)" maxlength="100">' +
-				'<label class="CpQuizConsent"><input type="checkbox" name="consent" value="1" required>' +
+				'<input type="text" name="name" class="CpQuizInput" placeholder="Ваше имя" maxlength="100" value="' + escapeHtml(this.contacts.name) + '" required>' +
+				'<input type="tel" name="phone" class="CpQuizInput inp_tel" placeholder="Телефон" maxlength="32" value="' + escapeHtml(this.contacts.phone) + '" required>' +
+				'<input type="email" name="email" class="CpQuizInput" placeholder="E-mail (необязательно)" maxlength="100" value="' + escapeHtml(this.contacts.email) + '">' +
+				'<label class="CpQuizConsent"><input type="checkbox" name="consent" value="1"' + (this.contacts.consent ? ' checked' : '') + ' required>' +
 				'<span>Согласен на обработку персональных данных</span></label>' +
 				'</div>';
 		}
@@ -83,9 +87,23 @@
 		this.stepsBox.innerHTML = html;
 		this.prevBtn.style.visibility = this.current === 0 ? 'hidden' : 'visible';
 		this.nextBtn.textContent = this.current === this.steps.length - 1 ? 'Отправить' : 'Далее';
-		this.progressBox.textContent = 'Шаг ' + (this.current + 1) + ' из ' + this.steps.length;
+		this.progressBox.style.width = (((this.current + 1) / this.steps.length) * 100) + '%';
+		this.progressLabel.textContent = 'Шаг ' + (this.current + 1) + ' из ' + this.steps.length;
 		if (step.type === 'contacts' && window.jQuery && jQuery.fn && jQuery.fn.mask) {
 			jQuery(this.stepsBox).find('input[name="phone"]').mask('+7 (999) 999-99-99');
+		}
+	};
+
+	CpQuiz.prototype.saveCurrent = function () {
+		var step = this.steps[this.current];
+		if (step.type === 'radio') {
+			var checked = this.stepsBox.querySelector('input[type="radio"]:checked');
+			if (checked) this.answers[step.key] = checked.value;
+		} else if (step.type === 'contacts') {
+			this.contacts.name = (this.stepsBox.querySelector('input[name="name"]') || {}).value || '';
+			this.contacts.phone = (this.stepsBox.querySelector('input[name="phone"]') || {}).value || '';
+			this.contacts.email = (this.stepsBox.querySelector('input[name="email"]') || {}).value || '';
+			this.contacts.consent = !!((this.stepsBox.querySelector('input[name="consent"]') || {}).checked);
 		}
 	};
 
@@ -113,17 +131,17 @@
 	};
 
 	CpQuiz.prototype.collect = function () {
+		this.saveCurrent();
 		var data = { answers: {}, name: '', phone: '', email: '', company: '', token: this.token, page: location.href };
 		for (var i = 0; i < this.steps.length; i++) {
 			var step = this.steps[i];
 			if (step.type === 'radio') {
-				var el = this.form.querySelector('input[name="answer_' + step.key + '"]:checked');
-				data.answers[step.title] = el ? el.value : '';
+				data.answers[step.title] = this.answers[step.key] || '';
 			}
 		}
-		data.name = (this.form.querySelector('input[name="name"]') || {}).value || '';
-		data.phone = (this.form.querySelector('input[name="phone"]') || {}).value || '';
-		data.email = (this.form.querySelector('input[name="email"]') || {}).value || '';
+		data.name = this.contacts.name;
+		data.phone = this.contacts.phone;
+		data.email = this.contacts.email;
 		data.company = (this.form.querySelector('[data-cp-quiz-hp]') || {}).value || '';
 		return data;
 	};
@@ -167,6 +185,7 @@
 		var self = this;
 		this.nextBtn.addEventListener('click', function () {
 			if (!self.validateCurrent()) return;
+			self.saveCurrent();
 			if (self.current < self.steps.length - 1) {
 				self.current++;
 				self.renderStep();
@@ -175,6 +194,7 @@
 			}
 		});
 		this.prevBtn.addEventListener('click', function () {
+			self.saveCurrent();
 			if (self.current > 0) { self.current--; self.renderStep(); }
 		});
 	};
@@ -183,6 +203,10 @@
 		root.setAttribute('aria-hidden', 'false');
 		root.classList.add('CpQuizActive');
 		document.body.style.overflow = 'hidden';
+		setTimeout(function () {
+			var first = root.querySelector('input, button');
+			if (first) first.focus();
+		}, 30);
 	}
 	function closeQuiz(root) {
 		root.setAttribute('aria-hidden', 'true');
@@ -199,6 +223,9 @@
 		});
 		root.querySelectorAll('[data-cp-quiz-close]').forEach(function (el) {
 			el.addEventListener('click', function () { closeQuiz(root); });
+		});
+		document.addEventListener('keydown', function (event) {
+			if ((event.key === 'Escape' || event.keyCode === 27) && root.classList.contains('CpQuizActive')) closeQuiz(root);
 		});
 	});
 })();

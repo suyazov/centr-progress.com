@@ -281,16 +281,32 @@
 	<div class="CpQuizOverlay" data-cp-quiz-close></div>
 	<div class="CpQuizDialog">
 		<button type="button" class="CpQuizClose" data-cp-quiz-close aria-label="Закрыть">&times;</button>
-		<form class="CpQuizForm" id="cp-quiz-form" novalidate>
-			<div class="CpQuizSteps" data-cp-quiz-steps></div>
-			<div class="CpQuizNav">
-				<button type="button" class="CpQuizBtn CpQuizBtnPrev" data-cp-quiz-prev>Назад</button>
-				<button type="button" class="CpQuizBtn CpQuizBtnNext" data-cp-quiz-next>Далее</button>
+		<aside class="CpQuizAside">
+			<span class="CpQuizBadge">Бесплатная консультация</span>
+			<h2>Подберём обучение и рассчитаем стоимость</h2>
+			<p>Ответьте на несколько вопросов — специалист подготовит подходящий вариант и учтёт доступные скидки.</p>
+			<ul>
+				<li>Подбор программы под вашу задачу</li>
+				<li>Расчёт для одного человека или группы</li>
+				<li>Ответ в рабочее время</li>
+			</ul>
+		</aside>
+		<div class="CpQuizMain">
+			<div class="CpQuizHead">
+				<span>Расчёт стоимости обучения</span>
+				<div class="CpQuizProgressLabel" data-cp-quiz-progress-label></div>
 			</div>
 			<div class="CpQuizProgress"><span data-cp-quiz-progress></span></div>
-			<div class="CpQuizResult" data-cp-quiz-result hidden></div>
-			<input type="text" name="company" class="CpQuizHp" data-cp-quiz-hp tabindex="-1" autocomplete="off" aria-hidden="true">
-		</form>
+			<form class="CpQuizForm" id="cp-quiz-form" novalidate>
+				<div class="CpQuizSteps" data-cp-quiz-steps></div>
+				<div class="CpQuizNav">
+					<button type="button" class="CpQuizBtn CpQuizBtnPrev" data-cp-quiz-prev>Назад</button>
+					<button type="button" class="CpQuizBtn CpQuizBtnNext" data-cp-quiz-next>Далее</button>
+				</div>
+				<div class="CpQuizResult" data-cp-quiz-result hidden></div>
+				<input type="text" name="company" class="CpQuizHp" data-cp-quiz-hp tabindex="-1" autocomplete="off" aria-hidden="true">
+			</form>
+		</div>
 	</div>
 </div>
 <script>
@@ -320,8 +336,8 @@ use \Bitrix\Main\Page\Asset;?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/swiper.min.css' );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/swiper.min.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/new.js');?>
-<?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/quiz.css' );?>
-<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz.js');?>
+<?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/quiz-v4.css' );?>
+<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz-v2.js');?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.js');?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.css' );?>
  <script>

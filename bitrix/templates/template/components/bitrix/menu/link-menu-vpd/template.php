@@ -1,143 +1,77 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 $this->setFrameMode(true);
-if(empty($arResult))
-	return;?>
-<?
-use \Bitrix\Main\Page\Asset;
-Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/css/new_menu.css' );
-CModule::IncludeModule("iblock");
-?>
+if(empty($arResult)) return;
 
+\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css');
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/service-mega-menu.js');
+CModule::IncludeModule('iblock');
 
-<ul itemscope="" itemtype="https://schema.org/SiteNavigationElement">
-	<?foreach($arResult as $itemIdex => $arItem):?>
-
-<?
-// echo '<pre style="display:none">';
-// Print_r($arItem);
-// echo '</pre>';
-?>
-
-<?
-$class='';
-$class_t='';
-
-if (($arItem['TEXT']=='Повышение квалификации') or ($arItem['TEXT']=='Профессиональная переподготовка') or ($arItem['TEXT']=='Профессиональная переподготовка') or ($arItem['TEXT']=='Дополнительное образование') or ($arItem['TEXT']=='Профессиональное обучение') or ($arItem['TEXT']=='Семинары')){
-	$class_t='dropdown ';
+if (!function_exists('cpServiceMenuGroups'))
+{
+	function cpServiceMenuGroups($parentId)
+	{
+		$groups = array();
+		$seen = array();
+		$result = CIBlockSection::GetList(
+			array('NAME' => 'ASC'),
+			array('IBLOCK_ID' => 7, 'GLOBAL_ACTIVE' => 'Y', 'SECTION_ID' => (int)$parentId),
+			false,
+			array('ID', 'NAME', 'SECTION_PAGE_URL', 'UF_MENU'),
+			array('nPageSize' => 300)
+		);
+		while ($section = $result->GetNext()) {
+			if ((int)$section['UF_MENU'] === 2) continue;
+			$name = trim((string)$section['NAME']);
+			$url = trim((string)$section['SECTION_PAGE_URL']);
+			$dedupeKey = mb_strtolower(preg_replace('/\s+/u', ' ', $name), 'UTF-8');
+			if ($name === '' || $url === '' || isset($seen[$dedupeKey])) continue;
+			$seen[$dedupeKey] = true;
+			$letter = mb_strtoupper(mb_substr($name, 0, 1, 'UTF-8'), 'UTF-8');
+			$groups[$letter][] = array('NAME' => $name, 'URL' => $url);
+		}
+		ksort($groups, SORT_LOCALE_STRING);
+		return $groups;
+	}
 }
 
-if ($arItem["SELECTED"]==1){
-	$class_t=$class_t.'Active ';
-}
-
-if ($class_t!=''){
-	$class='class="'.$class_t.'"';
-}
+$cpServiceRoots = array(
+	'Повышение квалификации' => 5,
+	'Профессиональная переподготовка' => 6,
+	'Дополнительное образование' => 7,
+	'Профессиональное обучение' => 8,
+);
 ?>
 
-
-	<li <?=$class?>>
-		<a href="<?=$arItem["LINK"]?>" itemprop="discussionUrl"><?=$arItem["TEXT"]?></a>
+<ul class="service-menu" itemscope="" itemtype="https://schema.org/SiteNavigationElement">
+	<?foreach($arResult as $arItem):?>
 		<?
-if ($arItem['TEXT']=='Повышение квалификации'){
-?>
-	<ul class="dropdown-menu">
-<?
-  $arSelect_1 = Array('ID', 'NAME', 'SECTION_PAGE_URL', 'UF_MENU');
-  $arFilter_1 = Array('IBLOCK_ID'=>7, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>5);
-  $row1 = CIBlockSection::GetList(Array("NAME"=>"ASC"), $arFilter_1, false, $arSelect_1, Array("nPageSize"=>100));	
-  while($mass_row1 = $row1->GetNext())
-  {
-  
-  if ($mass_row1['UF_MENU']==2){continue;}
-?>
-			<li >
-				<a href="<?=$mass_row1['SECTION_PAGE_URL']?>"><?=$mass_row1['NAME']?></a>			
-			</li>
-
-<?  	
-	
-  }
-?>	
-		</ul>
-<?
-}
+		$groups = array();
+		if (isset($cpServiceRoots[$arItem['TEXT']])) {
+			$groups = cpServiceMenuGroups($cpServiceRoots[$arItem['TEXT']]);
+		} elseif ($arItem['TEXT'] === 'Семинары') {
+			$groups = array('С' => array(array('NAME' => 'Все семинары', 'URL' => $arItem['LINK'])));
+		}
+		$isDropdown = !empty($groups);
 		?>
-
-		<?
-if ($arItem['TEXT']=='Профессиональная переподготовка'){
-?>
-	<ul class="dropdown-menu">
-<?
-  $arSelect_1 = Array('ID', 'NAME', 'SECTION_PAGE_URL', 'UF_MENU');
-  $arFilter_1 = Array('IBLOCK_ID'=>7, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>6);
-  $row1 = CIBlockSection::GetList(Array("NAME"=>"ASC"), $arFilter_1, false, $arSelect_1, Array("nPageSize"=>100));	
-  while($mass_row1 = $row1->GetNext())
-  {
-   if ($mass_row1['UF_MENU']==2){continue;}
-?>
-			<li >
-				<a href="<?=$mass_row1['SECTION_PAGE_URL']?>"><?=$mass_row1['NAME']?></a>			
-			</li>
-
-<?  	
-	
-  }
-?>	
-		</ul>
-<?
-}
-		?>
-
-		<?
-if ($arItem['TEXT']=='Дополнительное образование'){
-?>
-	<ul class="dropdown-menu">
-<?
-  $arSelect_1 = Array('ID', 'NAME', 'SECTION_PAGE_URL', 'UF_MENU');
-  $arFilter_1 = Array('IBLOCK_ID'=>7, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>7);
-  $row1 = CIBlockSection::GetList(Array("NAME"=>"ASC"), $arFilter_1, false, $arSelect_1, Array("nPageSize"=>100));	
-  while($mass_row1 = $row1->GetNext())
-  {
-   if ($mass_row1['UF_MENU']==2){continue;}
-?>
-			<li >
-				<a href="<?=$mass_row1['SECTION_PAGE_URL']?>"><?=$mass_row1['NAME']?></a>			
-			</li>
-
-<?  	
-	
-  }
-?>	
-		</ul>
-<?
-}
-		?>
-
-		<?
-if ($arItem['TEXT']=='Профессиональное обучение'){
-?>
-	<ul class="dropdown-menu">
-<?
-  $arSelect_1 = Array('ID', 'NAME', 'SECTION_PAGE_URL', 'UF_MENU');
-  $arFilter_1 = Array('IBLOCK_ID'=>7, 'GLOBAL_ACTIVE'=>'Y', 'SECTION_ID'=>8);
-  $row1 = CIBlockSection::GetList(Array("NAME"=>"ASC"), $arFilter_1, false, $arSelect_1, Array("nPageSize"=>100));	
-  while($mass_row1 = $row1->GetNext())
-  {
-   if ($mass_row1['UF_MENU']==2){continue;}
-?>
-			<li >
-				<a href="<?=$mass_row1['SECTION_PAGE_URL']?>"><?=$mass_row1['NAME']?></a>			
-			</li>
-
-<?  	
-	
-  }
-?>	
-		</ul>
-<?
-}
-		?>
-	</li>
+		<li class="<?=$isDropdown ? 'dropdown service-mega-dropdown ' : ''?><?=$arItem['SELECTED'] ? 'Active' : ''?>">
+			<a class="<?=$isDropdown ? 'service-mega-toggle' : ''?>" href="<?=htmlspecialcharsbx($arItem['LINK'])?>" itemprop="discussionUrl"<?=$isDropdown ? ' aria-haspopup="true" aria-expanded="false"' : ''?>><?=htmlspecialcharsbx($arItem['TEXT'])?></a>
+			<?if($isDropdown):?>
+			<div class="dropdown-menu service-mega" role="menu">
+				<div class="service-mega-groups">
+					<?foreach($groups as $letter => $items):?>
+					<section class="service-mega-group">
+						<div class="service-mega-letter"><?=htmlspecialcharsbx($letter)?></div>
+						<ul>
+							<?foreach($items as $item):?>
+							<li><a href="<?=htmlspecialcharsbx($item['URL'])?>" role="menuitem"><?=htmlspecialcharsbx($item['NAME'])?></a></li>
+							<?endforeach;?>
+						</ul>
+					</section>
+					<?endforeach;?>
+				</div>
+				<a class="service-mega-all" href="<?=htmlspecialcharsbx($arItem['LINK'])?>">Смотреть все</a>
+			</div>
+			<?endif;?>
+		</li>
 	<?endforeach;?>
 </ul>

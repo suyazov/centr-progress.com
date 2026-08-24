@@ -23,7 +23,7 @@ check('no jivo widget script', stripos($footer, 'jivo') === false);
 // Квиз подключён
 check('quiz modal markup present', strpos($footer, 'id="cp-quiz"') !== false);
 check('quiz open button present', strpos($footer, 'data-cp-quiz-open') !== false);
-check('quiz.js added via Asset', strpos($footer, "/js/quiz.js") !== false);
+check('quiz.js added via Asset', strpos($footer, "/js/quiz-v2.js") !== false);
 check('quiz config exposed', strpos($footer, 'window.CP_QUIZ') !== false && strpos($footer, 'bitrix_sessid()') !== false);
 check('honeypot field present', strpos($footer, 'data-cp-quiz-hp') !== false);
 check('openlines include guarded', strpos($footer, 'openlines.php') !== false && strpos($footer, 'is_file($cpOpenLines)') !== false);
@@ -34,7 +34,8 @@ check('vk retargeting kept', strpos($footer, 'VK.Retargeting') !== false);
 check('existing popup form kept', strpos($footer, 'iblock.element.add.form') !== false);
 
 // Ассеты и серверные файлы
-check('quiz.js exists', is_file($root . '/bitrix/templates/template/js/quiz.js'));
+check('quiz.js exists', is_file($root . '/bitrix/templates/template/js/quiz-v2.js'));
+check('quiz.css exists', is_file($root . '/bitrix/templates/template/quiz-v4.css'));
 $css = file_get_contents($root . '/bitrix/templates/template/template_styles.css');
 check('quiz styles present', strpos($css, '.CpQuizOpen') !== false && strpos($css, '.CpQuizHp') !== false);
 check('ajax endpoint exists', is_file($root . '/local/ajax/quiz-submit.php'));
@@ -81,7 +82,7 @@ $node = trim((string)@shell_exec('command -v node 2>/dev/null'));
 if ($node !== '') {
 	$out = array();
 	$code = 0;
-	exec(sprintf('node --check %s 2>&1', escapeshellarg($root . '/bitrix/templates/template/js/quiz.js')), $out, $code);
+	exec(sprintf('node --check %s 2>&1', escapeshellarg($root . '/bitrix/templates/template/js/quiz-v2.js')), $out, $code);
 	check('node --check quiz.js', $code === 0);
 } else {
 	echo "SKIP node --check quiz.js (node not installed)\n";
