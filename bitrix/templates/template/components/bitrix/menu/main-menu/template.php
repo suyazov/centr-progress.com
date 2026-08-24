@@ -8,27 +8,32 @@ CModule::IncludeModule('iblock');
 
 if (!function_exists('cpAlphabetMenuCompare'))
 {
-	function cpAlphabetMenuCompare($a, $b)
+	function cpAlphabetMenuKey($value)
 	{
 		$alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
-		$toKey = function($value) use ($alphabet) {
-			$value = mb_strtoupper($value, 'UTF-8');
-			$key = array();
-			for ($i = 0, $len = mb_strlen($value, 'UTF-8'); $i < $len; $i++) {
-				$char = mb_substr($value, $i, 1, 'UTF-8');
-				$pos = mb_strpos($alphabet, $char, 0, 'UTF-8');
-				$key[] = ($pos === false) ? 1000 : $pos;
-			}
-			return $key;
-		};
-		$left = $toKey($a);
-		$right = $toKey($b);
+		$value = mb_strtoupper($value, 'UTF-8');
+		$key = array();
+		for ($i = 0, $len = mb_strlen($value, 'UTF-8'); $i < $len; $i++) {
+			$char = mb_substr($value, $i, 1, 'UTF-8');
+			$pos = mb_strpos($alphabet, $char, 0, 'UTF-8');
+			$key[] = ($pos === false) ? 1000 : $pos;
+		}
+		return $key;
+	}
+	function cpAlphabetMenuCompare($a, $b)
+	{
+		$left = cpAlphabetMenuKey($a);
+		$right = cpAlphabetMenuKey($b);
 		for ($i = 0, $len = max(count($left), count($right)); $i < $len; $i++) {
 			$leftChar = isset($left[$i]) ? $left[$i] : -1;
 			$rightChar = isset($right[$i]) ? $right[$i] : -1;
 			if ($leftChar !== $rightChar) return $leftChar < $rightChar ? -1 : 1;
 		}
 		return 0;
+	}
+	function cpAlphabetMenuCompareItems($left, $right)
+	{
+		return cpAlphabetMenuCompare($left['NAME'], $right['NAME']);
 	}
 }
 if (!function_exists('cpAlphabetMenuGroup'))
@@ -48,7 +53,7 @@ if (!function_exists('cpAlphabetMenuGroup'))
 			$groups[$letter][] = array('NAME' => $name, 'SECTION_PAGE_URL' => $url);
 		}
 		uksort($groups, 'cpAlphabetMenuCompare');
-		foreach ($groups as &$items) usort($items, function($left, $right) { return cpAlphabetMenuCompare($left['NAME'], $right['NAME']); });
+		foreach ($groups as &$items) usort($items, 'cpAlphabetMenuCompareItems');
 		unset($items);
 		return $groups;
 	}
