@@ -2,9 +2,8 @@
 
 $this->setFrameMode(true);?>
 <?
-use \Bitrix\Main\Page\Asset;
-Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css');
-Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/alphabet-menu.js');
+\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css');
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/alphabet-menu.js');
 CModule::IncludeModule('iblock');
 
 if (!function_exists('cpAlphabetMenuCompare'))
