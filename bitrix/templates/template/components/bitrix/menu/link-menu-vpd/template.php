@@ -2,9 +2,10 @@
 $this->setFrameMode(true);
 if(empty($arResult)) return;
 
-\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css');
-\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/service-mega-menu.css');
-\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/service-mega-menu.js');
+$cpMenuAssetVersion = '20260824-2';
+\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/new_menu.css?v=' . $cpMenuAssetVersion);
+\Bitrix\Main\Page\Asset::getInstance()->addCss(SITE_TEMPLATE_PATH . '/css/service-mega-menu.css?v=' . $cpMenuAssetVersion);
+\Bitrix\Main\Page\Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/service-mega-menu.js?v=' . $cpMenuAssetVersion);
 CModule::IncludeModule('iblock');
 
 if (!function_exists('cpServiceMenuGroups'))

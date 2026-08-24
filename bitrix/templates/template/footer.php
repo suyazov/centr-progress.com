@@ -24,6 +24,25 @@
 			<?endif;?>
 		</div>
     </div>
+	<section class="CpCallback" id="cp-callback" aria-labelledby="cp-callback-title">
+		<div class="Wrapper">
+			<div class="CpCallbackCard">
+				<div class="CpCallbackCopy">
+					<span class="CpCallbackEyebrow">Бесплатная консультация</span>
+					<h2 id="cp-callback-title">Остались вопросы по обучению?</h2>
+					<p>Оставьте имя и телефон — специалист перезвонит, поможет выбрать программу и рассчитает стоимость.</p>
+				</div>
+				<form class="CpCallbackForm" id="cp-callback-form" novalidate>
+					<label><span>Ваше имя</span><input type="text" name="name" maxlength="100" autocomplete="name" required></label>
+					<label><span>Телефон</span><input type="tel" name="phone" maxlength="32" autocomplete="tel" class="inp_tel" required></label>
+					<input type="text" name="company" class="CpQuizHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+					<label class="CpCallbackConsent"><input type="checkbox" name="consent" value="1" required><span>Согласен на обработку персональных данных</span></label>
+					<button type="submit">Перезвоните мне</button>
+					<div class="CpCallbackResult" data-cp-callback-result role="status" aria-live="polite"></div>
+				</form>
+			</div>
+		</div>
+	</section>
     <div class="Footer">
 		<div class="Wrapper">
 			<div class="Flex">
@@ -276,6 +295,7 @@
 				<noscript><div><img src="https://mc.yandex.ru/watch/54496510" style="position:absolute; left:-9999px;" title="Yandex.Metrika" alt="Yandex.Metrika"></div></noscript>
 				<!-- /Yandex.Metrika counter -->
 <!-- Собственный квиз -->
+<button type="button" class="CpChatOpen" data-cp-chat-open hidden aria-label="Открыть чат">Написать</button>
 <button type="button" class="CpQuizOpen" data-cp-quiz-open>Получить скидку</button>
 <div class="CpQuiz" id="cp-quiz" role="dialog" aria-modal="true" aria-label="Квиз" aria-hidden="true">
 	<div class="CpQuizOverlay" data-cp-quiz-close></div>
@@ -312,7 +332,8 @@
 <script>
 window.CP_QUIZ = {
 	endpoint: '/local/ajax/quiz-submit.php',
-	token: '<?=substr(md5('cp_quiz'.bitrix_sessid()), 0, 32)?>'
+	token: '<?=substr(md5('cp_quiz'.bitrix_sessid()), 0, 32)?>',
+	metrikaId: 54496510
 };
 </script>
 <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src='https://vk.com/js/api/openapi.js?169',t.onload=function(){VK.Retargeting.Init("VK-RTRG-1436230-1UEdl"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1436230-1UEdl" style="position:fixed; left:-999px;" alt="vk.com" title="vk.com"></noscript>
@@ -335,9 +356,9 @@ use \Bitrix\Main\Page\Asset;?>
 
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/swiper.min.css' );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/swiper.min.js');?>
-<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/new.js');?>
-<?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/quiz-v5.css' );?>
-<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz-v2.js');?>
+<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/new.js?v=' . $cpAssetVersion);?>
+<?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/quiz-v5.css?v=' . $cpAssetVersion );?>
+<?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/quiz-v2.js?v=' . $cpAssetVersion );?>
 <?Asset::getInstance()->addJs( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.js');?>
 <?Asset::getInstance()->addCss( SITE_TEMPLATE_PATH . '/js/jquery.fancybox.min.css' );?>
  <script>

@@ -37,6 +37,13 @@
 
 	function $(sel, root) { return (root || document).querySelector(sel); }
 
+	function reachGoal(goal) {
+		var counterId = window.CP_QUIZ && window.CP_QUIZ.metrikaId;
+		if (counterId && typeof window.ym === 'function') {
+			window.ym(counterId, 'reachGoal', goal);
+		}
+	}
+
 	function escapeHtml(s) {
 		return String(s).replace(/[&<>"']/g, function (c) {
 			return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -167,6 +174,7 @@
 		}).then(function (r) { return r.json(); }).then(function (res) {
 			self.nextBtn.disabled = false;
 			if (res && res.success) {
+				reachGoal('quiz_success');
 				self.stepsBox.innerHTML = '';
 				self.prevBtn.style.display = 'none';
 				self.nextBtn.style.display = 'none';
@@ -207,6 +215,7 @@
 		root.classList.add('CpQuizActive');
 		document.body.classList.add('CpQuizOpenState');
 		document.body.style.overflow = 'hidden';
+		reachGoal('quiz_open');
 		setTimeout(function () {
 			var first = root.querySelector('input, button');
 			if (first) first.focus();
@@ -223,10 +232,12 @@
 		var root = document.getElementById('cp-quiz');
 		if (!root) return;
 		var quiz = new CpQuiz(root);
+		var chatButton = document.querySelector('[data-cp-chat-open]');
 		window.addEventListener('onBitrixLiveChat', function (event) {
 			var widget = event && event.detail ? event.detail.widget : null;
 			if (!widget) return;
 			window.CP_B24_CHAT_WIDGET = widget;
+			if (chatButton) chatButton.hidden = false;
 			if (widget.subscribe && window.BX && BX.LiveChatWidget && BX.LiveChatWidget.SubscriptionType) {
 				widget.subscribe({
 					type: BX.LiveChatWidget.SubscriptionType.widgetOpen,
@@ -236,6 +247,15 @@
 				});
 			}
 		});
+		if (chatButton) {
+			chatButton.addEventListener('click', function () {
+				if (window.CP_B24_CHAT_WIDGET && typeof window.CP_B24_CHAT_WIDGET.open === 'function') {
+					closeQuiz(root);
+					window.CP_B24_CHAT_WIDGET.open();
+					reachGoal('chat_open');
+				}
+			});
+		}
 		document.querySelectorAll('[data-cp-quiz-open]').forEach(function (btn) {
 			btn.addEventListener('click', function () { openQuiz(quiz, root); });
 		});
@@ -245,5 +265,60 @@
 		document.addEventListener('keydown', function (event) {
 			if ((event.key === 'Escape' || event.keyCode === 27) && root.classList.contains('CpQuizActive')) closeQuiz(root);
 		});
+
+		document.querySelectorAll('[data-cp-callback-focus]').forEach(function (button) {
+			button.addEventListener('click', function () {
+				var field = document.querySelector('#cp-callback-form input[name="name"]');
+				if (!field) return;
+				document.getElementById('cp-callback').scrollIntoView({ behavior: 'smooth', block: 'center' });
+				setTimeout(function () { field.focus(); }, 450);
+				reachGoal('callback_open');
+			});
+		});
+
+		var callbackForm = document.getElementById('cp-callback-form');
+		if (callbackForm) {
+			callbackForm.addEventListener('submit', function (event) {
+				event.preventDefault();
+				var result = callbackForm.querySelector('[data-cp-callback-result]');
+				var name = callbackForm.querySelector('input[name="name"]');
+				var phone = callbackForm.querySelector('input[name="phone"]');
+				var consent = callbackForm.querySelector('input[name="consent"]');
+				var submit = callbackForm.querySelector('button[type="submit"]');
+				var digits = phone.value.replace(/\D/g, '');
+				result.className = 'CpCallbackResult CpCallbackResultError';
+				if (!name.value.trim()) { result.textContent = 'Укажите имя.'; name.focus(); return; }
+				if (digits.length < 10) { result.textContent = 'Укажите корректный телефон.'; phone.focus(); return; }
+				if (!consent.checked) { result.textContent = 'Подтвердите согласие на обработку данных.'; consent.focus(); return; }
+				var body = [
+					'name=' + encodeURIComponent(name.value.trim()),
+					'phone=' + encodeURIComponent(phone.value),
+					'email=',
+					'company=' + encodeURIComponent((callbackForm.querySelector('input[name="company"]') || {}).value || ''),
+					'token=' + encodeURIComponent(quiz.token),
+					'page=' + encodeURIComponent(location.href),
+					'answers[' + encodeURIComponent('Тип заявки') + ']=' + encodeURIComponent('Обратный звонок')
+				].join('&');
+				submit.disabled = true;
+				result.textContent = 'Отправляем заявку…';
+				fetch(quiz.endpoint, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+					body: body,
+					credentials: 'same-origin'
+				}).then(function (response) { return response.json(); }).then(function (response) {
+					submit.disabled = false;
+					if (!response || !response.success) throw new Error((response && response.error) || 'Не удалось отправить заявку.');
+					result.className = 'CpCallbackResult CpCallbackResultSuccess';
+					result.textContent = 'Спасибо! Заявка зарегистрирована, мы скоро перезвоним.';
+					callbackForm.reset();
+					reachGoal('callback_success');
+				}).catch(function (error) {
+					submit.disabled = false;
+					result.className = 'CpCallbackResult CpCallbackResultError';
+					result.textContent = error.message || 'Не удалось отправить заявку. Позвоните нам по номеру в шапке сайта.';
+				});
+			});
+		}
 	});
 })();

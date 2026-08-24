@@ -43,7 +43,8 @@ echo '<link rel="canonical" href="'.$mass_row2['DETAIL_PAGE_URL'].'">';
 <?}?>
 
 
-<link href="<?=SITE_TEMPLATE_PATH?>/media-queries.css" rel="stylesheet" type="text/css">
+<?$cpAssetVersion = '20260824-2';?>
+<link href="<?=SITE_TEMPLATE_PATH?>/media-queries.css?v=<?=$cpAssetVersion?>" rel="stylesheet" type="text/css">
 <?
 $asset = \Bitrix\Main\Page\Asset::getInstance();
 $asset->addJs(SITE_TEMPLATE_PATH."/js/jquery.min.js");
@@ -212,7 +213,12 @@ $asset->addCss(SITE_TEMPLATE_PATH."/mmenu.css");
 									);?>
 							</div>
 							<div class="Personal">
-								<a href="http://learning.centr-progress.com" target="_blank" rel="nofollow"><span>Личный кабинет</span></a>
+								<a href="https://learning.centr-progress.com" target="_blank" rel="nofollow"><span>Личный кабинет</span></a>
+							</div>
+							<div class="CpHeaderHelp">
+								<span>Ответим на вопросы по обучению</span>
+								<a class="CpHeaderHelpPhone" href="tel:<?php include $_SERVER['DOCUMENT_ROOT']."/include/phone.php";?>"><?$APPLICATION->IncludeFile(SITE_DIR."include/phone.php", Array(), Array("MODE"=>"text"));?></a>
+								<button type="button" data-cp-callback-focus>Заказать звонок</button>
 							</div>
 						</div>
 					</div>
