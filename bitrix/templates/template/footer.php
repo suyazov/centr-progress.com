@@ -295,7 +295,6 @@
 				<noscript><div><img src="https://mc.yandex.ru/watch/54496510" style="position:absolute; left:-9999px;" title="Yandex.Metrika" alt="Yandex.Metrika"></div></noscript>
 				<!-- /Yandex.Metrika counter -->
 <!-- Собственный квиз -->
-<button type="button" class="CpChatOpen" data-cp-chat-open hidden aria-label="Открыть чат">Написать</button>
 <button type="button" class="CpQuizOpen" data-cp-quiz-open>Получить скидку</button>
 <div class="CpQuiz" id="cp-quiz" role="dialog" aria-modal="true" aria-label="Квиз" aria-hidden="true">
 	<div class="CpQuizOverlay" data-cp-quiz-close></div>

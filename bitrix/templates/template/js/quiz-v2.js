@@ -232,12 +232,10 @@
 		var root = document.getElementById('cp-quiz');
 		if (!root) return;
 		var quiz = new CpQuiz(root);
-		var chatButton = document.querySelector('[data-cp-chat-open]');
 		window.addEventListener('onBitrixLiveChat', function (event) {
 			var widget = event && event.detail ? event.detail.widget : null;
 			if (!widget) return;
 			window.CP_B24_CHAT_WIDGET = widget;
-			if (chatButton) chatButton.hidden = false;
 			if (widget.subscribe && window.BX && BX.LiveChatWidget && BX.LiveChatWidget.SubscriptionType) {
 				widget.subscribe({
 					type: BX.LiveChatWidget.SubscriptionType.widgetOpen,
@@ -247,15 +245,6 @@
 				});
 			}
 		});
-		if (chatButton) {
-			chatButton.addEventListener('click', function () {
-				if (window.CP_B24_CHAT_WIDGET && typeof window.CP_B24_CHAT_WIDGET.open === 'function') {
-					closeQuiz(root);
-					window.CP_B24_CHAT_WIDGET.open();
-					reachGoal('chat_open');
-				}
-			});
-		}
 		document.querySelectorAll('[data-cp-quiz-open]').forEach(function (btn) {
 			btn.addEventListener('click', function () { openQuiz(quiz, root); });
 		});
