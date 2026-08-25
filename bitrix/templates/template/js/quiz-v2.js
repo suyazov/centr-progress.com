@@ -257,16 +257,16 @@
 
 		document.querySelectorAll('[data-cp-callback-focus]').forEach(function (button) {
 			button.addEventListener('click', function () {
-				var field = document.querySelector('#cp-callback-form input[name="name"]');
+				var heroField = document.querySelector('.CpHeroCallbackForm input[name="name"]');
+				var field = heroField || document.querySelector('#cp-callback-form input[name="name"]');
 				if (!field) return;
-				document.getElementById('cp-callback').scrollIntoView({ behavior: 'smooth', block: 'center' });
-				setTimeout(function () { field.focus(); }, 450);
+				if (!heroField) document.getElementById('cp-callback').scrollIntoView({ behavior: 'smooth', block: 'center' });
+				setTimeout(function () { field.focus(); }, heroField ? 50 : 450);
 				reachGoal('callback_open');
 			});
 		});
 
-		var callbackForm = document.getElementById('cp-callback-form');
-		if (callbackForm) {
+		document.querySelectorAll('[data-cp-callback-form]').forEach(function (callbackForm) {
 			callbackForm.addEventListener('submit', function (event) {
 				event.preventDefault();
 				var result = callbackForm.querySelector('[data-cp-callback-result]');
@@ -279,6 +279,7 @@
 				if (!name.value.trim()) { result.textContent = 'Укажите имя.'; name.focus(); return; }
 				if (digits.length < 10) { result.textContent = 'Укажите корректный телефон.'; phone.focus(); return; }
 				if (!consent.checked) { result.textContent = 'Подтвердите согласие на обработку данных.'; consent.focus(); return; }
+				var context = callbackForm.getAttribute('data-cp-callback-context') || 'Форма обратного звонка';
 				var body = [
 					'name=' + encodeURIComponent(name.value.trim()),
 					'phone=' + encodeURIComponent(phone.value),
@@ -286,7 +287,7 @@
 					'company=' + encodeURIComponent((callbackForm.querySelector('input[name="company"]') || {}).value || ''),
 					'token=' + encodeURIComponent(quiz.token),
 					'page=' + encodeURIComponent(location.href),
-					'answers[' + encodeURIComponent('Тип заявки') + ']=' + encodeURIComponent('Обратный звонок')
+					'answers[' + encodeURIComponent('Тип заявки') + ']=' + encodeURIComponent('Обратный звонок — ' + context)
 				].join('&');
 				submit.disabled = true;
 				result.textContent = 'Отправляем заявку…';
@@ -308,6 +309,6 @@
 					result.textContent = error.message || 'Не удалось отправить заявку. Позвоните нам по номеру в шапке сайта.';
 				});
 			});
-		}
+		});
 	});
 })();

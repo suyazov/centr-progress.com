@@ -32,7 +32,7 @@
 					<h2 id="cp-callback-title">Остались вопросы по обучению?</h2>
 					<p>Оставьте имя и телефон — специалист перезвонит, поможет выбрать программу и рассчитает стоимость.</p>
 				</div>
-				<form class="CpCallbackForm" id="cp-callback-form" novalidate>
+				<form class="CpCallbackForm" id="cp-callback-form" data-cp-callback-form data-cp-callback-context="Нижняя форма" novalidate>
 					<label><span>Ваше имя</span><input type="text" name="name" maxlength="100" autocomplete="name" required></label>
 					<label><span>Телефон</span><input type="tel" name="phone" maxlength="32" autocomplete="tel" class="inp_tel" required></label>
 					<input type="text" name="company" class="CpQuizHp" tabindex="-1" autocomplete="off" aria-hidden="true">

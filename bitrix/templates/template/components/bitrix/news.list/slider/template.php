@@ -26,4 +26,19 @@ use Bas\Pict;
 		</div>
 	<?endforeach;?>
 	</div>
+	<div class="Wrapper CpHeroCallbackWrap">
+		<aside class="CpHeroCallbackCard" aria-labelledby="cp-hero-callback-title">
+			<span class="CpCallbackEyebrow">Бесплатная консультация</span>
+			<h2 id="cp-hero-callback-title">Подберём программу обучения</h2>
+			<p>Оставьте контакты — специалист уточнит задачу и рассчитает стоимость.</p>
+			<form class="CpCallbackForm CpHeroCallbackForm" data-cp-callback-form data-cp-callback-context="Первый экран" novalidate>
+				<label><span>Ваше имя</span><input type="text" name="name" maxlength="100" autocomplete="name" required></label>
+				<label><span>Телефон</span><input type="tel" name="phone" maxlength="32" autocomplete="tel" class="inp_tel" required></label>
+				<input type="text" name="company" class="CpQuizHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+				<label class="CpCallbackConsent"><input type="checkbox" name="consent" value="1" required><span>Согласен на обработку персональных данных</span></label>
+				<button type="submit">Получить консультацию</button>
+				<div class="CpCallbackResult" data-cp-callback-result role="status" aria-live="polite"></div>
+			</form>
+		</aside>
+	</div>
 </div>
