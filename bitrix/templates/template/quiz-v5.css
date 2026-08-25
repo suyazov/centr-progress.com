@@ -59,12 +59,15 @@ body .CpQuizOpen:hover,body .CpQuizOpen:focus{background:linear-gradient(135deg,
 body .Article .MainMenu{position:sticky;top:0;z-index:8500;background:#fff;box-shadow:0 1px 0 rgba(23,60,174,.08)}
 @media(min-width:761px){body .HeaderBlock{z-index:8600}}
 @media(min-width:1181px){body .HeaderBlock .Logo{width:auto;flex:0 0 250px}body .HeaderBlock .Slogan{width:auto;flex:1 1 210px}body .HeaderBlock .Search{width:auto;flex:0 0 75px}body .HeaderBlock .Contacts{flex:0 0 180px}body .HeaderBlock .Contacts .Phone{white-space:nowrap}body .HeaderBlock .Personal{width:auto;flex:0 0 220px;text-align:center}}
-body .CpHeaderHelp{display:flex;flex:0 0 190px;flex-direction:column;align-items:flex-start;gap:5px;margin-left:14px;font-family:Arial,sans-serif}
-body .CpHeaderHelp>span{color:#687786;font-size:12px;line-height:1.25}
-body .CpHeaderHelpPhone{color:#203043;font-size:14px;font-weight:700;line-height:1.2;text-decoration:none}
+body .CpHeaderHelp{display:flex;flex:0 0 165px;flex-direction:column;align-items:flex-start;gap:6px;margin-left:14px;font-family:Arial,sans-serif}
+body .CpHeaderHelp>span{color:#687786;font-size:11px;line-height:1.25}
+body .CpHeaderHelpPhone{display:none;color:#203043;font-size:14px;font-weight:700;line-height:1.2;text-decoration:none}
 body .CpHeaderHelpPhone:hover,body .CpHeaderHelpPhone:focus{color:#178fd8;text-decoration:none;outline:none}
-body .CpHeaderHelp>button{padding:0;color:#178fd8;background:transparent;border:0;border-bottom:1px dashed currentColor;font-size:13px;font-weight:700;cursor:pointer}
-body .CpHeaderHelp>button:hover,body .CpHeaderHelp>button:focus{color:#f9030f;outline:none}
+body .CpHeaderHelp>button{min-height:30px;padding:5px 13px;color:#178fd8;background:#fff;border:1px solid #27aaf5;border-radius:16px;font-size:12px;font-weight:700;line-height:1.2;cursor:pointer}
+body .CpHeaderHelp>button:hover,body .CpHeaderHelp>button:focus{color:#fff;background:#178fd8;outline:none}
+body .Holder:not(.Article) .HeaderBlock .Slogan,body .Holder:not(.Article) .CpHeaderHelp>span{color:rgba(255,255,255,.82)}
+body .Holder:not(.Article) .CpHeaderHelp>button{color:#fff;background:rgba(20,54,128,.22);border-color:rgba(255,255,255,.72)}
+body .Holder:not(.Article) .CpHeaderHelp>button:hover,body .Holder:not(.Article) .CpHeaderHelp>button:focus{color:#173cae;background:#fff}
 
 body .CpCallback{padding:58px 0;background:linear-gradient(135deg,#eef7ff 0%,#f9fcff 100%);font-family:Arial,sans-serif}
 body .CpCallbackCard{display:grid;grid-template-columns:minmax(0,1fr) minmax(480px,.95fr);align-items:center;gap:54px;padding:44px 50px;background:#fff;border:1px solid #dcebf6;border-radius:20px;box-shadow:0 18px 45px rgba(23,60,110,.09)}
