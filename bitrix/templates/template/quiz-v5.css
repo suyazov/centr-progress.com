@@ -87,6 +87,8 @@ body .CpCallbackForm button:disabled{opacity:.6;cursor:default}
 body .CpCallbackResult{grid-column:1/-1;min-height:18px;font-size:13px;line-height:1.35}
 body .CpCallbackResultError{color:#d9000b}
 body .CpCallbackResultSuccess{color:#16813b;font-weight:600}
+body .fos_kont_result{margin-top:12px}
+body .fos_kont_polit.err .status_check_item{color:#d9000b}
 
 body .CpHeroCallbackWrap{display:none}
 @media(min-width:1281px){body .CpHeroCallbackWrap{display:block;position:absolute;inset:0;z-index:30;pointer-events:none}body .CpHeroCallbackCard{position:absolute;top:230px;right:0;width:410px;padding:28px;background:rgba(255,255,255,.96);border:1px solid rgba(220,235,246,.95);border-radius:18px;box-shadow:0 20px 50px rgba(13,38,70,.18);box-sizing:border-box;backdrop-filter:blur(8px);pointer-events:auto;font-family:Arial,sans-serif}body .CpHeroCallbackCard h2{margin:0 0 8px;color:#203043;font-size:24px;line-height:1.18}body .CpHeroCallbackCard>p{margin:0 0 20px;color:#687786;font-size:14px;line-height:1.45}body .CpHeroCallbackForm{gap:10px}body .CpHeroCallbackForm input[type=text],body .CpHeroCallbackForm input[type=tel]{height:44px}body .CpHeroCallbackForm button{height:46px;font-size:14px}body .CpHeroCallbackForm .CpCallbackResult{min-height:0}}
