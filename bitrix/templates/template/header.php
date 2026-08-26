@@ -43,7 +43,7 @@ echo '<link rel="canonical" href="'.$mass_row2['DETAIL_PAGE_URL'].'">';
 <?}?>
 
 
-<?$cpAssetVersion = '20260825-2';?>
+<?$cpAssetVersion = '20260826-2';?>
 <link href="<?=SITE_TEMPLATE_PATH?>/media-queries.css?v=<?=$cpAssetVersion?>" rel="stylesheet" type="text/css">
 <?
 $asset = \Bitrix\Main\Page\Asset::getInstance();

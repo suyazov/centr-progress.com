@@ -245,6 +245,20 @@
 				});
 			}
 		});
+		document.addEventListener('click', function (event) {
+			var wrapper = event.target.closest ? event.target.closest('.b24-widget-button-wrapper') : null;
+			if (!wrapper || event.target.closest('.b24-widget-button-inner-container')) return;
+			var rect = wrapper.getBoundingClientRect();
+			if (event.clientX <= rect.left + 72) return;
+			event.preventDefault();
+			event.stopPropagation();
+			if (window.CP_B24_CHAT_WIDGET && typeof window.CP_B24_CHAT_WIDGET.open === 'function') {
+				window.CP_B24_CHAT_WIDGET.open();
+				return;
+			}
+			var nativeButton = wrapper.querySelector('.b24-widget-button-inner-container');
+			if (nativeButton) nativeButton.click();
+		});
 		document.querySelectorAll('[data-cp-quiz-open]').forEach(function (btn) {
 			btn.addEventListener('click', function () { openQuiz(quiz, root); });
 		});

@@ -1,5 +1,9 @@
 body .CpQuizOpen{position:fixed;right:22px;bottom:22px;z-index:9000;height:54px;padding:0 30px;color:#fff;background:linear-gradient(135deg,#ff2731 0%,#f9030f 70%);border:0;border-radius:28px;box-shadow:0 12px 30px rgba(249,3,15,.32);font:600 17px/54px Arial,sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;overflow:hidden}
 body.CpQuizOpenState .b24-widget-button-wrapper,body.CpQuizOpenState .bx-livechat-wrapper{visibility:hidden!important;pointer-events:none!important}
+body .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{width:178px!important;isolation:isolate}
+body .b24-widget-button-wrapper.b24-widget-button-position-bottom-left:after{content:'Написать';position:absolute;left:31px;top:7px;z-index:0;display:flex;width:142px;height:52px;padding-left:42px;align-items:center;justify-content:center;box-sizing:border-box;color:#fff;background:#2fc0f0;border-radius:27px;box-shadow:0 10px 28px rgba(25,152,219,.28);font:700 16px/1 Arial,sans-serif;pointer-events:auto}
+body .b24-widget-button-wrapper .b24-widget-button-inner-container{z-index:1}
+body .b24-widget-button-popup{display:none!important}
 body .CpQuizOpen:before{content:'';position:absolute;top:-35%;left:-35%;width:42px;height:170%;background:rgba(255,255,255,.42);transform:rotate(20deg);animation:cpQuizShine 5s ease-in-out infinite}
 body .CpQuizOpen:hover,body .CpQuizOpen:focus{background:linear-gradient(135deg,#ff4149,#d9000b);box-shadow:0 14px 34px rgba(249,3,15,.42);transform:translateY(-2px);outline:none}
 @keyframes cpQuizShine{0%,72%{left:-35%}88%,100%{left:125%}}
