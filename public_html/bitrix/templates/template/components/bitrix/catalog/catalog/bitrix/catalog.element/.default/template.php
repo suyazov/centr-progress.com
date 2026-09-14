@@ -10,8 +10,28 @@ function formatFileSize($bytes)
             if ($bytes >= 1000000) {
                 return round($bytes / 1000000,2).' '.GetMessage("MB");
             }
-            return round($bytes / 1000,2). ' '.GetMessage("KB");
-};?>
+    return round($bytes / 1000,2). ' '.GetMessage("KB");
+};
+
+function renderCoursePlan($courseName, $planHtml)
+{
+	if ($courseName !== 'Обучение по общим вопросам охраны труда и функционирования системы управления охраной труда') {
+		return $planHtml;
+	}
+
+	preg_match_all('/<table\\b[^>]*>.*?<\\/table>/is', $planHtml, $tables);
+	if (count($tables[0]) < 2) {
+		return $planHtml;
+	}
+
+	$normalizedFirst = preg_replace('/\\s+/u', ' ', strip_tags($tables[0][0]));
+	$normalizedSecond = preg_replace('/\\s+/u', ' ', strip_tags($tables[0][1]));
+	if ($normalizedFirst !== $normalizedSecond) {
+		return $planHtml;
+	}
+
+	return substr_replace($planHtml, '', strpos($planHtml, $tables[0][1]), strlen($tables[0][1]));
+}?>
 						<div class="Product" itemscope itemtype="http://schema.org/Product">
 							<div class="Flex">
 								<div class="DetailInfo">
@@ -143,7 +163,7 @@ function formatFileSize($bytes)
 										<?if($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]):?>
 										<div class="BoxInfo">
 											<div class="TableBox">
-												<?=htmlspecialcharsBack($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]["TEXT"])?>
+											<?=renderCoursePlan($arResult["NAME"], htmlspecialcharsBack($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]["TEXT"]))?>
 											</div>
 										</div>
 										<?endif;?>
