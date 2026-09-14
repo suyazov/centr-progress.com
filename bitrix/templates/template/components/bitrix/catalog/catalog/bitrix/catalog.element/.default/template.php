@@ -11,7 +11,10 @@ function formatFileSize($bytes)
                 return round($bytes / 1000000,2).' '.GetMessage("MB");
             }
             return round($bytes / 1000,2). ' '.GetMessage("KB");
-};?>
+};
+
+require_once __DIR__ . '/course_plan.php';
+?>
 						<div class="Product" itemscope itemtype="http://schema.org/Product">
 							<div class="Flex">
 								<div class="DetailInfo">
@@ -143,7 +146,7 @@ function formatFileSize($bytes)
 										<?if($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]):?>
 										<div class="BoxInfo">
 											<div class="TableBox">
-												<?=htmlspecialcharsBack($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]["TEXT"])?>
+												<?=renderCoursePlan($arResult["NAME"], htmlspecialcharsBack($arResult["DISPLAY_PROPERTIES"]["PLAN"]["VALUE"]["TEXT"]))?>
 											</div>
 										</div>
 										<?endif;?>
