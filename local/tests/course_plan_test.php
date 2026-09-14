@@ -1,6 +1,10 @@
 <?php
 
-require __DIR__ . '/../../bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/course_plan.php';
+$template = file_get_contents(__DIR__ . '/../../bitrix/templates/template/components/bitrix/catalog/catalog/bitrix/catalog.element/.default/template.php');
+if (!preg_match('/\/\* COURSE_PLAN_HELPER_START \*\/(.*?)\/\* COURSE_PLAN_HELPER_END \*\//s', $template, $helper)) {
+	throw new RuntimeException('Course-plan helper block was not found in the live template source.');
+}
+eval($helper[1]);
 
 $hoursBySection = array(1 => '4', 2 => '1,5', 3 => '6,5', 4 => '1', 5 => '1', 6 => '2');
 $rows = '<tr><td>№ п/п</td><td>Наименование разделов и тем</td><td>Часы</td></tr>';
