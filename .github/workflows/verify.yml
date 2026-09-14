@@ -1,0 +1,24 @@
+name: verify
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run repository checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          php tests/catalog_search_test.php
+          php tests/prefix_query_test.php
+          php tests/search_runtime_contract_test.php
+          git diff --check
