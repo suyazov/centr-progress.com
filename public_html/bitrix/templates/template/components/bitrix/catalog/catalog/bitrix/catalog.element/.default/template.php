@@ -13,25 +13,8 @@ function formatFileSize($bytes)
     return round($bytes / 1000,2). ' '.GetMessage("KB");
 };
 
-function renderCoursePlan($courseName, $planHtml)
-{
-	if ($courseName !== 'Обучение по общим вопросам охраны труда и функционирования системы управления охраной труда') {
-		return $planHtml;
-	}
-
-	preg_match_all('/<table\\b[^>]*>.*?<\\/table>/is', $planHtml, $tables);
-	if (count($tables[0]) < 2) {
-		return $planHtml;
-	}
-
-	$normalizedFirst = preg_replace('/\\s+/u', ' ', strip_tags($tables[0][0]));
-	$normalizedSecond = preg_replace('/\\s+/u', ' ', strip_tags($tables[0][1]));
-	if ($normalizedFirst !== $normalizedSecond) {
-		return $planHtml;
-	}
-
-	return substr_replace($planHtml, '', strpos($planHtml, $tables[0][1]), strlen($tables[0][1]));
-}?>
+require_once __DIR__ . '/course_plan.php';
+?>
 						<div class="Product" itemscope itemtype="http://schema.org/Product">
 							<div class="Flex">
 								<div class="DetailInfo">
