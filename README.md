@@ -2,4 +2,7 @@
 
 Control-plane onboarding for `centr-progress.com`.
 
-Current capability: `docs-only`. Default task kind: `documentation`. Delivery is disabled and production is not configured. Application development, executable product tasks, DNS changes, deployment, and production actions require separate approved capability activation after onboarding.
+Current capability: `php-repository`. Default task kind: `product`. Bridge may
+prepare bounded PHP changes in a branch, run the repository `verify` check and
+merge a reviewed PR. Delivery is disabled; DNS, deployment and every production
+action remain outside this capability and require their own exact authority.
