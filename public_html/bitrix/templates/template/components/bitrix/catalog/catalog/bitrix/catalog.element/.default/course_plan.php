@@ -32,5 +32,9 @@ function renderCoursePlan($courseName, $planHtml)
 		return $planHtml;
 	}
 
+	if (!coursePlanHasRequiredStructure($tables[0][0])) {
+		return $planHtml;
+	}
+
 	return substr_replace($planHtml, '', strpos($planHtml, $tables[0][1]), strlen($tables[0][1]));
 }
