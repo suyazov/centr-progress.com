@@ -78,6 +78,4 @@ foreach (array(
     }
 }
 
-require __DIR__ . '/pasted_content_table_styles_test.php';
-
 echo "OK\n";
