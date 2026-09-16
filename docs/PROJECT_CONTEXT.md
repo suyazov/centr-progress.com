@@ -5,5 +5,5 @@
 
 <!-- bridge:project-context-current task=CODEX-TASK-BRIDGE-MINIMAL-I2553-58CFA5EECC39 -->
 - Result: Pasted content tables inside the .Content workarea render with uniform site typography; foreign inline font-family, font-size and line-height declarations on cells and nested elements (span, p, font) are normalized in all four mirrored stylesheets.
-- Current state: The correction is scoped to typography only; table layout (width, border collapsing, padding, vertical alignment) is no longer overridden, and a PHP regression contract plus a pasted-markup fixture covering nested inline styles and unequal column structures guard the fix.
-- Next action: Re-run the sealed review on the corrected PR head and merge once the required verify check passes.
+- Current state: The typography-only correction and its PHP regression contract passed independent semantic review and the required verify check. PR #33 merged into the repository as 32bdc4c2257d0967051642858ea21aa5a0b0c6ec; Bridge task #2553 reached VERIFIED_DONE. Client production was not changed.
+- Next action: If the site change should go live, authorize a separate production deployment with exact target and live read-back.
