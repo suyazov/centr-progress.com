@@ -39,10 +39,15 @@ foreach ($stylesheets as $path) {
     if ($marker === false) {
         $fail("{$path}: missing pasted-table normalization block");
     }
-    $block = substr($css, $marker);
-    foreach (array('border-collapse', 'width: 100%', 'vertical-align', 'padding') as $layoutOverride) {
-        if (strpos($block, $layoutOverride) !== false) {
-            $fail("{$path}: pasted-table block must not override layout property: {$layoutOverride}");
+    $ruleStart = strpos($css, '{', $marker);
+    $ruleEnd = $ruleStart === false ? false : strpos($css, '}', $ruleStart);
+    if ($ruleEnd === false) {
+        $fail("{$path}: incomplete pasted-table normalization rule");
+    }
+    $declarations = substr($css, $ruleStart + 1, $ruleEnd - $ruleStart - 1);
+    foreach (array('border-collapse', 'width', 'vertical-align', 'padding') as $layoutProperty) {
+        if (preg_match('/(?:^|;)\s*' . preg_quote($layoutProperty, '/') . '\s*:/i', $declarations)) {
+            $fail("{$path}: pasted-table block must not override layout property: {$layoutProperty}");
         }
     }
 }
