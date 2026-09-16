@@ -21,4 +21,5 @@ jobs:
           php tests/catalog_search_test.php
           php tests/prefix_query_test.php
           php tests/search_runtime_contract_test.php
+          php tests/pasted_content_table_styles_test.php
           git diff --check
