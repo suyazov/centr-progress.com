@@ -3775,3 +3775,19 @@ color:#fff !important;
 	background:#be0009;
 	color:#fff;
 }
+
+
+/* Normalize typography of tables pasted through the visual editor.
+   Confirmed cause: pasted markup carries foreign inline font-family,
+   font-size and line-height declarations on cells and on nested elements
+   (span, p, font). Only these typography properties are overridden;
+   table layout (width, borders, padding, alignment) stays as authored. */
+.Content table td,
+.Content table th,
+.Content table td *,
+.Content table th *
+{
+	font-family: inherit !important;
+	font-size: inherit !important;
+	line-height: inherit !important;
+}

@@ -1,0 +1,49 @@
+<!-- Regression fixture: content tables as pasted through the Bitrix visual editor.
+     Covers the reported paste methods and failure modes:
+     1. Microsoft Word paste (mso- classes, MsoNormal, inline font-family/size on spans);
+     2. Google Docs paste (docs-internal-guid, inline styles on p/span wrappers);
+     3. Unequal column structures (colspan/rowspan, rows with different cell counts);
+     4. Nested pasted inline styles below the cell (span, p, font), which must inherit
+        the cell typography so mixed fonts and line heights disappear. -->
+<div class="Content">
+	<table>
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<p class="MsoNormal" style="font-family:'Times New Roman',serif;font-size:14pt;line-height:150%;">
+						<span style="font-family:Arial,sans-serif;font-size:10pt;">Word-pasted heading row</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<font face="Verdana" style="font-size:12px;line-height:2.5;">
+						<span style="font-family:'Courier New',monospace;font-size:18pt;">Nested pasted span</span>
+					</font>
+				</td>
+				<td rowspan="2">
+					<p style="font-family:Tahoma,sans-serif;font-size:9pt;line-height:1.1;">
+						<span id="docs-internal-guid-a1b2c3d4" style="font-family:Calibri,sans-serif;font-size:11pt;line-height:1.38;">Google Docs paste</span>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span style="font-family:Impact,sans-serif;font-size:22px;">Single cell row</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p style="font-family:Georgia,serif;">
+						<span style="font-size:8pt;">
+							<span style="line-height:3;">Deeply nested mixed styles</span>
+						</span>
+					</p>
+				</td>
+				<th style="font-family:'Comic Sans MS',cursive;font-size:20pt;line-height:60px;">
+					Header cell with inline typography
+				</th>
+			</tr>
+		</tbody>
+	</table>
+</div>
