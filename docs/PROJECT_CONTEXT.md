@@ -7,3 +7,8 @@
 - Result: Pasted content tables inside the .Content workarea render with uniform site typography; foreign inline font-family, font-size and line-height declarations on cells and nested elements (span, p, font) are normalized in all four mirrored stylesheets.
 - Current state: The typography-only correction and its PHP regression contract passed independent semantic review and the required verify check. PR #33 merged into the repository as 32bdc4c2257d0967051642858ea21aa5a0b0c6ec; Bridge task #2553 reached VERIFIED_DONE. Client production was not changed.
 - Next action: If the site change should go live, authorize a separate production deployment with exact target and live read-back.
+
+<!-- bridge:project-context-current task=CODEX-TASK-BRIDGE-MINIMAL-I2706-973A051001F4 -->
+- Result: The confirmed client request from the linked Telegram chat enumerates no concrete site changes ("необходимо внести изменения на сайт:" with no items), so no code defect could be confirmed and no application code was changed; the repository state was re-verified against the prior audit items instead.
+- Current state: At source SHA 709ae01be34aba0cac4974a06ee3dd0b717cbbd5 the previously audited items are already implemented: the prefix search adapter (local/lib/CentrProgress/Search/PrefixQuery.php, CatalogSearch.php) with tests, the returned /search/index.php entry-point, explicit SORT ASC / ID ASC ordering in catalog section.php, and the conditional education-program output in catalog.element parts/EducationProgram.php.
+- Next action: Obtain from the owner the concrete list of site changes the client intended (the request text is truncated after the colon), then open a new scoped task for each confirmed item; no production action is authorized by this task.
