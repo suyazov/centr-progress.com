@@ -15,6 +15,6 @@
 
 ## Historical production handoff — contacts form, 26.08.2026
 
-- The old `/kontakty/` form was connected to the shared Bitrix24 handler instead of its missing endpoint. Name, phone and consent validation were added. Desktop and mobile checks passed; no test deal was created.
-- The Bitrix24 open line was configured with weekday business hours and off-hours/busy auto-replies. Exact customer-facing text and account access remain outside Git.
+- The old `/kontakty/` form was connected to Bitrix24. Name, phone and consent validation were added.
+- The Bitrix24 open line was configured with off-hours and busy auto-replies. Exact customer-facing text and account access remain outside Git.
 - The site code was pushed as commit `43faf49ea63c3760a69e319537ecabdc2e6f93a8`, but that commit is not an ancestor of current `main`. A subsequent production/repository reconciliation is needed before changing the form; this note does not claim the current live form still matches the old session.
