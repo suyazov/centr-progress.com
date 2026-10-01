@@ -18,3 +18,23 @@
 - The old `/kontakty/` form was connected to Bitrix24. Name, phone and consent validation were added.
 - The Bitrix24 open line was configured with off-hours and busy auto-replies. Exact customer-facing text and account access remain outside Git.
 - The site code was pushed as commit `43faf49ea63c3760a69e319537ecabdc2e6f93a8`, but that commit is not an ancestor of current `main`. A subsequent production/repository reconciliation is needed before changing the form; this note does not claim the current live form still matches the old session.
+
+## Direct Bitrix24 repairs — 01.10.2026
+
+- Owner explicitly authorized direct Codex execution without Bridge, then separately authorized production updates limited to templates 94 and 54 and test document generation.
+- Invoice template 94 now uses native PaymentQrCode instead of a static 5000 RUB image. IP act template 54 now reads IP surname/name/patronymic instead of RQ_DIRECTOR, which is absent from the IP preset.
+- Fresh originals matched protected backups before upload. Production read-back matched the candidates canonically; ID, names, permissions, sort, bindings, numerator and other settings stayed unchanged.
+- Live document 12160 encoded 1500 RUB and document 12162 encoded 2500 RUB. QR recipient and banking fields matched the original Kislovodsk code. Document 12164 rendered a synthetic full IP signer name. All three are private test documents in existing deal 66 “Тестовая”; its data remained unchanged.
+- INN lookup was already working in the verified unsaved scenario: use the search field, lookup button and company selection. Ordinary RQ_INN entry alone did not fill names.
+- Existing customer documents, customer records, payments, banking settings, regional template 72 and the site were not changed. The exact template/requisite behind complaint 128 remains unconfirmed; the proven defect in general template 54 is fixed.
+- Evidence, operator instructions, protected backups, read-back hashes and rollback: docs/BITRIX24_DIAGNOSTICS.md. Offline repair utility: tools/b24_template_repair.py. No secrets or client DOCX are stored in Git.
+- Next action: generate new customer documents with the corrected templates and filled IP requisites; investigate any recurrence against the exact template, requisite and INN. Historical incorrect documents require a separate owner decision.
+
+## Regional documents — 01.10.2026, applied and verified
+
+- Progress meeting `_avWH_9kaF` / node `dt448AS8QZcPYOPrYmyoN` is under AFFiNE `Сказка / 03 Встречи / 2026 / Сентябрь`. No relocation or registry row confirmed.
+- Latest 23.09 Gmail contract examples match adapted templates 80, 82 and 88; all three were inactive before this repair. The owner-approved package enabled all three, preserving the contract files.
+- Static QR confirmed in invoices 70 (14000 RUB), 84/86/92 (5000 RUB), 96 (17000 RUB). Native PaymentQrCode candidates prepared and checked offline. Source banking fields match original 94.
+- Owner approved the exact expanded package with «делай, убери эти ограничения». Applied: three contracts enabled, five invoices updated, city sets 9/6/9 sorted, Stavropol labels prefixed, DOT64 active separately, old invoice68 disabled. All 26 metadata read-backs verified; five live invoice QR tests matched 1701/1802/1903/2004/2105 RUB and preserved banking fields. Existing test deal66 remained unchanged; public links disabled. Authorization-wait restriction for this package removed.
+- Evidence: docs/BITRIX24_DIAGNOSTICS.md; protected originals, candidates and exact plan outside Git.
+- Next: managers can generate new customer documents from the enabled contracts and corrected invoices. Corporate mailbox names/count and DNS authority remain unspecified. Leader handles old deal reconciliation. General access/secrets safeguards remain in effect.
