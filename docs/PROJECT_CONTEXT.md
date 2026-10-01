@@ -29,3 +29,12 @@
 - Existing customer documents, customer records, payments, banking settings, regional template 72 and the site were not changed. The exact template/requisite behind complaint 128 remains unconfirmed; the proven defect in general template 54 is fixed.
 - Evidence, operator instructions, protected backups, read-back hashes and rollback: docs/BITRIX24_DIAGNOSTICS.md. Offline repair utility: tools/b24_template_repair.py. No secrets or client DOCX are stored in Git.
 - Next action: generate new customer documents with the corrected templates and filled IP requisites; investigate any recurrence against the exact template, requisite and INN. Historical incorrect documents require a separate owner decision.
+
+## Regional documents — 01.10.2026, pending production scope
+
+- Progress meeting `_avWH_9kaF` / node `dt448AS8QZcPYOPrYmyoN` is under AFFiNE `Сказка / 03 Встречи / 2026 / Сентябрь`. No relocation or registry row confirmed.
+- Latest 23.09 Gmail contract examples match adapted templates 80, 82 and 88; all three are inactive. No contract files replaced in this stage; enabling is proposed.
+- Static QR confirmed in invoices 70 (14000 RUB), 84/86/92 (5000 RUB), 96 (17000 RUB). Native PaymentQrCode candidates prepared and checked offline. Source banking fields match original 94.
+- Concrete pending package: enable three contracts, update five invoices, sort city sets 9/6/9, prefix Stavropol labels, retain DOT64 separately, disable old invoice68 with undecodable JPEG QR. Earlier live repairs94/54 remain completed; expanded scope not applied.
+- Evidence: docs/BITRIX24_DIAGNOSTICS.md; protected originals, candidates and exact plan outside Git.
+- Next: exact owner approval for expanded production package, then targeted read-back/private synthetic tests. Corporate mailbox names/count and DNS authority remain unspecified. Leader handles old deal reconciliation.
