@@ -18,3 +18,12 @@
 - The old `/kontakty/` form was connected to Bitrix24. Name, phone and consent validation were added.
 - The Bitrix24 open line was configured with off-hours and busy auto-replies. Exact customer-facing text and account access remain outside Git.
 - The site code was pushed as commit `43faf49ea63c3760a69e319537ecabdc2e6f93a8`, but that commit is not an ancestor of current `main`. A subsequent production/repository reconciliation is needed before changing the form; this note does not claim the current live form still matches the old session.
+
+## Direct Bitrix24 diagnostics — 01.10.2026
+
+- Owner explicitly requested direct Codex execution without Bridge. Three CRM defects were reviewed against the live portal; no production template or customer record was changed.
+- Confirmed: Kislovodsk invoice template 94 embeds a static payment QR for 5000 RUB. A protected offline candidate uses the standard PaymentQrCode image field instead.
+- Confirmed: general IP act template 54 reads RQ_DIRECTOR, absent from the IP preset. A protected offline candidate uses the IP surname and initials fields; regional template 72 already does so and was left unchanged. The exact template behind the complaint is still unconfirmed.
+- One unsaved live INN lookup populated both company name fields. Ordinary RQ_INN entry alone did not; the lookup field and company selection are required. No new company or requisite was saved.
+- Offline candidate integrity and scoped package differences passed. See docs/BITRIX24_DIAGNOSTICS.md for evidence, operator instructions, protected originals, rollback and remaining live verification.
+- Next action: obtain exact authority for updating templates 94/54 and generating agreed test documents, then verify QR amounts and IP signer on the portal. Existing customer documents and payments are outside this scope.
