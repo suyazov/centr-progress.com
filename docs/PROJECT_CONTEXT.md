@@ -19,11 +19,13 @@
 - The Bitrix24 open line was configured with off-hours and busy auto-replies. Exact customer-facing text and account access remain outside Git.
 - The site code was pushed as commit `43faf49ea63c3760a69e319537ecabdc2e6f93a8`, but that commit is not an ancestor of current `main`. A subsequent production/repository reconciliation is needed before changing the form; this note does not claim the current live form still matches the old session.
 
-## Direct Bitrix24 diagnostics — 01.10.2026
+## Direct Bitrix24 repairs — 01.10.2026
 
-- Owner explicitly requested direct Codex execution without Bridge. Three CRM defects were reviewed against the live portal; no production template or customer record was changed.
-- Confirmed: Kislovodsk invoice template 94 embeds a static payment QR for 5000 RUB. A protected offline candidate uses the standard PaymentQrCode image field instead.
-- Confirmed: general IP act template 54 reads RQ_DIRECTOR, absent from the IP preset. A protected offline candidate uses the IP surname and initials fields; regional template 72 already does so and was left unchanged. The exact template behind the complaint is still unconfirmed.
-- One unsaved live INN lookup populated both company name fields. Ordinary RQ_INN entry alone did not; the lookup field and company selection are required. No new company or requisite was saved.
-- Offline candidate integrity and scoped package differences passed. See docs/BITRIX24_DIAGNOSTICS.md for evidence, operator instructions, protected originals, rollback and remaining live verification.
-- Next action: obtain exact authority for updating templates 94/54 and generating agreed test documents, then verify QR amounts and IP signer on the portal. Existing customer documents and payments are outside this scope.
+- Owner explicitly authorized direct Codex execution without Bridge, then separately authorized production updates limited to templates 94 and 54 and test document generation.
+- Invoice template 94 now uses native PaymentQrCode instead of a static 5000 RUB image. IP act template 54 now reads IP surname/name/patronymic instead of RQ_DIRECTOR, which is absent from the IP preset.
+- Fresh originals matched protected backups before upload. Production read-back matched the candidates canonically; ID, names, permissions, sort, bindings, numerator and other settings stayed unchanged.
+- Live document 12160 encoded 1500 RUB and document 12162 encoded 2500 RUB. QR recipient and banking fields matched the original Kislovodsk code. Document 12164 rendered a synthetic full IP signer name. All three are private test documents in existing deal 66 “Тестовая”; its data remained unchanged.
+- INN lookup was already working in the verified unsaved scenario: use the search field, lookup button and company selection. Ordinary RQ_INN entry alone did not fill names.
+- Existing customer documents, customer records, payments, banking settings, regional template 72 and the site were not changed. The exact template/requisite behind complaint 128 remains unconfirmed; the proven defect in general template 54 is fixed.
+- Evidence, operator instructions, protected backups, read-back hashes and rollback: docs/BITRIX24_DIAGNOSTICS.md. Offline repair utility: tools/b24_template_repair.py. No secrets or client DOCX are stored in Git.
+- Next action: generate new customer documents with the corrected templates and filled IP requisites; investigate any recurrence against the exact template, requisite and INN. Historical incorrect documents require a separate owner decision.
