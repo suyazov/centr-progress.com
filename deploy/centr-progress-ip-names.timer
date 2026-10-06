@@ -1,0 +1,8 @@
+[Unit]
+Description=Check new Progress IP requisites every two minutes
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=2min
+Unit=centr-progress-ip-names.service
+[Install]
+WantedBy=timers.target
