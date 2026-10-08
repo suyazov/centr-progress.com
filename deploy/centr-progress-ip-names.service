@@ -1,0 +1,15 @@
+[Unit]
+Description=Fill blank names in new Progress IP requisites
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=root
+UMask=0077
+ExecStart=/usr/bin/flock -n /var/lock/kimi-projects/suyazov-centr-progress.com.lock /usr/bin/python3 /opt/centr-progress-ip-names/current/tools/b24_ip_names.py --poll
+TimeoutStartSec=120
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/centr-progress-ip-names /var/lock/kimi-projects
